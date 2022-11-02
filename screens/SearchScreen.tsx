@@ -1,12 +1,16 @@
-import React, { useState, useEffect, useCallback } from "react";
-import { Text, ActivityIndicator, FlatList, View, TouchableWithoutFeedback } from "react-native";
+import React, { useState, useCallback } from "react";
+import { ActivityIndicator, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import crsCodes from "../data/crs-codes.json";
-import { AutocompleteDropdown, TAutocompleteDropdownItem } from "react-native-autocomplete-dropdown";
+import {
+	AutocompleteDropdown,
+	TAutocompleteDropdownItem,
+} from "react-native-autocomplete-dropdown";
 import {
 	widthPercentageToDP as wp,
 	heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
 import DefaultButton from "../components/DefaultButton";
 
@@ -14,56 +18,47 @@ import * as rttActions from "../store/actions/rtt";
 
 import styles from "../styles/SearchScreenStyles";
 
-import { useAppDispatch, useAppSelector } from "../store/hooks";
+import { useAppDispatch } from "../store/hooks";
+import { TrainSearchNavigatorParamList } from "../navigation/StationSearchNavigation";
 
-const StartScreen = () => {
-	const [selectedStation, setSelectedStation] = useState<TAutocompleteDropdownItem>(null);
-	// const [isLoading, setIsLoading] = useState<boolean>(true);
-	// const [error, setError] = useState<string>();
+type SearchScreenProps = NativeStackScreenProps<
+	TrainSearchNavigatorParamList,
+	"SearchScreen"
+>;
 
-	// // TODO: Typescript
-	// const strSearchResult: SearchResult = useAppSelector(
-	// 	(state: any) => state.rtt.searchResult
-	// );
+const StartScreen = ({ navigation }: SearchScreenProps) => {
+	const [selectedStation, setSelectedStation] =
+		useState<TAutocompleteDropdownItem>(null);
+	const [isLoading, setIsLoading] = useState<boolean>(false);
 
-	// const dispatch = useAppDispatch();
+	const dispatch = useAppDispatch();
 
-	// const loadSearch = useCallback(async () => {
-	// 	await dispatch(rttActions.searchStation());
-	// }, [dispatch]);
+	const loadSearch = useCallback(
+		async (crsCode: string) => {
+			await dispatch(rttActions.searchStation(crsCode));
+		},
+		[dispatch]
+	);
 
-	// useEffect(() => {
-	// 	const fetchTrainData = async () => {
-	// 		setIsLoading(true);
-	// 		try {
-	// 			await loadSearch();
-	// 		} catch {
-	// 			setError("An Error Occurred");
-	// 		}
-	// 		setIsLoading(false);
-	// 	};
+	const searchStation = async () => {
+		if (selectedStation === null) return;
 
-	// 	fetchTrainData();
-	// }, []);
+		setIsLoading(true);
+		try {
+			await loadSearch(selectedStation.id);
+		} catch {}
+		navigation.navigate("StationDetailsScreen", {
+			crsCode: selectedStation.id,
+		});
+		setIsLoading(false);
+	};
 
-	// if (isLoading) {
-	// 	return (
-	// 		<SafeAreaView>
-	// 			<ActivityIndicator size="large" />
-	// 		</SafeAreaView>
-	// 	);
-	// }
-
-	// if (error) {
-	// 	return (
-	// 		<SafeAreaView>
-	// 			<Text>{error}</Text>
-	// 		</SafeAreaView>
-	// 	);
-	// }
-
-	const searchStation = () => {
-		console.log(selectedStation.id);
+	if (isLoading) {
+		return (
+			<SafeAreaView style={styles.centered}>
+				<ActivityIndicator size="large" color={"lightblue"} />
+			</SafeAreaView>
+		);
 	}
 
 	return (
@@ -80,12 +75,12 @@ const StartScreen = () => {
 					textInputProps={{
 						placeholder: "Station Name",
 						style: {
-							fontSize: wp("6%")
-						}
+							fontSize: wp("6%"),
+						},
 					}}
 				/>
 			</View>
-			<DefaultButton 
+			<DefaultButton
 				buttonContainer={styles.buttonContainer}
 				onPress={searchStation}
 				buttonTextContainer={styles.buttonTextContainer}

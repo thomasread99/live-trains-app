@@ -7,7 +7,7 @@ import {
 	heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 
-import SearchScreen from "../screens/SearchScreen";
+import TrainSearchNavigator from "./StationSearchNavigation";
 
 const Tab = createBottomTabNavigator();
 
@@ -27,7 +27,7 @@ const MainNavigator = () => {
 			>
 				<Tab.Screen
 					name="Search"
-					component={SearchScreen}
+					component={TrainSearchNavigator}
 					options={{
 						tabBarIcon: ({ color }) => (
 							<Ionicons
@@ -40,7 +40,7 @@ const MainNavigator = () => {
 				/>
 				<Tab.Screen
 					name="Saved"
-					component={SearchScreen}
+					component={TrainSearchNavigator}
 					options={{
 						tabBarIcon: ({ color }) => (
 							<Ionicons

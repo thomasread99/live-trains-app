@@ -3,7 +3,7 @@ import base64 from "base-64";
 
 export const GET_STATION = "GET_STATION";
 
-export const searchStation = () => {
+export const searchStation = (crsCode: string) => {
 	return async (dispatch: AppDispatch) => {
 		// TODO: Extract information into ENV and don't commit (possibly use cloud function)
 		var headers = new Headers();
@@ -11,12 +11,12 @@ export const searchStation = () => {
 			"Authorization",
 			"Basic " +
 				base64.encode(
-					"AUTH_HERE"
+					""
 				)
 		);
 
 		var response = await fetch(
-			"https://api.rtt.io/api/v1/json/search/BMH",
+			`https://api.rtt.io/api/v1/json/search/${crsCode}`,
 			{
 				method: "GET",
 				headers: headers,
@@ -26,6 +26,6 @@ export const searchStation = () => {
 		dispatch({
 			type: GET_STATION,
 			searchResult: JSON.parse(result),
-		});		
+		});
 	};
 };

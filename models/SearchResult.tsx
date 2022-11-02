@@ -1,3 +1,5 @@
+// TODO: Check over this
+// TODO: Possibly change sub object names
 class SearchResult {
     // ? These may be the same as location container
     location: LocationDetail;
@@ -23,10 +25,8 @@ class LocationContainer {
     atocName: string;
     serviceType: string;
     isPassenger: boolean;
-    plannedCancel: boolean;
-    origin: Pair[];
-    destination: Pair[];
-    countdownMinutes: number;
+    plannedCancel?: boolean;
+    countdownMinutes?: number;
 }
 
 class LocationObj {
@@ -42,7 +42,7 @@ class LocationObj {
     origin: Pair[];
     destination: Pair[];
     isCall: boolean;
-    isCallPublic: boolean;
+    isPublicCall: boolean;
     realtimeArrival?: string;
     realtimeArrivalActual: boolean;
     realtimeArrivalNoReport: boolean;

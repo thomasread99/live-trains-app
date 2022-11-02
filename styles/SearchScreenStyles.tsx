@@ -5,6 +5,12 @@ import {
 } from "react-native-responsive-screen";
 
 export default StyleSheet.create({
+	centered: {
+		flex: 1,
+		justifyContent: "center",
+		alignItems: "center",
+	},
+
 	autocompleteWrapper: {
 		zIndex: 10,
 	},
