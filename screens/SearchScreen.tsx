@@ -36,7 +36,7 @@ const StartScreen = ({ navigation }: SearchScreenProps) => {
 
 	const loadSearch = useCallback(
 		async (crsCode: string) => {
-			await dispatch(rttActions.searchStation(crsCode));
+			await dispatch(rttActions.getStationDepartures(crsCode));
 		},
 		[dispatch]
 	);

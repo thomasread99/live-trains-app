@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { Text, FlatList, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { widthPercentageToDP as wp } from "react-native-responsive-screen";
@@ -40,7 +40,7 @@ const StationDetailsScreen = ({
 
 	const onRefresh = useCallback(async () => {
 		setIsRefreshing(true);
-		await dispatch(rttActions.searchStation(route.params.crsCode));
+		await dispatch(rttActions.getStationDepartures(route.params.crsCode));
 		setIsRefreshing(false);
 	}, [setIsRefreshing, dispatch]);
 
@@ -56,7 +56,7 @@ const StationDetailsScreen = ({
 
 	const onDepartureSelected = useCallback(async () => {
 		setIsRefreshing(true);
-		await dispatch(rttActions.searchStation(route.params.crsCode));
+		await dispatch(rttActions.getStationDepartures(route.params.crsCode));
 		setIsRefreshing(false);
 
 		setDepartureSelected(true);
@@ -69,6 +69,14 @@ const StationDetailsScreen = ({
 
 		setDepartureSelected(false);
 	}, [setDepartureSelected, dispatch, setIsRefreshing]);
+
+	useEffect(() => {
+		const unsubscribe = navigation.addListener("blur", () => {
+			navigation.popToTop();
+		});
+
+		return unsubscribe;
+	}, [navigation]);
 
 	const serviceListItem = ({ item }) => (
 		<ServiceCard

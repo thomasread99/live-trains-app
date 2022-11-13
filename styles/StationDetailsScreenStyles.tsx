@@ -22,6 +22,6 @@ export default StyleSheet.create({
     },
 
     flatlist: {
-        marginBottom: hp("12%")
+        marginBottom: hp("15%")
     },
 });

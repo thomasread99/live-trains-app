@@ -10,4 +10,10 @@ export default StyleSheet.create({
 		justifyContent: "center",
 		alignItems: "center",
 	},
+
+	title: {
+		marginTop: hp("1%"),
+		marginLeft: wp("4%"),
+		fontSize: wp("8%")
+	},
 });

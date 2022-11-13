@@ -4,8 +4,7 @@ import base64 from "base-64";
 export const GET_STATION = "GET_STATION";
 export const GET_STATION_ARRIVALS = "GET_STATION_ARRIVALS";
 
-// TODO: rename
-export const searchStation = (crsCode: string) => {
+export const getStationDepartures = (crsCode: string) => {
 	return async (dispatch: AppDispatch) => {
 		// TODO: Extract information into ENV and don't commit (possibly use cloud function)
 		var headers = new Headers();

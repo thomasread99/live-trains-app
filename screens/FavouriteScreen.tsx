@@ -1,16 +1,26 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { Text, ActivityIndicator, FlatList } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+
+import FavouriteCard from "../components/favourites/FavouriteCard";
 
 import * as favouritesActions from "../store/actions/favourites";
+import * as rttActions from "../store/actions/rtt";
 
 import styles from "../styles/FavouriteScreenStyles";
 
 import { useAppDispatch, useAppSelector } from "../store/hooks";
+import { FavouriteNavigatorParamList } from "../navigation/FavouriteNavigator";
 
 import crsCodes from "../data/crs-codes.json";
 
-const FavouriteScreen = () => {
+type FavouriteScreenProps = NativeStackScreenProps<
+	FavouriteNavigatorParamList,
+	"FavouriteScreen"
+>;
+
+const FavouriteScreen = ({ navigation }: FavouriteScreenProps) => {
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 	const [error, setError] = useState<string>();
 
@@ -28,6 +38,24 @@ const FavouriteScreen = () => {
 		}
 	}, [dispatch, setError]);
 
+	const loadSearch = useCallback(
+		async (crsCode: string) => {
+			await dispatch(rttActions.getStationDepartures(crsCode));
+		},
+		[dispatch]
+	);
+
+	const onFavouriteStationPress = async (crsCode: string) => {
+		setIsLoading(true);
+		try {
+			await loadSearch(crsCode);
+		} catch {}
+		navigation.navigate("StationDetailsScreen", {
+			crsCode: crsCode,
+		});
+		setIsLoading(false);
+	};
+
 	useEffect(() => {
 		setIsLoading(true);
 		loadFavouriteStations();
@@ -35,7 +63,11 @@ const FavouriteScreen = () => {
 	}, []);
 
 	const favouriteStationItem = ({ item }) => (
-		<Text>{crsCodes.find((code) => code.id === item).title}</Text>
+		<FavouriteCard
+			stationName={crsCodes.find((code) => code.id === item).title}
+			crsCode={item}
+			onPress={onFavouriteStationPress}
+		/>
 	);
 
 	if (isLoading) {
@@ -56,6 +88,7 @@ const FavouriteScreen = () => {
 
 	return (
 		<SafeAreaView>
+			<Text style={styles.title}>Favourite Stations</Text>
 			<FlatList
 				data={favouriteStations}
 				renderItem={favouriteStationItem}
