@@ -1,7 +1,6 @@
 import React, { useState, useCallback } from "react";
 import { ActivityIndicator, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import crsCodes from "../data/crs-codes.json";
 import {
 	AutocompleteDropdown,
 	TAutocompleteDropdownItem,
@@ -20,6 +19,8 @@ import styles from "../styles/SearchScreenStyles";
 
 import { useAppDispatch } from "../store/hooks";
 import { TrainSearchNavigatorParamList } from "../navigation/StationSearchNavigation";
+
+import crsCodes from "../data/crs-codes.json";
 
 type SearchScreenProps = NativeStackScreenProps<
 	TrainSearchNavigatorParamList,

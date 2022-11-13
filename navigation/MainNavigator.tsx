@@ -8,6 +8,7 @@ import {
 } from "react-native-responsive-screen";
 
 import TrainSearchNavigator from "./StationSearchNavigation";
+import FavouriteScreen from "../screens/FavouriteScreen";
 
 const Tab = createBottomTabNavigator();
 
@@ -39,8 +40,8 @@ const MainNavigator = () => {
 					}}
 				/>
 				<Tab.Screen
-					name="Saved"
-					component={TrainSearchNavigator}
+					name="Favourites"
+					component={FavouriteScreen}
 					options={{
 						tabBarIcon: ({ color }) => (
 							<Ionicons

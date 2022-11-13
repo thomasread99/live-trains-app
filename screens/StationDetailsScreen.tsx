@@ -7,6 +7,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
 import * as rttActions from "../store/actions/rtt";
+import * as favouritesActions from "../store/actions/favourites";
 
 import styles from "../styles/StationDetailsScreenStyles";
 
@@ -30,12 +31,23 @@ const StationDetailsScreen = ({
 	const searchResult: SearchResult = useAppSelector(
 		(state: any) => state.rtt.searchResult
 	);
+	const favouriteStations: string[] = useAppSelector(
+		(state: any) => state.favourites.favouriteStations
+	);
 
 	const onRefresh = useCallback(async () => {
 		setIsRefreshing(true);
 		await dispatch(rttActions.searchStation(route.params.crsCode));
 		setIsRefreshing(false);
 	}, [setIsRefreshing, dispatch]);
+
+	const addToFavourites = useCallback(async () => {
+		await dispatch(favouritesActions.addStation(searchResult.location.crs));
+	}, [dispatch]);
+
+	const removeFromFavourites = useCallback(async () => {
+		await dispatch(favouritesActions.removeStation(searchResult.location.crs));
+	}, [dispatch]);
 
 	const serviceListItem = ({ item }) => (
 		<ServiceCard
@@ -56,7 +68,6 @@ const StationDetailsScreen = ({
 
 	return (
 		<SafeAreaView>
-			{/* TODO Back Button */}
 			<View style={styles.header}>
 				<View>
 					<Text style={styles.stationName}>
@@ -71,7 +82,20 @@ const StationDetailsScreen = ({
 						style={{ marginRight: wp("3%") }}
 						onPress={navigation.popToTop}
 					/>
-					<Ionicons name="star-outline" size={wp("8%")} />
+					{favouriteStations.includes(searchResult.location.crs) ? (
+						<Ionicons
+							name="star"
+							size={wp("8%")}
+							onPress={removeFromFavourites}
+							color="gold"
+						/>
+					) : (
+						<Ionicons
+							name="star-outline"
+							size={wp("8%")}
+							onPress={addToFavourites}
+						/>
+					)}
 				</View>
 			</View>
 			<FlatList
