@@ -1,10 +1,12 @@
 import React, { useState, useCallback } from "react";
 import { Text, FlatList, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import ServiceCard from "../components/search/ServiceCard";
 import { widthPercentageToDP as wp } from "react-native-responsive-screen";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
+
+import SearchToggle from "../components/search/SearchToggle";
+import ServiceCard from "../components/search/ServiceCard";
 
 import * as rttActions from "../store/actions/rtt";
 import * as favouritesActions from "../store/actions/favourites";
@@ -24,6 +26,7 @@ const StationDetailsScreen = ({
 	navigation,
 }: StationDetailsScreenProps) => {
 	const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
+	const [departureSelected, setDepartureSelected] = useState<boolean>(true);
 
 	const dispatch = useAppDispatch();
 
@@ -46,8 +49,26 @@ const StationDetailsScreen = ({
 	}, [dispatch]);
 
 	const removeFromFavourites = useCallback(async () => {
-		await dispatch(favouritesActions.removeStation(searchResult.location.crs));
+		await dispatch(
+			favouritesActions.removeStation(searchResult.location.crs)
+		);
 	}, [dispatch]);
+
+	const onDepartureSelected = useCallback(async () => {
+		setIsRefreshing(true);
+		await dispatch(rttActions.searchStation(route.params.crsCode));
+		setIsRefreshing(false);
+
+		setDepartureSelected(true);
+	}, [setDepartureSelected, dispatch, setIsRefreshing]);
+
+	const onArrivalSelected = useCallback(async () => {
+		setIsRefreshing(true);
+		await dispatch(rttActions.getStationArrivals(route.params.crsCode));
+		setIsRefreshing(false);
+
+		setDepartureSelected(false);
+	}, [setDepartureSelected, dispatch, setIsRefreshing]);
 
 	const serviceListItem = ({ item }) => (
 		<ServiceCard
@@ -69,12 +90,9 @@ const StationDetailsScreen = ({
 	return (
 		<SafeAreaView>
 			<View style={styles.header}>
-				<View>
-					<Text style={styles.stationName}>
-						{searchResult.location.name}
-					</Text>
-					<Text>Departures</Text>
-				</View>
+				<Text style={styles.stationName}>
+					{searchResult.location.name}
+				</Text>
 				<View style={styles.iconContainer}>
 					<Ionicons
 						name="search"
@@ -98,6 +116,11 @@ const StationDetailsScreen = ({
 					)}
 				</View>
 			</View>
+			<SearchToggle
+				departuresSelected={departureSelected}
+				onDepartureSelected={onDepartureSelected}
+				onArrivalSelected={onArrivalSelected}
+			/>
 			<FlatList
 				data={searchResult.services}
 				renderItem={serviceListItem}
