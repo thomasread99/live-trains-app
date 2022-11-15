@@ -4,10 +4,11 @@ import { widthPercentageToDP as wp } from "react-native-responsive-screen";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
 type Props = {
-	destinationName: string;
-	bookedDepartureTime: number;
+	name: string;
+	bookedTime: number;
 	platformNumber: number;
-	realtimeDeparture: number;
+	realtime: number;
+	departureSelected: boolean;
 };
 
 const ServiceCard = (props: Props) => {
@@ -27,12 +28,12 @@ const ServiceCard = (props: Props) => {
 				}}
 			>
 				<Text>
-					{props.bookedDepartureTime} to {props.destinationName}
+					{props.bookedTime} {props.departureSelected ? "to" : "from"} {props.name}
 				</Text>
 				<Text>
-					{props.realtimeDeparture === props.bookedDepartureTime
+					{props.realtime === props.bookedTime
 						? "On Time"
-						: `Expected ${props.realtimeDeparture}`}
+						: `Expected ${props.realtime}`}
 				</Text>
 			</View>
 			<View style={{ flex: 1, justifyContent: "center" }}>

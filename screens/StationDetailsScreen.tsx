@@ -80,10 +80,11 @@ const StationDetailsScreen = ({
 
 	const serviceListItem = ({ item }) => (
 		<ServiceCard
-			destinationName={item.locationDetail.destination[0].description}
-			bookedDepartureTime={item.locationDetail.gbttBookedDeparture}
+			name={departureSelected ? item.locationDetail.destination[0].description : item.locationDetail.origin[0].description}
+			bookedTime={departureSelected ? item.locationDetail.gbttBookedDeparture : item.locationDetail.gbttBookedArrival}
 			platformNumber={item.locationDetail.platform}
-			realtimeDeparture={item.locationDetail.realtimeDeparture}
+			realtime={departureSelected ? item.locationDetail.realtimeDeparture : item.locationDetail.realtimeArrival}
+			departureSelected={departureSelected}
 		/>
 	);
 
@@ -103,7 +104,7 @@ const StationDetailsScreen = ({
 				</Text>
 				<View style={styles.iconContainer}>
 					<Ionicons
-						name="search"
+						name="return-down-back"
 						size={wp("8%")}
 						style={{ marginRight: wp("3%") }}
 						onPress={navigation.popToTop}
