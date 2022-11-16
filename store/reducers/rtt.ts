@@ -1,9 +1,14 @@
 import { AnyAction } from "@reduxjs/toolkit";
 
-import { GET_STATION, GET_STATION_ARRIVALS } from "../actions/rtt";
+import {
+	GET_STATION,
+	GET_STATION_ARRIVALS,
+	GET_SERVICE_INFORMATION,
+} from "../actions/rtt";
 
 interface RttState {
 	searchResult?: SearchResult;
+	serviceInformation?: ServiceInformation;
 }
 
 const initialState: RttState = {
@@ -12,6 +17,7 @@ const initialState: RttState = {
 		filter: null,
 		services: null,
 	},
+	serviceInformation: null,
 };
 
 const reducer = (state = initialState, action: AnyAction) => {
@@ -25,6 +31,11 @@ const reducer = (state = initialState, action: AnyAction) => {
 			return {
 				...state,
 				searchResult: action.searchResult,
+			};
+		case GET_SERVICE_INFORMATION:
+			return {
+				...state,
+				serviceInformation: action.serviceInformation,
 			};
 		default:
 			return state;

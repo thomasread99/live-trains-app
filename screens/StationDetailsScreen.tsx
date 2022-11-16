@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from "react";
-import { Text, FlatList, View } from "react-native";
+import { Text, FlatList, View, ActivityIndicator } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { widthPercentageToDP as wp } from "react-native-responsive-screen";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -14,10 +14,10 @@ import * as favouritesActions from "../store/actions/favourites";
 import styles from "../styles/StationDetailsScreenStyles";
 
 import { useAppSelector, useAppDispatch } from "../store/hooks";
-import { TrainSearchNavigatorParamList } from "../navigation/StationSearchNavigation";
+import { StationSearchNavigatorParamList } from "../navigation/StationSearchNavigation";
 
 type StationDetailsScreenProps = NativeStackScreenProps<
-	TrainSearchNavigatorParamList,
+	StationSearchNavigatorParamList,
 	"StationDetailsScreen"
 >;
 
@@ -25,6 +25,7 @@ const StationDetailsScreen = ({
 	route,
 	navigation,
 }: StationDetailsScreenProps) => {
+	const [isLoading, setIsLoading] = useState<boolean>(false);
 	const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
 	const [departureSelected, setDepartureSelected] = useState<boolean>(true);
 
@@ -38,6 +39,7 @@ const StationDetailsScreen = ({
 		(state: any) => state.favourites.favouriteStations
 	);
 
+	// TODO: Depending on if arrival or departure selected
 	const onRefresh = useCallback(async () => {
 		setIsRefreshing(true);
 		await dispatch(rttActions.getStationDepartures(route.params.crsCode));
@@ -70,24 +72,57 @@ const StationDetailsScreen = ({
 		setDepartureSelected(false);
 	}, [setDepartureSelected, dispatch, setIsRefreshing]);
 
-	useEffect(() => {
-		const unsubscribe = navigation.addListener("blur", () => {
-			navigation.popToTop();
-		});
+	const loadStationDetails = useCallback(async () => {
+		await dispatch(rttActions.getStationDepartures(route.params.crsCode));
+	}, [dispatch]);
 
-		return unsubscribe;
-	}, [navigation]);
+	useEffect(() => {
+		setIsLoading(true);
+		loadStationDetails()
+			.then(() => {
+				setIsLoading(false);
+			})
+			.catch(() => {
+				setIsLoading(false);
+			});
+	}, []);
 
 	const serviceListItem = ({ item }) => (
 		<ServiceCard
-			name={departureSelected ? item.locationDetail.destination[0].description : item.locationDetail.origin[0].description}
-			bookedTime={departureSelected ? item.locationDetail.gbttBookedDeparture : item.locationDetail.gbttBookedArrival}
+			name={
+				departureSelected
+					? item.locationDetail.destination[0].description
+					: item.locationDetail.origin[0].description
+			}
+			bookedTime={
+				departureSelected
+					? item.locationDetail.gbttBookedDeparture
+					: item.locationDetail.gbttBookedArrival
+			}
 			platformNumber={item.locationDetail.platform}
-			realtime={departureSelected ? item.locationDetail.realtimeDeparture : item.locationDetail.realtimeArrival}
+			realtime={
+				departureSelected
+					? item.locationDetail.realtimeDeparture
+					: item.locationDetail.realtimeArrival
+			}
 			departureSelected={departureSelected}
+			onPress={() =>
+				navigation.navigate("ServiceDetailsScreen", {
+					serviceUid: item.serviceUid,
+				})
+			}
 		/>
 	);
 
+	if (isLoading) {
+		return (
+			<SafeAreaView style={styles.centered}>
+				<ActivityIndicator size="large" color={"lightblue"} />
+			</SafeAreaView>
+		);
+	}
+
+	// TODO: Format this and add back button
 	if (!searchResult) {
 		return (
 			<SafeAreaView>

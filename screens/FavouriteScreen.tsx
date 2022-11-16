@@ -38,22 +38,10 @@ const FavouriteScreen = ({ navigation }: FavouriteScreenProps) => {
 		}
 	}, [dispatch, setError]);
 
-	const loadSearch = useCallback(
-		async (crsCode: string) => {
-			await dispatch(rttActions.getStationDepartures(crsCode));
-		},
-		[dispatch]
-	);
-
 	const onFavouriteStationPress = async (crsCode: string) => {
-		setIsLoading(true);
-		try {
-			await loadSearch(crsCode);
-		} catch {}
 		navigation.navigate("StationDetailsScreen", {
 			crsCode: crsCode,
 		});
-		setIsLoading(false);
 	};
 
 	useEffect(() => {

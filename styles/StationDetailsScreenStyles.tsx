@@ -5,6 +5,12 @@ import {
 } from "react-native-responsive-screen";
 
 export default StyleSheet.create({
+	centered: {
+		flex: 1,
+		justifyContent: "center",
+		alignItems: "center",
+	},
+
 	header: {
 		margin: wp("3%"),
 		flexDirection: "row",
@@ -12,16 +18,16 @@ export default StyleSheet.create({
 		alignItems: "center",
 	},
 
-    // TODO: Dynamic sizing to prevent multiple lines
+	// TODO: Dynamic sizing to prevent multiple lines
 	stationName: {
 		fontSize: wp("10%"),
 	},
 
-    iconContainer: {
-        flexDirection: "row"
-    },
+	iconContainer: {
+		flexDirection: "row",
+	},
 
-    flatlist: {
-        marginBottom: hp("15%")
-    },
+	flatlist: {
+		marginBottom: hp("15%"),
+	},
 });

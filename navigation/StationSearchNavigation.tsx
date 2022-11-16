@@ -2,15 +2,19 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import SearchScreen from "../screens/SearchScreen";
 import StationDetailsScreen from "../screens/StationDetailsScreen";
+import ServiceDetailsScreen from "../screens/ServiceDetailsScreen";
 
-export type TrainSearchNavigatorParamList = {
+export type StationSearchNavigatorParamList = {
 	SearchScreen: undefined;
 	StationDetailsScreen: {
 		crsCode: string;
 	};
+	ServiceDetailsScreen: {
+		serviceUid: string;
+	};
 };
 
-const Stack = createNativeStackNavigator<TrainSearchNavigatorParamList>();
+const Stack = createNativeStackNavigator<StationSearchNavigatorParamList>();
 
 const TrainSearchNavigator = () => {
 	return (
@@ -23,6 +27,10 @@ const TrainSearchNavigator = () => {
 			<Stack.Screen
 				name="StationDetailsScreen"
 				component={StationDetailsScreen}
+			/>
+			<Stack.Screen
+				name="ServiceDetailsScreen"
+				component={ServiceDetailsScreen}
 			/>
 		</Stack.Navigator>
 	);
