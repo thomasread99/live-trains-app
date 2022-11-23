@@ -80,7 +80,14 @@ const ServiceRow = (props: Props) => {
 					{props.realtimeArrival && arrivalTimeDifference >= 0
 						? " + "
 						: ""}
-					{props.realtimeArrival ? arrivalTimeDifference : ""}
+					{props.realtimeArrival
+						? arrivalTimeDifference < 0
+							? arrivalTimeDifference
+									.toString()
+									.split("")
+									.join(" ")
+							: arrivalTimeDifference
+						: ""}
 				</Text>
 			</View>
 			<View style={{ flex: 1 }}>
@@ -104,7 +111,14 @@ const ServiceRow = (props: Props) => {
 					{props.realtimeDeparture && departureTimeDifference >= 0
 						? " + "
 						: ""}
-					{props.realtimeDeparture ? departureTimeDifference : ""}
+					{props.realtimeDeparture
+						? departureTimeDifference < 0
+							? departureTimeDifference
+									.toString()
+									.split("")
+									.join(" ")
+							: departureTimeDifference
+						: ""}
 				</Text>
 			</View>
 		</View>
@@ -123,7 +137,7 @@ const styles = StyleSheet.create({
 	description: {
 		flex: 4,
 		flexDirection: "row",
-        marginRight: wp("1%")
+		marginRight: wp("1%"),
 	},
 
 	circle: {

@@ -114,6 +114,7 @@ const StationDetailsScreen = ({
 			onPress={() =>
 				navigation.navigate("ServiceDetailsScreen", {
 					serviceUid: item.serviceUid,
+					crsCode: route.params.crsCode
 				})
 			}
 		/>

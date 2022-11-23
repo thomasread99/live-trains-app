@@ -4,6 +4,7 @@ import {
 	ActivityIndicator,
 	FlatList,
 	ListRenderItemInfo,
+	View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
@@ -27,6 +28,7 @@ const ServiceDetailsScreen = ({
 	navigation,
 }: ServiceDetailsScreenProps) => {
 	const [isLoading, setIsLoading] = useState<boolean>(true);
+	const [selectedStation, setSelectedStation] = useState<LocationObj>();
 
 	const dispatch = useAppDispatch();
 
@@ -44,6 +46,11 @@ const ServiceDetailsScreen = ({
 		setIsLoading(true);
 		loadServiceInformation()
 			.then(() => {
+				setSelectedStation(
+					serviceInformation.locations.find(
+						(location) => location.crs === route.params.crsCode
+					)
+				);
 				setIsLoading(false);
 			})
 			.catch(() => {
@@ -75,10 +82,34 @@ const ServiceDetailsScreen = ({
 
 	return (
 		<SafeAreaView>
+			<Text style={styles.trainOverview}>
+				{serviceInformation.origin[0].publicTime}{" "}
+				{serviceInformation.origin[0].description} to{" "}
+				{serviceInformation.destination[0].description}
+			</Text>
+			<View style={{ flexDirection: "row", justifyContent: "space-evenly"}}>
+				<View>
+				<Text style={styles.arrivingHeader}>Arriving</Text>
+				<Text style={styles.realtimeArrival}>
+					{selectedStation.realtimeArrival}
+				</Text>
+				<Text style={styles.trainOverview}>
+					at {selectedStation.description}
+				</Text>
+				</View>
+
+				<View>
+				<Text style={styles.arrivingHeader}>Platform</Text>
+				<Text style={styles.realtimeArrival}>
+					{selectedStation.platform}
+				</Text>
+				</View>
+			</View>
 			<FlatList
 				data={serviceInformation.locations}
 				renderItem={destinationListItem}
 				keyExtractor={(item) => item.crs}
+				style={styles.flatlist}
 			/>
 		</SafeAreaView>
 	);

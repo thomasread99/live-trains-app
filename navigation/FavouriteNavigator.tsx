@@ -11,6 +11,7 @@ export type FavouriteNavigatorParamList = {
 	};
 	ServiceDetailsScreen: {
 		serviceUid: string;
+		crsCode: string;
 	};
 };
 

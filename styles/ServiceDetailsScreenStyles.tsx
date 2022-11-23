@@ -10,4 +10,25 @@ export default StyleSheet.create({
 		justifyContent: "center",
 		alignItems: "center",
 	},
+
+	trainOverview: {
+		textAlign: "center",
+		fontSize: wp("4%"),
+		marginBottom: hp("2%")
+	},
+
+	arrivingHeader: {
+		textAlign: "center",
+		fontSize: wp("4%")
+	},
+
+	realtimeArrival: {
+		textAlign: "center",
+		fontSize: wp("10%"),
+		color: "blue"
+	},
+
+	flatlist: {
+		marginBottom: hp("19%"),
+	},
 });
