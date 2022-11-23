@@ -5,9 +5,9 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 
 type Props = {
 	name: string;
-	bookedTime: number;
-	platformNumber: number;
-	realtime: number;
+	bookedTime: string;
+	platformNumber: string;
+	realtime: string;
 	departureSelected: boolean;
 	onPress: () => void;
 };

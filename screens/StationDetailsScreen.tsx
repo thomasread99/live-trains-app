@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from "react";
-import { Text, FlatList, View, ActivityIndicator } from "react-native";
+import { Text, FlatList, View, ActivityIndicator, ListRenderItemInfo } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { widthPercentageToDP as wp } from "react-native-responsive-screen";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -25,7 +25,7 @@ const StationDetailsScreen = ({
 	route,
 	navigation,
 }: StationDetailsScreenProps) => {
-	const [isLoading, setIsLoading] = useState<boolean>(false);
+	const [isLoading, setIsLoading] = useState<boolean>(true);
 	const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
 	const [departureSelected, setDepartureSelected] = useState<boolean>(true);
 
@@ -42,7 +42,12 @@ const StationDetailsScreen = ({
 	// TODO: Depending on if arrival or departure selected
 	const onRefresh = useCallback(async () => {
 		setIsRefreshing(true);
-		await dispatch(rttActions.getStationDepartures(route.params.crsCode));
+		if (departureSelected)
+			await dispatch(
+				rttActions.getStationDepartures(route.params.crsCode)
+			);
+		else
+			await dispatch(rttActions.getStationArrivals(route.params.crsCode));
 		setIsRefreshing(false);
 	}, [setIsRefreshing, dispatch]);
 
@@ -87,7 +92,7 @@ const StationDetailsScreen = ({
 			});
 	}, []);
 
-	const serviceListItem = ({ item }) => (
+	const serviceListItem = ({ item }: ListRenderItemInfo<LocationContainer>) => (
 		<ServiceCard
 			name={
 				departureSelected

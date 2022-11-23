@@ -1,9 +1,14 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { Text, ActivityIndicator } from "react-native";
+import {
+	Text,
+	ActivityIndicator,
+	FlatList,
+	ListRenderItemInfo,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
-import ServiceTracker from "../components/service/ServiceTracker";
+import ServiceRow from "../components/service/ServiceRow";
 
 import * as rttActions from "../store/actions/rtt";
 
@@ -48,6 +53,18 @@ const ServiceDetailsScreen = ({
 
 	// TODO: Might want to pop when unfocussed to prevent getting wrong state data
 
+	const destinationListItem = ({ item }: ListRenderItemInfo<LocationObj>) => (
+		<ServiceRow
+			station={item.description}
+			departed={item.realtimeDepartureActual}
+			arrived={item.realtimeArrivalActual}
+			bookedArrival={item.gbttBookedArrival}
+			bookedDeparture={item.gbttBookedDeparture}
+			realtimeArrival={item.realtimeArrival}
+			realtimeDeparture={item.realtimeDeparture}
+		/>
+	);
+
 	if (isLoading) {
 		return (
 			<SafeAreaView style={styles.centered}>
@@ -58,7 +75,11 @@ const ServiceDetailsScreen = ({
 
 	return (
 		<SafeAreaView>
-			<Text>{serviceInformation.serviceUid}</Text>
+			<FlatList
+				data={serviceInformation.locations}
+				renderItem={destinationListItem}
+				keyExtractor={(item) => item.crs}
+			/>
 		</SafeAreaView>
 	);
 };
