@@ -44,19 +44,19 @@ const ServiceDetailsScreen = ({
 
 	useEffect(() => {
 		setIsLoading(true);
-		loadServiceInformation()
-			.then(() => {
-				setSelectedStation(
-					serviceInformation.locations.find(
-						(location) => location.crs === route.params.crsCode
-					)
-				);
-				setIsLoading(false);
-			})
-			.catch(() => {
-				setIsLoading(false);
-			});
+		loadServiceInformation();
 	}, []);
+
+	useEffect(() => {
+		if (serviceInformation) {
+			setSelectedStation(
+				serviceInformation.locations.find(
+					(location) => location.crs === route.params.crsCode
+				)
+			);
+			setIsLoading(false);
+		}
+	}, [serviceInformation]);
 
 	// TODO: Might want to pop when unfocussed to prevent getting wrong state data
 
@@ -87,22 +87,34 @@ const ServiceDetailsScreen = ({
 				{serviceInformation.origin[0].description} to{" "}
 				{serviceInformation.destination[0].description}
 			</Text>
-			<View style={{ flexDirection: "row", justifyContent: "space-evenly"}}>
+			<View
+				style={{ flexDirection: "row", justifyContent: "space-evenly" }}
+			>
 				<View>
-				<Text style={styles.arrivingHeader}>Arriving</Text>
-				<Text style={styles.realtimeArrival}>
-					{selectedStation.realtimeArrival}
-				</Text>
-				<Text style={styles.trainOverview}>
-					at {selectedStation.description}
-				</Text>
+					<Text style={styles.arrivingHeader}>
+						{selectedStation.description ===
+						serviceInformation.origin[0].description
+							? ""
+							: "Arriving"}
+					</Text>
+					<Text style={styles.realtimeArrival}>
+						{selectedStation.description ===
+						serviceInformation.origin[0].description
+							? "Starts"
+							: selectedStation.realtimeArrival}
+					</Text>
+					<Text style={styles.trainOverview}>
+						at {selectedStation.description}
+					</Text>
 				</View>
 
 				<View>
-				<Text style={styles.arrivingHeader}>Platform</Text>
-				<Text style={styles.realtimeArrival}>
-					{selectedStation.platform}
-				</Text>
+					<Text style={styles.arrivingHeader}>Platform</Text>
+					<Text style={styles.realtimeArrival}>
+						{selectedStation.platform
+							? selectedStation.platform
+							: "TBA"}
+					</Text>
 				</View>
 			</View>
 			<FlatList

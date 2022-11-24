@@ -6,7 +6,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 type Props = {
 	name: string;
 	bookedTime: string;
-	platformNumber: string;
+	platformNumber?: string;
 	realtime: string;
 	departureSelected: boolean;
 	onPress: () => void;
@@ -19,7 +19,7 @@ const ServiceCard = (props: Props) => {
 				<View style={{ flex: 1, justifyContent: "center" }}>
 					<Text style={{ textAlign: "center" }}>Platform</Text>
 					<Text style={{ textAlign: "center", fontSize: wp("5%") }}>
-						{props.platformNumber}
+						{props.platformNumber ?? "TBA"}
 					</Text>
 				</View>
 				<View
