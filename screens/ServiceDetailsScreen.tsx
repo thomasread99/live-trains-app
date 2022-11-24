@@ -8,6 +8,8 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import { widthPercentageToDP as wp } from "react-native-responsive-screen";
 
 import ServiceRow from "../components/service/ServiceRow";
 
@@ -29,12 +31,19 @@ const ServiceDetailsScreen = ({
 }: ServiceDetailsScreenProps) => {
 	const [isLoading, setIsLoading] = useState<boolean>(true);
 	const [selectedStation, setSelectedStation] = useState<LocationObj>();
+	const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
 
 	const dispatch = useAppDispatch();
 
 	const serviceInformation: ServiceInformation = useAppSelector(
 		(state: any) => state.rtt.serviceInformation
 	);
+
+	const onRefresh = () => {
+		setIsRefreshing(true);
+		loadServiceInformation();
+		setIsRefreshing(false);
+	};
 
 	const loadServiceInformation = useCallback(async () => {
 		await dispatch(
@@ -58,7 +67,13 @@ const ServiceDetailsScreen = ({
 		}
 	}, [serviceInformation]);
 
-	// TODO: Might want to pop when unfocussed to prevent getting wrong state data
+	useEffect(() => {
+		const unsubscribe = navigation.addListener("blur", () => {
+			navigation.popToTop();
+		});
+
+		return unsubscribe;
+	}, [navigation]);
 
 	const destinationListItem = ({ item }: ListRenderItemInfo<LocationObj>) => (
 		<ServiceRow
@@ -82,36 +97,50 @@ const ServiceDetailsScreen = ({
 
 	return (
 		<SafeAreaView>
-			<Text style={styles.trainOverview}>
-				{serviceInformation.origin[0].publicTime}{" "}
-				{serviceInformation.origin[0].description} to{" "}
-				{serviceInformation.destination[0].description}
-			</Text>
+			<View style={styles.header}>
+				<Text style={styles.headerText}>
+					{serviceInformation.origin[0].publicTime}{" "}
+					{serviceInformation.origin[0].description} to{" "}
+					{serviceInformation.destination[0].description}
+				</Text>
+				<View style={styles.iconContainer}>
+					<Ionicons
+						name="return-down-back"
+						size={wp("8%")}
+						style={{ marginRight: wp("3%") }}
+						onPress={() => navigation.pop()}
+					/>					
+				</View>
+			</View>			
 			<View
 				style={{ flexDirection: "row", justifyContent: "space-evenly" }}
 			>
 				<View>
 					<Text style={styles.arrivingHeader}>
-						{selectedStation.description ===
-						serviceInformation.origin[0].description
-							? ""
-							: "Arriving"}
+						{selectedStation
+							? selectedStation.description ===
+							  serviceInformation.origin[0].description
+								? ""
+								: "Arriving"
+							: ""}
 					</Text>
 					<Text style={styles.realtimeArrival}>
-						{selectedStation.description ===
-						serviceInformation.origin[0].description
-							? "Starts"
-							: selectedStation.realtimeArrival}
+						{selectedStation
+							? selectedStation.description ===
+							  serviceInformation.origin[0].description
+								? "Starts"
+								: selectedStation.realtimeArrival
+							: ""}
 					</Text>
 					<Text style={styles.trainOverview}>
-						at {selectedStation.description}
+						at {selectedStation ? selectedStation.description : ""}
 					</Text>
 				</View>
 
 				<View>
 					<Text style={styles.arrivingHeader}>Platform</Text>
 					<Text style={styles.realtimeArrival}>
-						{selectedStation.platform
+						{selectedStation && selectedStation.platform
 							? selectedStation.platform
 							: "TBA"}
 					</Text>
@@ -122,6 +151,8 @@ const ServiceDetailsScreen = ({
 				renderItem={destinationListItem}
 				keyExtractor={(item) => item.crs}
 				style={styles.flatlist}
+				refreshing={isRefreshing}
+				onRefresh={onRefresh}
 			/>
 		</SafeAreaView>
 	);

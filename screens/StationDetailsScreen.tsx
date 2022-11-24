@@ -31,7 +31,6 @@ const StationDetailsScreen = ({
 
 	const dispatch = useAppDispatch();
 
-	// TODO: Typescript
 	const searchResult: SearchResult = useAppSelector(
 		(state: any) => state.rtt.searchResult
 	);
@@ -39,7 +38,6 @@ const StationDetailsScreen = ({
 		(state: any) => state.favourites.favouriteStations
 	);
 
-	// TODO: Depending on if arrival or departure selected
 	const onRefresh = useCallback(async () => {
 		setIsRefreshing(true);
 		if (departureSelected)

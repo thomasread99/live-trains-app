@@ -17,6 +17,7 @@ type Props = {
 };
 
 const ServiceRow = (props: Props) => {
+	// ! BUG: Something causes the substring values to be wrong
 	const getTimeDifference = (firstTime: string, secondTime: string) => {
 		var firstDate = moment();
 		var secondDate = firstDate;
