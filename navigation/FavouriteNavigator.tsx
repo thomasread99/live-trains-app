@@ -1,4 +1,5 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { Moment } from "moment";
 
 import FavouriteScreen from "../screens/FavouriteScreen";
 import StationDetailsScreen from "../screens/StationDetailsScreen";
@@ -9,6 +10,8 @@ export type FavouriteNavigatorParamList = {
 	StationDetailsScreen: {
 		crsCode: string;
 		toCrsCode?: string;
+		date: Moment;
+		time: Moment;
 	};
 	ServiceDetailsScreen: {
 		serviceUid: string;

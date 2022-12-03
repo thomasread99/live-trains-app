@@ -14,6 +14,7 @@ import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { FavouriteNavigatorParamList } from "../navigation/FavouriteNavigator";
 
 import crsCodes from "../data/crs-codes.json";
+import moment from "moment";
 
 type FavouriteScreenProps = NativeStackScreenProps<
 	FavouriteNavigatorParamList,
@@ -41,6 +42,8 @@ const FavouriteScreen = ({ navigation }: FavouriteScreenProps) => {
 	const onFavouriteStationPress = async (crsCode: string) => {
 		navigation.navigate("StationDetailsScreen", {
 			crsCode: crsCode,
+			date: moment(),
+			time: moment(),
 		});
 	};
 

@@ -50,6 +50,8 @@ const StationDetailsScreen = ({
 			await dispatch(
 				rttActions.getStationDepartures(
 					route.params.crsCode,
+					route.params.date,
+					route.params.time,
 					route.params.toCrsCode
 				)
 			);
@@ -78,6 +80,8 @@ const StationDetailsScreen = ({
 		await dispatch(
 			rttActions.getStationDepartures(
 				route.params.crsCode,
+				route.params.date,
+				route.params.time,
 				route.params.toCrsCode
 			)
 		);
@@ -103,6 +107,8 @@ const StationDetailsScreen = ({
 		await dispatch(
 			rttActions.getStationDepartures(
 				route.params.crsCode,
+				route.params.date,
+				route.params.time,
 				route.params.toCrsCode
 			)
 		);

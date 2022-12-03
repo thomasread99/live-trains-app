@@ -10,8 +10,10 @@ import {
 	heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import moment from "moment";
 
 import DefaultButton from "../components/DefaultButton";
+import CustomDateTimePicker from "../components/search/CustomDateTimePicker";
 
 import styles from "../styles/SearchScreenStyles";
 
@@ -29,6 +31,16 @@ const StartScreen = ({ navigation }: SearchScreenProps) => {
 		useState<TAutocompleteDropdownItem>(null);
 	const [selectedToStation, setSelectedToStation] =
 		useState<TAutocompleteDropdownItem>(null);
+	const [selectedDate, setSelectedDate] = useState(moment());
+	const [selectedTime, setSelectedTime] = useState(moment());
+
+	const onDateSelected = (selectedDate: Date) => {
+		setSelectedDate(moment(selectedDate));
+	};
+
+	const onTimeSelected = (selectedTime: Date) => {
+		setSelectedTime(moment(selectedTime));
+	};
 
 	const searchStation = async () => {
 		if (selectedStation === null) return;
@@ -36,6 +48,8 @@ const StartScreen = ({ navigation }: SearchScreenProps) => {
 		navigation.navigate("StationDetailsScreen", {
 			crsCode: selectedStation.id,
 			toCrsCode: selectedToStation?.id,
+			date: selectedDate,
+			time: selectedTime,
 		});
 	};
 
@@ -73,6 +87,16 @@ const StartScreen = ({ navigation }: SearchScreenProps) => {
 					}}
 				/>
 			</View>
+
+			<CustomDateTimePicker
+				onDateSelected={onDateSelected}
+				mode={"date"}
+			/>
+			<CustomDateTimePicker
+				onDateSelected={onTimeSelected}
+				mode={"time"}
+			/>
+
 			<DefaultButton
 				buttonContainer={styles.buttonContainer}
 				onPress={searchStation}
