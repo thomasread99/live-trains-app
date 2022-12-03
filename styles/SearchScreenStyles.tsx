@@ -16,7 +16,12 @@ export default StyleSheet.create({
 	},
 
 	autocompleteContainer: {
-		marginTop: hp("15%"),
+		marginTop: hp("5%"),
+		marginHorizontal: wp("10%"),
+	},
+
+	toAutocompleteContainer: {
+		marginTop: hp("2%"),
 		marginHorizontal: wp("10%"),
 	},
 

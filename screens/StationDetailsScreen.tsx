@@ -1,5 +1,11 @@
 import React, { useState, useCallback, useEffect } from "react";
-import { Text, FlatList, View, ActivityIndicator, ListRenderItemInfo } from "react-native";
+import {
+	Text,
+	FlatList,
+	View,
+	ActivityIndicator,
+	ListRenderItemInfo,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { widthPercentageToDP as wp } from "react-native-responsive-screen";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -42,10 +48,18 @@ const StationDetailsScreen = ({
 		setIsRefreshing(true);
 		if (departureSelected)
 			await dispatch(
-				rttActions.getStationDepartures(route.params.crsCode)
+				rttActions.getStationDepartures(
+					route.params.crsCode,
+					route.params.toCrsCode
+				)
 			);
 		else
-			await dispatch(rttActions.getStationArrivals(route.params.crsCode));
+			await dispatch(
+				rttActions.getStationArrivals(
+					route.params.crsCode,
+					route.params.toCrsCode
+				)
+			);
 		setIsRefreshing(false);
 	}, [setIsRefreshing, dispatch]);
 
@@ -61,7 +75,12 @@ const StationDetailsScreen = ({
 
 	const onDepartureSelected = useCallback(async () => {
 		setIsRefreshing(true);
-		await dispatch(rttActions.getStationDepartures(route.params.crsCode));
+		await dispatch(
+			rttActions.getStationDepartures(
+				route.params.crsCode,
+				route.params.toCrsCode
+			)
+		);
 		setIsRefreshing(false);
 
 		setDepartureSelected(true);
@@ -69,14 +88,24 @@ const StationDetailsScreen = ({
 
 	const onArrivalSelected = useCallback(async () => {
 		setIsRefreshing(true);
-		await dispatch(rttActions.getStationArrivals(route.params.crsCode));
+		await dispatch(
+			rttActions.getStationArrivals(
+				route.params.crsCode,
+				route.params.toCrsCode
+			)
+		);
 		setIsRefreshing(false);
 
 		setDepartureSelected(false);
 	}, [setDepartureSelected, dispatch, setIsRefreshing]);
 
 	const loadStationDetails = useCallback(async () => {
-		await dispatch(rttActions.getStationDepartures(route.params.crsCode));
+		await dispatch(
+			rttActions.getStationDepartures(
+				route.params.crsCode,
+				route.params.toCrsCode
+			)
+		);
 	}, [dispatch]);
 
 	useEffect(() => {
@@ -90,7 +119,9 @@ const StationDetailsScreen = ({
 			});
 	}, []);
 
-	const serviceListItem = ({ item }: ListRenderItemInfo<LocationContainer>) => (
+	const serviceListItem = ({
+		item,
+	}: ListRenderItemInfo<LocationContainer>) => (
 		<ServiceCard
 			name={
 				departureSelected
@@ -112,7 +143,7 @@ const StationDetailsScreen = ({
 			onPress={() =>
 				navigation.navigate("ServiceDetailsScreen", {
 					serviceUid: item.serviceUid,
-					crsCode: route.params.crsCode
+					crsCode: route.params.crsCode,
 				})
 			}
 		/>

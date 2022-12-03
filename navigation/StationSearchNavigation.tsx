@@ -8,6 +8,7 @@ export type StationSearchNavigatorParamList = {
 	SearchScreen: undefined;
 	StationDetailsScreen: {
 		crsCode: string;
+		toCrsCode?: string;
 	};
 	ServiceDetailsScreen: {
 		serviceUid: string;

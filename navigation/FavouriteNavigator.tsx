@@ -8,6 +8,7 @@ export type FavouriteNavigatorParamList = {
 	FavouriteScreen: undefined;
 	StationDetailsScreen: {
 		crsCode: string;
+		toCrsCode?: string;
 	};
 	ServiceDetailsScreen: {
 		serviceUid: string;

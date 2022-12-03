@@ -6,7 +6,7 @@ export const GET_STATION = "GET_STATION";
 export const GET_STATION_ARRIVALS = "GET_STATION_ARRIVALS";
 export const GET_SERVICE_INFORMATION = "GET_SERVICE_INFORMATION";
 
-export const getStationDepartures = (crsCode: string) => {
+export const getStationDepartures = (crsCode: string, toCrsCode?: string) => {
 	return async (dispatch: AppDispatch) => {
 		// TODO: Extract information into ENV and don't commit (possibly use cloud function)
 		var headers = new Headers();
@@ -18,13 +18,14 @@ export const getStationDepartures = (crsCode: string) => {
 				)
 		);
 
-		var response = await fetch(
-			`https://api.rtt.io/api/v1/json/search/${crsCode}`,
-			{
-				method: "GET",
-				headers: headers,
-			}
-		);
+		const uri = toCrsCode
+			? `https://api.rtt.io/api/v1/json/search/${crsCode}/to/${toCrsCode}`
+			: `https://api.rtt.io/api/v1/json/search/${crsCode}`;
+
+		var response = await fetch(uri, {
+			method: "GET",
+			headers: headers,
+		});
 		var result = await response.text();
 		dispatch({
 			type: GET_STATION,
@@ -33,7 +34,7 @@ export const getStationDepartures = (crsCode: string) => {
 	};
 };
 
-export const getStationArrivals = (crsCode: string) => {
+export const getStationArrivals = (crsCode: string, toCrsCode?: string) => {
 	return async (dispatch: AppDispatch) => {
 		// TODO: Extract information into ENV and don't commit (possibly use cloud function)
 		var headers = new Headers();
@@ -45,13 +46,14 @@ export const getStationArrivals = (crsCode: string) => {
 				)
 		);
 
-		var response = await fetch(
-			`https://api.rtt.io/api/v1/json/search/${crsCode}/arrivals`,
-			{
-				method: "GET",
-				headers: headers,
-			}
-		);
+		const uri = toCrsCode
+			? `https://api.rtt.io/api/v1/json/search/${crsCode}/to/${toCrsCode}`
+			: `https://api.rtt.io/api/v1/json/search/${crsCode}`;
+
+		var response = await fetch(uri, {
+			method: "GET",
+			headers: headers,
+		});
 		var result = await response.text();
 		dispatch({
 			type: GET_STATION_ARRIVALS,

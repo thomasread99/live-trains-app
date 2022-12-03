@@ -27,12 +27,15 @@ type SearchScreenProps = NativeStackScreenProps<
 const StartScreen = ({ navigation }: SearchScreenProps) => {
 	const [selectedStation, setSelectedStation] =
 		useState<TAutocompleteDropdownItem>(null);
+	const [selectedToStation, setSelectedToStation] =
+		useState<TAutocompleteDropdownItem>(null);
 
 	const searchStation = async () => {
 		if (selectedStation === null) return;
 
 		navigation.navigate("StationDetailsScreen", {
 			crsCode: selectedStation.id,
+			toCrsCode: selectedToStation?.id,
 		});
 	};
 
@@ -48,7 +51,22 @@ const StartScreen = ({ navigation }: SearchScreenProps) => {
 					inputContainerStyle={styles.inputContainer}
 					inputHeight={hp("8%")}
 					textInputProps={{
-						placeholder: "Station Name",
+						placeholder: "From",
+						style: {
+							fontSize: wp("6%"),
+						},
+					}}
+				/>
+				<AutocompleteDropdown
+					clearOnFocus={false}
+					closeOnBlur={true}
+					onSelectItem={setSelectedToStation}
+					dataSet={crsCodes}
+					containerStyle={styles.toAutocompleteContainer}
+					inputContainerStyle={styles.inputContainer}
+					inputHeight={hp("8%")}
+					textInputProps={{
+						placeholder: "To (optional)",
 						style: {
 							fontSize: wp("6%"),
 						},
