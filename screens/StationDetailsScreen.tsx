@@ -66,12 +66,12 @@ const StationDetailsScreen = ({
 	}, [setIsRefreshing, dispatch]);
 
 	const addToFavourites = useCallback(async () => {
-		await dispatch(favouritesActions.addStation(searchResult.location.crs));
+		await dispatch(favouritesActions.addStation(route.params.crsCode));
 	}, [dispatch]);
 
 	const removeFromFavourites = useCallback(async () => {
 		await dispatch(
-			favouritesActions.removeStation(searchResult.location.crs)
+			favouritesActions.removeStation(route.params.crsCode)
 		);
 	}, [dispatch]);
 
@@ -112,10 +112,15 @@ const StationDetailsScreen = ({
 				route.params.toCrsCode
 			)
 		);
+	}, [dispatch]);	
+
+	const loadFavouriteStations = useCallback(async () => {
+		await dispatch(favouritesActions.getFavouriteStations());
 	}, [dispatch]);
 
 	useEffect(() => {
 		setIsLoading(true);
+		loadFavouriteStations();
 		loadStationDetails()
 			.then(() => {
 				setIsLoading(false);
@@ -185,7 +190,7 @@ const StationDetailsScreen = ({
 						style={{ marginRight: wp("3%") }}
 						onPress={navigation.popToTop}
 					/>
-					{favouriteStations.includes(searchResult.location.crs) ? (
+					{favouriteStations.includes(route.params.crsCode) ? (
 						<Ionicons
 							name="star"
 							size={wp("8%")}

@@ -35,8 +35,6 @@ export const getStationDepartures = (
 					date.date() < 10 ? "0" + date.date() : date.date()
 			  }/${time.hour()}${time.minute()}`;
 
-		console.log(uri);
-
 		var response = await fetch(uri, {
 			method: "GET",
 			headers: headers,
