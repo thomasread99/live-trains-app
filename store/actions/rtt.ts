@@ -75,7 +75,9 @@ export const getServiceInformation = (serviceUid: string) => {
 		var response = await fetch(
 			`https://api.rtt.io/api/v1/json/service/${serviceUid}/${moment().year()}/${
 				moment().month() + 1
-			}/${moment().date()}`,
+			}/${
+				moment().date() < 10 ? "0" + moment().date() : moment().date()
+			}`,
 			{
 				method: "GET",
 				headers: headers,
