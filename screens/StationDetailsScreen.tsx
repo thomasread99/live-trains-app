@@ -34,6 +34,7 @@ const StationDetailsScreen = ({
 	const [isLoading, setIsLoading] = useState<boolean>(true);
 	const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
 	const [departureSelected, setDepartureSelected] = useState<boolean>(true);
+	const [isError, setIsError] = useState<boolean>(false);
 
 	const dispatch = useAppDispatch();
 
@@ -59,6 +60,8 @@ const StationDetailsScreen = ({
 			await dispatch(
 				rttActions.getStationArrivals(
 					route.params.crsCode,
+					route.params.date,
+					route.params.time,
 					route.params.toCrsCode
 				)
 			);
@@ -70,9 +73,7 @@ const StationDetailsScreen = ({
 	}, [dispatch]);
 
 	const removeFromFavourites = useCallback(async () => {
-		await dispatch(
-			favouritesActions.removeStation(route.params.crsCode)
-		);
+		await dispatch(favouritesActions.removeStation(route.params.crsCode));
 	}, [dispatch]);
 
 	const onDepartureSelected = useCallback(async () => {
@@ -95,6 +96,8 @@ const StationDetailsScreen = ({
 		await dispatch(
 			rttActions.getStationArrivals(
 				route.params.crsCode,
+				route.params.date,
+				route.params.time,
 				route.params.toCrsCode
 			)
 		);
@@ -112,7 +115,7 @@ const StationDetailsScreen = ({
 				route.params.toCrsCode
 			)
 		);
-	}, [dispatch]);	
+	}, [dispatch]);
 
 	const loadFavouriteStations = useCallback(async () => {
 		await dispatch(favouritesActions.getFavouriteStations());
@@ -126,6 +129,7 @@ const StationDetailsScreen = ({
 				setIsLoading(false);
 			})
 			.catch(() => {
+				setIsError(true);
 				setIsLoading(false);
 			});
 	}, []);
@@ -168,15 +172,6 @@ const StationDetailsScreen = ({
 		);
 	}
 
-	// TODO: Format this and add back button
-	if (!searchResult) {
-		return (
-			<SafeAreaView>
-				<Text>An Error Occurred</Text>
-			</SafeAreaView>
-		);
-	}
-
 	return (
 		<SafeAreaView>
 			<View style={styles.header}>
@@ -211,14 +206,18 @@ const StationDetailsScreen = ({
 				onDepartureSelected={onDepartureSelected}
 				onArrivalSelected={onArrivalSelected}
 			/>
-			<FlatList
-				data={searchResult.services}
-				renderItem={serviceListItem}
-				keyExtractor={(item) => item.serviceUid}
-				style={styles.flatlist}
-				refreshing={isRefreshing}
-				onRefresh={onRefresh}
-			/>
+			{isError || !searchResult || !searchResult.services ? (
+				<Text style={styles.errorText}>No Services Found</Text>
+			) : (
+				<FlatList
+					data={searchResult.services}
+					renderItem={serviceListItem}
+					keyExtractor={(item) => item.serviceUid}
+					style={styles.flatlist}
+					refreshing={isRefreshing}
+					onRefresh={onRefresh}
+				/>
+			)}
 		</SafeAreaView>
 	);
 };

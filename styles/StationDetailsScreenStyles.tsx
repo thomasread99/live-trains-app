@@ -27,6 +27,12 @@ export default StyleSheet.create({
 		flexDirection: "row",
 	},
 
+	errorText: {
+		fontSize: wp("5%"),
+		textAlign: "center",
+		marginTop: hp("3%"),
+	},
+
 	flatlist: {
 		marginBottom: hp("15%"),
 	},
