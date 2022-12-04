@@ -34,7 +34,7 @@ const ServiceCard = (props: Props) => {
 						{props.name}
 					</Text>
 					<Text>
-						{props.realtime === props.bookedTime
+						{! props.realtime || props.realtime === props.bookedTime
 							? "On Time"
 							: `Expected ${props.realtime}`}
 					</Text>
