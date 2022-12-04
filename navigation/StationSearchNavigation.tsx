@@ -10,8 +10,8 @@ export type StationSearchNavigatorParamList = {
 	StationDetailsScreen: {
 		crsCode: string;
 		toCrsCode?: string;
-		date: Moment;
-		time: Moment;
+		date?: Moment;
+		time?: Moment;
 	};
 	ServiceDetailsScreen: {
 		serviceUid: string;

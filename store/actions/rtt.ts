@@ -1,6 +1,6 @@
 import { AppDispatch } from "../store";
 import base64 from "base-64";
-import moment, { Moment } from "moment";
+import { Moment } from "moment";
 
 export const GET_STATION = "GET_STATION";
 export const GET_STATION_ARRIVALS = "GET_STATION_ARRIVALS";
@@ -8,8 +8,8 @@ export const GET_SERVICE_INFORMATION = "GET_SERVICE_INFORMATION";
 
 export const getStationDepartures = (
 	crsCode: string,
-	date: Moment,
-	time: Moment,
+	date?: Moment,
+	time?: Moment,
 	toCrsCode?: string
 ) => {
 	return async (dispatch: AppDispatch) => {
@@ -23,21 +23,23 @@ export const getStationDepartures = (
 				)
 		);
 
-		const uri = toCrsCode
-			? `https://api.rtt.io/api/v1/json/search/${crsCode}/to/${toCrsCode}/${date.year()}/${
+		let uri = `https://api.rtt.io/api/v1/json/search/${crsCode}`;
+
+		if (toCrsCode) uri = uri.concat(`/to/${toCrsCode}`);
+		if (date)
+			uri = uri.concat(
+				`/${date.year()}/${
 					date.month() + 1 < 10
 						? "0" + (date.month() + 1)
 						: date.month() + 1
-			  }/${date.date() < 10 ? "0" + date.date() : date.date()}/${
-					time.hour() < 10 ? "0" + time.hour() : time.hour()
-			  }${time.minute() < 10 ? "0" + time.minute() : time.minute()}`
-			: `https://api.rtt.io/api/v1/json/search/${crsCode}/${date.year()}/${
-					date.month() + 1 < 10
-						? "0" + (date.month() + 1)
-						: date.month() + 1
-			  }/${date.date() < 10 ? "0" + date.date() : date.date()}/${
-					time.hour() < 10 ? "0" + time.hour() : time.hour()
-			  }${time.minute() < 10 ? "0" + time.minute() : time.minute()}`;
+				}/${date.date() < 10 ? "0" + date.date() : date.date()}`
+			);
+		if (time)
+			uri = uri.concat(
+				`/${time.hour() < 10 ? "0" + time.hour() : time.hour()}${
+					time.minute() < 10 ? "0" + time.minute() : time.minute()
+				}`
+			);		
 
 		var response = await fetch(uri, {
 			method: "GET",
@@ -54,8 +56,8 @@ export const getStationDepartures = (
 
 export const getStationArrivals = (
 	crsCode: string,
-	date: Moment,
-	time: Moment,
+	date?: Moment,
+	time?: Moment,
 	toCrsCode?: string
 ) => {
 	return async (dispatch: AppDispatch) => {
@@ -69,25 +71,25 @@ export const getStationArrivals = (
 				)
 		);
 
-		const uri = toCrsCode
-			? `https://api.rtt.io/api/v1/json/search/${crsCode}/to/${toCrsCode}/${date.year()}/${
+		let uri = `https://api.rtt.io/api/v1/json/search/${crsCode}`;
+
+		if (toCrsCode) uri = uri.concat(`/to/${toCrsCode}`);
+		if (date)
+			uri = uri.concat(
+				`/${date.year()}/${
 					date.month() + 1 < 10
 						? "0" + (date.month() + 1)
 						: date.month() + 1
-			  }/${date.date() < 10 ? "0" + date.date() : date.date()}/${
-					time.hour() < 10 ? "0" + time.hour() : time.hour()
-			  }${
+				}/${date.date() < 10 ? "0" + date.date() : date.date()}`
+			);
+		if (time)
+			uri = uri.concat(
+				`/${time.hour() < 10 ? "0" + time.hour() : time.hour()}${
 					time.minute() < 10 ? "0" + time.minute() : time.minute()
-			  }/arrivals`
-			: `https://api.rtt.io/api/v1/json/search/${crsCode}/${date.year()}/${
-					date.month() + 1 < 10
-						? "0" + (date.month() + 1)
-						: date.month() + 1
-			  }/${date.date() < 10 ? "0" + date.date() : date.date()}/${
-					time.hour() < 10 ? "0" + time.hour() : time.hour()
-			  }${
-					time.minute() < 10 ? "0" + time.minute() : time.minute()
-			  }/arrivals`;
+				}`
+			);
+
+		uri = uri.concat("/arrivals");		
 
 		var response = await fetch(uri, {
 			method: "GET",

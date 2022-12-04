@@ -10,6 +10,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { widthPercentageToDP as wp } from "react-native-responsive-screen";
+import moment from "moment";
 
 import ServiceRow from "../components/service/ServiceRow";
 
@@ -48,7 +49,10 @@ const ServiceDetailsScreen = ({
 
 	const loadServiceInformation = useCallback(async () => {
 		await dispatch(
-			rttActions.getServiceInformation(route.params.serviceUid, route.params.date)
+			rttActions.getServiceInformation(
+				route.params.serviceUid,
+				route.params.date ?? moment()
+			)
 		);
 	}, [dispatch]);
 
@@ -117,7 +121,9 @@ const ServiceDetailsScreen = ({
 						/>
 					</View>
 				</View>
-				<Text style={styles.errorText}>Information for this service could not be found</Text>
+				<Text style={styles.errorText}>
+					Information for this service could not be found
+				</Text>
 			</SafeAreaView>
 		);
 	}

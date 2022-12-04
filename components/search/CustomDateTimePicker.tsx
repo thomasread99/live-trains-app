@@ -15,27 +15,41 @@ type Props = {
 };
 
 const CustomDateTimePicker = (props: Props) => {
-	const [selectedDate, setSelectedDate] = useState(new Date());
+	const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+	const [dateSelected, setDateSelected] = useState<boolean>(false);
 	const [showDatePicker, setShowDatePicker] = useState(false);
 
-	const onChangeDate = (_event: DateTimePickerEvent, selectedDate: Date) => {
+	const onChangeDate = (event: DateTimePickerEvent, selectedDate: Date) => {
 		setShowDatePicker(false);
-		setSelectedDate(selectedDate);
-		props.onDateSelected(selectedDate);
+
+		if (event.type === "set") {
+			setDateSelected(true);
+			setSelectedDate(selectedDate);
+			props.onDateSelected(selectedDate);
+		}
 	};
 
 	return (
 		<>
 			<TouchableWithoutFeedback onPress={() => setShowDatePicker(true)}>
 				<View style={styles.dateContainer}>
-					<Text style={styles.dateText}>
-						{props.mode === "date"
-							? moment(selectedDate).format("DD/MM/YYYY")
-							: moment(selectedDate).format("HH:mm")}
+					<Text
+						style={[
+							styles.dateText,
+							{ color: dateSelected ? "black" : "#D3D3D3" },
+						]}
+					>
+						{dateSelected
+							? props.mode === "date"
+								? moment(selectedDate).format("DD/MM/YYYY")
+								: moment(selectedDate).format("HH:mm")
+							: props.mode === "date"
+							? "Date (optional)"
+							: "Time (optional)"}
 					</Text>
 				</View>
 			</TouchableWithoutFeedback>
-			
+
 			{showDatePicker && (
 				<DateTimePicker
 					value={selectedDate}
