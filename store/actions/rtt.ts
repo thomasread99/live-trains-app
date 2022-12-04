@@ -101,8 +101,7 @@ export const getStationArrivals = (
 	};
 };
 
-// TODO: Need to take the date into this endpoint too
-export const getServiceInformation = (serviceUid: string) => {
+export const getServiceInformation = (serviceUid: string, date: Moment) => {
 	return async (dispatch: AppDispatch) => {
 		// TODO: Extract information into ENV and don't commit (possibly use cloud function)
 		var headers = new Headers();
@@ -115,13 +114,11 @@ export const getServiceInformation = (serviceUid: string) => {
 		);
 
 		var response = await fetch(
-			`https://api.rtt.io/api/v1/json/service/${serviceUid}/${moment().year()}/${
-				moment().month() + 1 < 10
-					? "0" + (moment().month() + 1)
-					: moment().month() + 1
-			}/${
-				moment().date() < 10 ? "0" + moment().date() : moment().date()
-			}`,
+			`https://api.rtt.io/api/v1/json/service/${serviceUid}/${date.year()}/${
+				date.month() + 1 < 10
+					? "0" + (date.month() + 1)
+					: date.month() + 1
+			}/${date.date() < 10 ? "0" + date.date() : date.date()}`,
 			{
 				method: "GET",
 				headers: headers,

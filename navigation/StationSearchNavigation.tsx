@@ -16,6 +16,7 @@ export type StationSearchNavigatorParamList = {
 	ServiceDetailsScreen: {
 		serviceUid: string;
 		crsCode: string;
+		date: Moment;
 	};
 };
 

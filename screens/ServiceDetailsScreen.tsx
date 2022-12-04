@@ -48,7 +48,7 @@ const ServiceDetailsScreen = ({
 
 	const loadServiceInformation = useCallback(async () => {
 		await dispatch(
-			rttActions.getServiceInformation(route.params.serviceUid)
+			rttActions.getServiceInformation(route.params.serviceUid, route.params.date)
 		);
 	}, [dispatch]);
 
@@ -61,7 +61,6 @@ const ServiceDetailsScreen = ({
 	}, []);
 
 	useEffect(() => {
-		console.log(serviceInformation);
 		if (serviceInformation && serviceInformation.locations) {
 			setSelectedStation(
 				serviceInformation.locations.find(

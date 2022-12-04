@@ -159,6 +159,7 @@ const StationDetailsScreen = ({
 				navigation.navigate("ServiceDetailsScreen", {
 					serviceUid: item.serviceUid,
 					crsCode: route.params.crsCode,
+					date: route.params.date,
 				})
 			}
 		/>
