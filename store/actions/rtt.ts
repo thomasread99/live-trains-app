@@ -25,12 +25,16 @@ export const getStationDepartures = (
 
 		const uri = toCrsCode
 			? `https://api.rtt.io/api/v1/json/search/${crsCode}/to/${toCrsCode}/${date.year()}/${
-					date.month() + 1
+					date.month() + 1 < 10
+						? "0" + (date.month() + 1)
+						: date.month() + 1
 			  }/${date.date() < 10 ? "0" + date.date() : date.date()}/${
 					time.hour() < 10 ? "0" + time.hour() : time.hour()
 			  }${time.minute() < 10 ? "0" + time.minute() : time.minute()}`
 			: `https://api.rtt.io/api/v1/json/search/${crsCode}/${date.year()}/${
-					date.month() + 1
+					date.month() + 1 < 10
+						? "0" + (date.month() + 1)
+						: date.month() + 1
 			  }/${date.date() < 10 ? "0" + date.date() : date.date()}/${
 					time.hour() < 10 ? "0" + time.hour() : time.hour()
 			  }${time.minute() < 10 ? "0" + time.minute() : time.minute()}`;
@@ -40,6 +44,7 @@ export const getStationDepartures = (
 			headers: headers,
 		});
 		var result = await response.text();
+
 		dispatch({
 			type: GET_STATION,
 			searchResult: JSON.parse(result),
@@ -66,14 +71,18 @@ export const getStationArrivals = (
 
 		const uri = toCrsCode
 			? `https://api.rtt.io/api/v1/json/search/${crsCode}/to/${toCrsCode}/${date.year()}/${
-					date.month() + 1
+					date.month() + 1 < 10
+						? "0" + (date.month() + 1)
+						: date.month() + 1
 			  }/${date.date() < 10 ? "0" + date.date() : date.date()}/${
 					time.hour() < 10 ? "0" + time.hour() : time.hour()
 			  }${
 					time.minute() < 10 ? "0" + time.minute() : time.minute()
 			  }/arrivals`
 			: `https://api.rtt.io/api/v1/json/search/${crsCode}/${date.year()}/${
-					date.month() + 1
+					date.month() + 1 < 10
+						? "0" + (date.month() + 1)
+						: date.month() + 1
 			  }/${date.date() < 10 ? "0" + date.date() : date.date()}/${
 					time.hour() < 10 ? "0" + time.hour() : time.hour()
 			  }${
@@ -92,6 +101,7 @@ export const getStationArrivals = (
 	};
 };
 
+// TODO: Need to take the date into this endpoint too
 export const getServiceInformation = (serviceUid: string) => {
 	return async (dispatch: AppDispatch) => {
 		// TODO: Extract information into ENV and don't commit (possibly use cloud function)
@@ -106,7 +116,9 @@ export const getServiceInformation = (serviceUid: string) => {
 
 		var response = await fetch(
 			`https://api.rtt.io/api/v1/json/service/${serviceUid}/${moment().year()}/${
-				moment().month() + 1
+				moment().month() + 1 < 10
+					? "0" + (moment().month() + 1)
+					: moment().month() + 1
 			}/${
 				moment().date() < 10 ? "0" + moment().date() : moment().date()
 			}`,

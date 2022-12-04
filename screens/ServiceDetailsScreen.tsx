@@ -32,6 +32,7 @@ const ServiceDetailsScreen = ({
 	const [isLoading, setIsLoading] = useState<boolean>(true);
 	const [selectedStation, setSelectedStation] = useState<LocationObj>();
 	const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
+	const [isError, setIsError] = useState<boolean>(false);
 
 	const dispatch = useAppDispatch();
 
@@ -53,16 +54,24 @@ const ServiceDetailsScreen = ({
 
 	useEffect(() => {
 		setIsLoading(true);
-		loadServiceInformation();
+		loadServiceInformation().catch(() => {
+			setIsError(true);
+			setIsLoading(false);
+		});
 	}, []);
 
 	useEffect(() => {
-		if (serviceInformation) {
+		console.log(serviceInformation);
+		if (serviceInformation && serviceInformation.locations) {
 			setSelectedStation(
 				serviceInformation.locations.find(
 					(location) => location.crs === route.params.crsCode
 				)
 			);
+			setIsLoading(false);
+		}
+		if (serviceInformation && serviceInformation.error) {
+			setIsError(true);
 			setIsLoading(false);
 		}
 	}, [serviceInformation]);
@@ -95,6 +104,25 @@ const ServiceDetailsScreen = ({
 		);
 	}
 
+	if (isError) {
+		return (
+			<SafeAreaView>
+				<View style={styles.header}>
+					<Text style={styles.headerText}></Text>
+					<View style={styles.iconContainer}>
+						<Ionicons
+							name="return-down-back"
+							size={wp("8%")}
+							style={{ marginRight: wp("3%") }}
+							onPress={() => navigation.pop()}
+						/>
+					</View>
+				</View>
+				<Text style={styles.errorText}>Information for this service could not be found</Text>
+			</SafeAreaView>
+		);
+	}
+
 	return (
 		<SafeAreaView>
 			<View style={styles.header}>
@@ -109,9 +137,9 @@ const ServiceDetailsScreen = ({
 						size={wp("8%")}
 						style={{ marginRight: wp("3%") }}
 						onPress={() => navigation.pop()}
-					/>					
+					/>
 				</View>
-			</View>			
+			</View>
 			<View
 				style={{ flexDirection: "row", justifyContent: "space-evenly" }}
 			>

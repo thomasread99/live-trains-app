@@ -11,6 +11,12 @@ export default StyleSheet.create({
 		alignItems: "center",
 	},
 
+	errorText: {
+		fontSize: wp("5%"),
+		textAlign: "center",
+		marginTop: hp("3%"),
+	},
+
 	header: {
 		margin: wp("3%"),
 		flexDirection: "row",
@@ -21,7 +27,7 @@ export default StyleSheet.create({
 
 	headerText: {
 		fontSize: wp("4%"),
-	},
+	},	
 
 	iconContainer: {
 		flexDirection: "row",

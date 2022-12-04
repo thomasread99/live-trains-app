@@ -15,4 +15,5 @@ class ServiceInformation {
 	locations: LocationObj[];
 	realtimeActivated: boolean;
 	runningIdentity: string;
+	error?: string;
 }
