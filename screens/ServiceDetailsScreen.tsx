@@ -14,7 +14,10 @@ import moment from "moment";
 
 import ServiceRow from "../components/service/ServiceRow";
 
+import { FavouriteJourney } from "../models/FavouriteJourney";
+
 import * as rttActions from "../store/actions/rtt";
+import * as favouritesActions from "../store/actions/favourites";
 
 import styles from "../styles/ServiceDetailsScreenStyles";
 
@@ -40,6 +43,9 @@ const ServiceDetailsScreen = ({
 	const serviceInformation: ServiceInformation = useAppSelector(
 		(state: any) => state.rtt.serviceInformation
 	);
+	const favouriteJourneys: FavouriteJourney[] = useAppSelector(
+		(state: any) => state.favourites.favouriteJourneys
+	);
 
 	const onRefresh = () => {
 		setIsRefreshing(true);
@@ -56,8 +62,37 @@ const ServiceDetailsScreen = ({
 		);
 	}, [dispatch]);
 
+	const addToFavourites = useCallback(async () => {
+		await dispatch(
+			favouritesActions.addJourney({
+				serviceUid: route.params.serviceUid,
+				description: `${serviceInformation.origin[0].publicTime} ${serviceInformation.origin[0].description} to ${serviceInformation.destination[0].description}`,
+				date: route.params.date
+					? route.params.date.toString()
+					: moment().toString(),
+			})
+		);
+	}, [dispatch]);
+
+	const removeFromFavourites = useCallback(async () => {
+		await dispatch(
+			favouritesActions.removeJourney({
+				serviceUid: route.params.serviceUid,
+				description: `${serviceInformation.origin[0].publicTime} ${serviceInformation.origin[0].description} to ${serviceInformation.destination[0].description}`,
+				date: route.params.date
+					? route.params.date.toString()
+					: moment().toString(),
+			})
+		);
+	}, [dispatch]);
+
+	const loadFavouriteJourneys = useCallback(async () => {
+		await dispatch(favouritesActions.getFavouriteJourneys());
+	}, [dispatch]);
+
 	useEffect(() => {
 		setIsLoading(true);
+		loadFavouriteJourneys();
 		loadServiceInformation().catch(() => {
 			setIsError(true);
 			setIsLoading(false);
@@ -143,6 +178,22 @@ const ServiceDetailsScreen = ({
 						style={{ marginRight: wp("3%") }}
 						onPress={() => navigation.pop()}
 					/>
+					{favouriteJourneys.some(
+						(j) => j.serviceUid === route.params.serviceUid
+					) ? (
+						<Ionicons
+							name="star"
+							size={wp("8%")}
+							onPress={removeFromFavourites}
+							color="gold"
+						/>
+					) : (
+						<Ionicons
+							name="star-outline"
+							size={wp("8%")}
+							onPress={addToFavourites}
+						/>
+					)}
 				</View>
 			</View>
 			<View
