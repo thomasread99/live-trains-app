@@ -58,7 +58,6 @@ const FavouriteStationsStackNavigator = () => {
 	);
 };
 
-// ! BUG: Service Details Screen seems to switch to the station search navigator
 export const FavouriteJourneysStackNavigator = () => {
 	return (
 		<FavouriteJourneysStack.Navigator

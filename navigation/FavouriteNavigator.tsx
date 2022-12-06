@@ -1,7 +1,6 @@
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import FavouriteJourneysScreen from "../screens/FavouriteJourneysScreen";
 
-import FavouriteStackNavigator from "./FavouriteStackNavigators";
+import FavouriteStackNavigator, { FavouriteJourneysStackNavigator } from "./FavouriteStackNavigators";
 
 const TopTabs = createMaterialTopTabNavigator();
 
@@ -15,7 +14,7 @@ const FavouriteNavigator = () => {
 			/>
 			<TopTabs.Screen
 				name="FavouriteJourneys"
-				component={FavouriteJourneysScreen}
+				component={FavouriteJourneysStackNavigator}
 				options={{ title: "Journeys" }}
 			/>
 		</TopTabs.Navigator>
