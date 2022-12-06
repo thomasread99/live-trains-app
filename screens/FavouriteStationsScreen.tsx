@@ -6,22 +6,21 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import FavouriteCard from "../components/favourites/FavouriteCard";
 
 import * as favouritesActions from "../store/actions/favourites";
-import * as rttActions from "../store/actions/rtt";
 
-import styles from "../styles/FavouriteScreenStyles";
+import styles from "../styles/FavouriteStationsScreenStyles";
 
 import { useAppDispatch, useAppSelector } from "../store/hooks";
-import { FavouriteNavigatorParamList } from "../navigation/FavouriteNavigator";
+import { FavouriteStackNavigatorParamList } from "../navigation/FavouriteStackNavigator";
 
 import crsCodes from "../data/crs-codes.json";
 import moment from "moment";
 
-type FavouriteScreenProps = NativeStackScreenProps<
-	FavouriteNavigatorParamList,
+type FavouriteStationsScreenProps = NativeStackScreenProps<
+	FavouriteStackNavigatorParamList,
 	"FavouriteScreen"
 >;
 
-const FavouriteScreen = ({ navigation }: FavouriteScreenProps) => {
+const FavouriteStationsScreen = ({ navigation }: FavouriteStationsScreenProps) => {
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 	const [error, setError] = useState<string>();
 
@@ -79,14 +78,14 @@ const FavouriteScreen = ({ navigation }: FavouriteScreenProps) => {
 
 	return (
 		<SafeAreaView>
-			<Text style={styles.title}>Favourite Stations</Text>
 			<FlatList
 				data={favouriteStations}
 				renderItem={favouriteStationItem}
 				keyExtractor={(item) => item}
+				style={styles.flatlist}
 			/>
 		</SafeAreaView>
 	);
 };
 
-export default FavouriteScreen;
+export default FavouriteStationsScreen;

@@ -1,44 +1,23 @@
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { Moment } from "moment";
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 
-import FavouriteScreen from "../screens/FavouriteScreen";
-import StationDetailsScreen from "../screens/StationDetailsScreen";
-import ServiceDetailsScreen from "../screens/ServiceDetailsScreen";
+import FavouriteStackNavigator from "./FavouriteStackNavigator";
 
-export type FavouriteNavigatorParamList = {
-	FavouriteScreen: undefined;
-	StationDetailsScreen: {
-		crsCode: string;
-		toCrsCode?: string;
-		date?: Moment;
-		time?: Moment;
-	};
-	ServiceDetailsScreen: {
-		serviceUid: string;
-		crsCode: string;
-		date: Moment;
-	};
-};
-
-const Stack = createNativeStackNavigator();
+const TopTabs = createMaterialTopTabNavigator();
 
 const FavouriteNavigator = () => {
 	return (
-		<Stack.Navigator
-			screenOptions={{
-				headerShown: false,
-			}}
-		>
-			<Stack.Screen name="FavouriteScreen" component={FavouriteScreen} />
-			<Stack.Screen
-				name="StationDetailsScreen"
-				component={StationDetailsScreen}
+		<TopTabs.Navigator>
+			<TopTabs.Screen
+				name="FavouriteStationsScreen"
+				component={FavouriteStackNavigator}
+				options={{ title: "Stations" }}
 			/>
-			<Stack.Screen
-				name="ServiceDetailsScreen"
-				component={ServiceDetailsScreen}
+			<TopTabs.Screen
+				name="FavouriteJourneysScreen"
+				component={FavouriteStackNavigator}
+				options={{ title: "Journeys" }}
 			/>
-		</Stack.Navigator>
+		</TopTabs.Navigator>
 	);
 };
 
