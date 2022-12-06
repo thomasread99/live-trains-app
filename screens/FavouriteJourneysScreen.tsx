@@ -2,47 +2,47 @@ import React, { useCallback, useEffect, useState } from "react";
 import { Text, ActivityIndicator, FlatList, ListRenderItemInfo } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import moment from "moment";
 
-import FavouriteStationCard from "../components/favourites/FavouriteStationCard";
+import FavouriteJourneyCard from "../components/favourites/FavouriteJourneyCard";
+
+import { FavouriteJourney } from "../models/FavouriteJourney";
 
 import * as favouritesActions from "../store/actions/favourites";
 
 import styles from "../styles/FavouriteStationsScreenStyles";
 
 import { useAppDispatch, useAppSelector } from "../store/hooks";
-import { FavouriteStationsStackNavigatorParamList } from "../navigation/FavouriteStackNavigators";
+import { FavouriteJourneysStackNavigatorParamList } from "../navigation/FavouriteStackNavigators";
 
-import crsCodes from "../data/crs-codes.json";
-import moment from "moment";
-
-type FavouriteStationsScreenProps = NativeStackScreenProps<
-	FavouriteStationsStackNavigatorParamList,
-	"FavouriteStationsScreen"
+type FavouriteJourneyssScreenProps = NativeStackScreenProps<
+    FavouriteJourneysStackNavigatorParamList,
+	"FavouriteJourneysScreen"
 >;
 
-const FavouriteStationsScreen = ({ navigation }: FavouriteStationsScreenProps) => {
+const FavouriteJourneysScreen = ({ navigation }: FavouriteJourneyssScreenProps) => {
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 	const [error, setError] = useState<string>();
 
 	const dispatch = useAppDispatch();
 
-	const favouriteStations: string[] = useAppSelector(
-		(state: any) => state.favourites.favouriteStations
+	const favouriteJourneys: FavouriteJourney[] = useAppSelector(
+		(state: any) => state.favourites.favouriteJourneys
 	);
 
 	const loadFavouriteStations = useCallback(async () => {
 		try {
-			await dispatch(favouritesActions.getFavouriteStations());
+			await dispatch(favouritesActions.getFavouriteJourneys());
 		} catch {
 			setError("There was an error loading your favourite stations");
 		}
 	}, [dispatch, setError]);
 
-	const onFavouriteStationPress = async (crsCode: string) => {
-		navigation.navigate("StationDetailsScreen", {
-			crsCode: crsCode,
-			date: moment(),
-			time: moment(),
+	const onFavouriteJourneyPress = async (journey: FavouriteJourney) => {
+		navigation.navigate("ServiceDetailsScreen", {
+			crsCode: journey.crsCode,
+			date: moment(journey.date),
+            serviceUid: journey.serviceUid			
 		});
 	};
 
@@ -52,11 +52,10 @@ const FavouriteStationsScreen = ({ navigation }: FavouriteStationsScreenProps) =
 		setIsLoading(false);
 	}, []);
 
-	const favouriteStationItem = ({ item }: ListRenderItemInfo<string>) => (
-		<FavouriteStationCard
-			stationName={crsCodes.find((code) => code.id === item).title}
-			crsCode={item}
-			onPress={onFavouriteStationPress}
+	const favouriteStationItem = ({ item }: ListRenderItemInfo<FavouriteJourney>) => (
+		<FavouriteJourneyCard
+			journey={item}
+			onPress={onFavouriteJourneyPress}
 		/>
 	);
 
@@ -79,13 +78,13 @@ const FavouriteStationsScreen = ({ navigation }: FavouriteStationsScreenProps) =
 	return (
 		<SafeAreaView>
 			<FlatList
-				data={favouriteStations}
+				data={favouriteJourneys}
 				renderItem={favouriteStationItem}
-				keyExtractor={(item) => item}
+				keyExtractor={(item) => item.serviceUid}
 				style={styles.flatlist}
 			/>
 		</SafeAreaView>
 	);
 };
 
-export default FavouriteStationsScreen;
+export default FavouriteJourneysScreen;

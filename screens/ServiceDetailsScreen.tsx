@@ -70,6 +70,7 @@ const ServiceDetailsScreen = ({
 				date: route.params.date
 					? route.params.date.toString()
 					: moment().toString(),
+				crsCode: route.params.crsCode,
 			})
 		);
 	}, [dispatch]);
@@ -82,6 +83,7 @@ const ServiceDetailsScreen = ({
 				date: route.params.date
 					? route.params.date.toString()
 					: moment().toString(),
+				crsCode: route.params.crsCode,
 			})
 		);
 	}, [dispatch]);

@@ -80,8 +80,6 @@ export const getFavouriteJourneys = () => {
 
 		if (!favouriteJourneys) return;
 
-		console.log(favouriteJourneys);
-
 		dispatch({
 			type: GET_JOURNEYS,
 			favouriteJourneys: JSON.parse(favouriteJourneys),

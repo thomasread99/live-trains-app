@@ -5,18 +5,23 @@ import {
 	heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import moment from "moment";
+
+import { FavouriteJourney } from "../../models/FavouriteJourney";
 
 type Props = {
-	stationName: string;
-	crsCode: string;
-	onPress: (crsCode: string) => void;
+	journey: FavouriteJourney
+	onPress: (journey: FavouriteJourney) => void;
 };
 
-const FavouriteCard = (props: Props) => {
+const FavouriteJourneyCard = (props: Props) => {
 	return (
-		<TouchableWithoutFeedback onPress={() => props.onPress(props.crsCode)}>
+		<TouchableWithoutFeedback onPress={() => props.onPress(props.journey)}>
 			<View style={styles.cardContainer}>
-				<Text style={styles.stationText}>{props.stationName}</Text>
+				<View>
+					<Text style={styles.stationText}>{props.journey.description}</Text>
+					<Text>{moment(props.journey.date).format("DD/MM/YYYY")}</Text>
+				</View>
 				<Ionicons name="arrow-forward" size={wp("8%")} />
 			</View>
 		</TouchableWithoutFeedback>
@@ -37,6 +42,7 @@ const styles = StyleSheet.create({
 		borderRadius: 10,
 		flexDirection: "row",
 		justifyContent: "space-between",
+		alignItems: "center",
 	},
 
 	stationText: {
@@ -44,4 +50,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default FavouriteCard;
+export default FavouriteJourneyCard;
