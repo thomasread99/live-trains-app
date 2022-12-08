@@ -76,8 +76,6 @@ export const getFavouriteJourneys = () => {
 	return async (dispatch: AppDispatch) => {
 		const favouriteJourneys = await AsyncStorage.getItem("journeys");
 
-		// TODO: Remove expired journeys
-
 		if (!favouriteJourneys) return;
 
 		dispatch({
@@ -120,7 +118,12 @@ export const removeJourney = (journey: FavouriteJourney) => {
 			return null;
 		} else {
 			favouriteJourneysArray = JSON.parse(favouriteJourneys);
-			favouriteJourneysArray.splice(journey, 1);
+			const index = favouriteJourneysArray
+				.map((j: FavouriteJourney) => j.serviceUid)
+				.indexOf(journey.serviceUid);
+			if (index > -1) {
+				favouriteJourneysArray.splice(index, 1);
+			}
 		}
 
 		await AsyncStorage.setItem(
@@ -133,4 +136,4 @@ export const removeJourney = (journey: FavouriteJourney) => {
 			favouriteJourneys: favouriteJourneysArray,
 		});
 	};
-}
+};

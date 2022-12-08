@@ -62,31 +62,37 @@ const ServiceDetailsScreen = ({
 		);
 	}, [dispatch]);
 
-	const addToFavourites = useCallback(async () => {
-		await dispatch(
-			favouritesActions.addJourney({
-				serviceUid: route.params.serviceUid,
-				description: `${serviceInformation.origin[0].publicTime} ${serviceInformation.origin[0].description} to ${serviceInformation.destination[0].description}`,
-				date: route.params.date
-					? route.params.date.toString()
-					: moment().toString(),
-				crsCode: route.params.crsCode,
-			})
-		);
-	}, [dispatch]);
+	const addToFavourites = useCallback(
+		async (time: string, origin: string, destination: string) => {
+			await dispatch(
+				favouritesActions.addJourney({
+					serviceUid: route.params.serviceUid,
+					description: `${time} ${origin} to ${destination}`,
+					date: route.params.date
+						? route.params.date.toString()
+						: moment().toString(),
+					crsCode: route.params.crsCode,
+				})
+			);
+		},
+		[dispatch]
+	);
 
-	const removeFromFavourites = useCallback(async () => {
-		await dispatch(
-			favouritesActions.removeJourney({
-				serviceUid: route.params.serviceUid,
-				description: `${serviceInformation.origin[0].publicTime} ${serviceInformation.origin[0].description} to ${serviceInformation.destination[0].description}`,
-				date: route.params.date
-					? route.params.date.toString()
-					: moment().toString(),
-				crsCode: route.params.crsCode,
-			})
-		);
-	}, [dispatch]);
+	const removeFromFavourites = useCallback(
+		async (time: string, origin: string, destination: string) => {
+			await dispatch(
+				favouritesActions.removeJourney({
+					serviceUid: route.params.serviceUid,
+					description: `${time} ${origin} to ${destination}`,
+					date: route.params.date
+						? route.params.date.toString()
+						: moment().toString(),
+					crsCode: route.params.crsCode,
+				})
+			);
+		},
+		[dispatch]
+	);
 
 	const loadFavouriteJourneys = useCallback(async () => {
 		await dispatch(favouritesActions.getFavouriteJourneys());
@@ -186,14 +192,28 @@ const ServiceDetailsScreen = ({
 						<Ionicons
 							name="star"
 							size={wp("8%")}
-							onPress={removeFromFavourites}
+							onPress={() =>
+								removeFromFavourites(
+									serviceInformation.origin[0].publicTime,
+									serviceInformation.origin[0].description,
+									serviceInformation.destination[0]
+										.description
+								)
+							}
 							color="gold"
 						/>
 					) : (
 						<Ionicons
 							name="star-outline"
 							size={wp("8%")}
-							onPress={addToFavourites}
+							onPress={() =>
+								addToFavourites(
+									serviceInformation.origin[0].publicTime,
+									serviceInformation.origin[0].description,
+									serviceInformation.destination[0]
+										.description
+								)
+							}
 						/>
 					)}
 				</View>
