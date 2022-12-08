@@ -69,8 +69,8 @@ const ServiceDetailsScreen = ({
 					serviceUid: route.params.serviceUid,
 					description: `${time} ${origin} to ${destination}`,
 					date: route.params.date
-						? route.params.date.toString()
-						: moment().toString(),
+						? route.params.date.toISOString()
+						: moment().toISOString(),
 					crsCode: route.params.crsCode,
 				})
 			);
