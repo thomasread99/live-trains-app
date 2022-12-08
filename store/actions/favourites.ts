@@ -97,6 +97,10 @@ export const addJourney = (journey: FavouriteJourney) => {
 			favouriteJourneysArray.push(journey);
 		}
 
+		favouriteJourneysArray = favouriteJourneysArray.sort((a: FavouriteJourney, b: FavouriteJourney) => {
+			return new Date(a.date).getTime() - new Date(b.date).getTime();
+		})	
+
 		await AsyncStorage.setItem(
 			"journeys",
 			JSON.stringify(favouriteJourneysArray)
