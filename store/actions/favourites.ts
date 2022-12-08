@@ -51,13 +51,16 @@ export const addStation = (crsCode: string) => {
 export const removeStation = (crsCode: string) => {
 	return async (dispatch: AppDispatch) => {
 		const favouriteStations = await AsyncStorage.getItem("stations");
-		let favouriteStationsArray;
+		let favouriteStationsArray: string[];
 
 		if (favouriteStations === null) {
 			return null;
 		} else {
 			favouriteStationsArray = JSON.parse(favouriteStations);
-			favouriteStationsArray.splice(crsCode, 1);
+			const index = favouriteStationsArray.indexOf(crsCode);
+			if (index > -1) {
+				favouriteStationsArray.splice(index, 1);
+			}
 		}
 
 		await AsyncStorage.setItem(
@@ -88,7 +91,7 @@ export const getFavouriteJourneys = () => {
 export const addJourney = (journey: FavouriteJourney) => {
 	return async (dispatch: AppDispatch) => {
 		const favouriteJourneys = await AsyncStorage.getItem("journeys");
-		let favouriteJourneysArray;
+		let favouriteJourneysArray : FavouriteJourney[];
 
 		if (favouriteJourneys === null) {
 			favouriteJourneysArray = [journey];
@@ -116,7 +119,7 @@ export const addJourney = (journey: FavouriteJourney) => {
 export const removeJourney = (journey: FavouriteJourney) => {
 	return async (dispatch: AppDispatch) => {
 		const favouriteJourneys = await AsyncStorage.getItem("journeys");
-		let favouriteJourneysArray;
+		let favouriteJourneysArray: FavouriteJourney[];
 
 		if (favouriteJourneys === null) {
 			return null;
