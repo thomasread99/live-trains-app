@@ -9,6 +9,8 @@ import MainNavigator from "./navigation/MainNavigator";
 
 import store from "./store/store";
 
+import colours from "./config/colours";
+
 SplashScreen.preventAutoHideAsync();
 
 export default function App() {
@@ -29,7 +31,7 @@ export default function App() {
     return (
         <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
             <Provider store={store}>
-                <StatusBar backgroundColor="black" />
+                <StatusBar backgroundColor={colours.background} />
                 <SafeAreaProvider>
                     <MainNavigator />
                 </SafeAreaProvider>
