@@ -1,7 +1,7 @@
 import React from "react";
 import { DefaultTheme, NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
 import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp,
@@ -46,7 +46,7 @@ const MainNavigator = () => {
                     component={TrainSearchNavigator}
                     options={{
                         tabBarIcon: ({ color }) => (
-                            <FontAwesome5
+                            <FontAwesome
                                 name="search"
                                 size={wp("8%")}
                                 color={color}
@@ -60,7 +60,7 @@ const MainNavigator = () => {
                     component={FavouriteNavigator}
                     options={{
                         tabBarIcon: ({ color }) => (
-                            <FontAwesome5
+                            <FontAwesome
                                 name="star"
                                 size={wp("8%")}
                                 color={color}

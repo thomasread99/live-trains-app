@@ -5,10 +5,7 @@ import {
     AutocompleteDropdown,
     TAutocompleteDropdownItem,
 } from "react-native-autocomplete-dropdown";
-import {
-    widthPercentageToDP as wp,
-    heightPercentageToDP as hp,
-} from "react-native-responsive-screen";
+import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import moment, { Moment } from "moment";
 
@@ -101,16 +98,16 @@ const StartScreen = ({ navigation }: SearchScreenProps) => {
                     />
                 </View>
 
-				<View style={styles.dateTimePickerContainer}>
-					<CustomDateTimePicker
-						onDateSelected={onDateSelected}
-						mode={"date"}
-					/>
-					<CustomDateTimePicker
-						onDateSelected={onTimeSelected}
-						mode={"time"}
-					/>
-				</View>                
+                <View style={styles.dateTimePickerContainer}>
+                    <CustomDateTimePicker
+                        onDateSelected={onDateSelected}
+                        mode={"date"}
+                    />
+                    <CustomDateTimePicker
+                        onDateSelected={onTimeSelected}
+                        mode={"time"}
+                    />
+                </View>
             </View>
 
             <View>
