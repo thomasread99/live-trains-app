@@ -12,137 +12,135 @@ export const ADD_JOURNEY = "ADD_JOURNEY";
 export const REMOVE_JOURNEY = "REMOVE_JOURNEY";
 
 export const getFavouriteStations = () => {
-    return async (dispatch: AppDispatch) => {
-        const favouriteStations = await AsyncStorage.getItem("stations");
+	return async (dispatch: AppDispatch) => {
+		const favouriteStations = await AsyncStorage.getItem("stations");
 
-        if (!favouriteStations) return;
+		if (!favouriteStations) return;
 
-        dispatch({
-            type: GET_STATIONS,
-            favouriteStations: JSON.parse(favouriteStations),
-        });
-    };
+		dispatch({
+			type: GET_STATIONS,
+			favouriteStations: JSON.parse(favouriteStations),
+		});
+	};
 };
 
 export const addStation = (crsCode: string) => {
-    return async (dispatch: AppDispatch) => {
-        const favouriteStations = await AsyncStorage.getItem("stations");
-        let favouriteStationsArray;
+	return async (dispatch: AppDispatch) => {
+		const favouriteStations = await AsyncStorage.getItem("stations");
+		let favouriteStationsArray;
 
-        if (favouriteStations === null) {
-            favouriteStationsArray = [crsCode];
-        } else {
-            favouriteStationsArray = JSON.parse(favouriteStations);
-            favouriteStationsArray.push(crsCode);
-        }
+		if (favouriteStations === null) {
+			favouriteStationsArray = [crsCode];
+		} else {
+			favouriteStationsArray = JSON.parse(favouriteStations);
+			favouriteStationsArray.push(crsCode);
+		}
 
-        await AsyncStorage.setItem(
-            "stations",
-            JSON.stringify(favouriteStationsArray),
-        );
+		await AsyncStorage.setItem(
+			"stations",
+			JSON.stringify(favouriteStationsArray)
+		);
 
-        dispatch({
-            type: ADD_STATION,
-            favouriteStations: favouriteStationsArray,
-        });
-    };
+		dispatch({
+			type: ADD_STATION,
+			favouriteStations: favouriteStationsArray,
+		});
+	};
 };
 
 export const removeStation = (crsCode: string) => {
-    return async (dispatch: AppDispatch) => {
-        const favouriteStations = await AsyncStorage.getItem("stations");
-        let favouriteStationsArray: string[];
+	return async (dispatch: AppDispatch) => {
+		const favouriteStations = await AsyncStorage.getItem("stations");
+		let favouriteStationsArray: string[];
 
-        if (favouriteStations === null) {
-            return null;
-        } else {
-            favouriteStationsArray = JSON.parse(favouriteStations);
-            const index = favouriteStationsArray.indexOf(crsCode);
-            if (index > -1) {
-                favouriteStationsArray.splice(index, 1);
-            }
-        }
+		if (favouriteStations === null) {
+			return null;
+		} else {
+			favouriteStationsArray = JSON.parse(favouriteStations);
+			const index = favouriteStationsArray.indexOf(crsCode);
+			if (index > -1) {
+				favouriteStationsArray.splice(index, 1);
+			}
+		}
 
-        await AsyncStorage.setItem(
-            "stations",
-            JSON.stringify(favouriteStationsArray),
-        );
+		await AsyncStorage.setItem(
+			"stations",
+			JSON.stringify(favouriteStationsArray)
+		);
 
-        dispatch({
-            type: REMOVE_STATION,
-            favouriteStations: favouriteStationsArray,
-        });
-    };
+		dispatch({
+			type: REMOVE_STATION,
+			favouriteStations: favouriteStationsArray,
+		});
+	};
 };
 
 export const getFavouriteJourneys = () => {
-    return async (dispatch: AppDispatch) => {
-        const favouriteJourneys = await AsyncStorage.getItem("journeys");
+	return async (dispatch: AppDispatch) => {
+		const favouriteJourneys = await AsyncStorage.getItem("journeys");
 
-        if (!favouriteJourneys) return;
+		if (!favouriteJourneys) return;
 
-        dispatch({
-            type: GET_JOURNEYS,
-            favouriteJourneys: JSON.parse(favouriteJourneys),
-        });
-    };
+		dispatch({
+			type: GET_JOURNEYS,
+			favouriteJourneys: JSON.parse(favouriteJourneys),
+		});
+	};
 };
 
 export const addJourney = (journey: FavouriteJourney) => {
-    return async (dispatch: AppDispatch) => {
-        const favouriteJourneys = await AsyncStorage.getItem("journeys");
-        let favouriteJourneysArray: FavouriteJourney[];
+	return async (dispatch: AppDispatch) => {
+		const favouriteJourneys = await AsyncStorage.getItem("journeys");
+		let favouriteJourneysArray : FavouriteJourney[];
 
-        if (favouriteJourneys === null) {
-            favouriteJourneysArray = [journey];
-        } else {
-            favouriteJourneysArray = JSON.parse(favouriteJourneys);
-            favouriteJourneysArray.push(journey);
-        }
+		if (favouriteJourneys === null) {
+			favouriteJourneysArray = [journey];
+		} else {
+			favouriteJourneysArray = JSON.parse(favouriteJourneys);
+			favouriteJourneysArray.push(journey);
+		}
 
-        favouriteJourneysArray = favouriteJourneysArray.sort(
-            (a: FavouriteJourney, b: FavouriteJourney) => {
-                return new Date(a.date).getTime() - new Date(b.date).getTime();
-            },
-        );
+		favouriteJourneysArray = favouriteJourneysArray.sort((a: FavouriteJourney, b: FavouriteJourney) => {
+			return new Date(a.date).getTime() - new Date(b.date).getTime();
+		})	
 
-        await AsyncStorage.setItem(
-            "journeys",
-            JSON.stringify(favouriteJourneysArray),
-        );
+		await AsyncStorage.setItem(
+			"journeys",
+			JSON.stringify(favouriteJourneysArray)
+		);
 
-        dispatch({
-            type: ADD_JOURNEY,
-            favouriteJourneys: favouriteJourneysArray,
-        });
-    };
+		dispatch({
+			type: ADD_JOURNEY,
+			favouriteJourneys: favouriteJourneysArray,
+		});
+	};
 };
 
 export const removeJourney = (journey: FavouriteJourney) => {
-    return async (dispatch: AppDispatch) => {
-        const favouriteJourneys = await AsyncStorage.getItem("journeys");
-        let favouriteJourneysArray: FavouriteJourney[];
+	return async (dispatch: AppDispatch) => {
+		const favouriteJourneys = await AsyncStorage.getItem("journeys");
+		let favouriteJourneysArray: FavouriteJourney[];
 
-        if (favouriteJourneys === null) {
-            return null;
-        } else {
-            favouriteJourneysArray = JSON.parse(favouriteJourneys);
-            const index = favouriteJourneysArray
-                .map((j: FavouriteJourney) => j.serviceUid)
-                .indexOf(journey.serviceUid);
-            if (index > -1) {
-                favouriteJourneysArray.splice(index, 1);
-            }
-        }
+		if (favouriteJourneys === null) {
+			return null;
+		} else {
+			favouriteJourneysArray = JSON.parse(favouriteJourneys);
+			const index = favouriteJourneysArray
+				.map((j: FavouriteJourney) => j.serviceUid)
+				.indexOf(journey.serviceUid);
+			if (index > -1) {
+				favouriteJourneysArray.splice(index, 1);
+			}
+		}
 
-        await AsyncStorage.setItem(
-            "journeys",
-            JSON.stringify(favouriteJourneysArray),
-        );
+		await AsyncStorage.setItem(
+			"journeys",
+			JSON.stringify(favouriteJourneysArray)
+		);
 
-        dispatch({
-            type: REMOVE_JOURNEY,
-            favouriteJourneys: favouriteJourneysArray,
-        });
-    };
+		dispatch({
+			type: REMOVE_JOURNEY,
+			favouriteJourneys: favouriteJourneysArray,
+		});
+	};
 };

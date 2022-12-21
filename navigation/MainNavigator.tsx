@@ -5,8 +5,6 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp,
-    widthPercentageToDP as wp,
-    heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 
 import TrainSearchNavigator from "./StationSearchNavigation";
