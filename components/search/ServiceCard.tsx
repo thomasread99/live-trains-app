@@ -17,7 +17,9 @@ type Props = {
 };
 
 const ServiceCard = (props: Props) => {
-	const timeDiff = props.realtime ? parseInt(props.realtime) - parseInt(props.bookedTime) : 0;
+    const timeDiff = props.realtime
+        ? parseInt(props.realtime) - parseInt(props.bookedTime)
+        : 0;
 
     return (
         <TouchableWithoutFeedback onPress={props.onPress}>
@@ -35,22 +37,50 @@ const ServiceCard = (props: Props) => {
                         justifyContent: "center",
                     }}
                 >
-                    <Text style={styles.stationHeader}>{props.departureSelected ? "TO" : "FROM"}</Text>
-                    <Text style={styles.stationText} numberOfLines={1}>{props.name.toUpperCase()}</Text>
+                    <Text style={styles.stationHeader}>
+                        {props.departureSelected ? "TO" : "FROM"}
+                    </Text>
+                    <Text style={styles.stationText} numberOfLines={1}>
+                        {props.name.toUpperCase()}
+                    </Text>
                 </View>
-                <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+                <View
+                    style={{
+                        flex: 1,
+                        justifyContent: "center",
+                        alignItems: "center",
+                    }}
+                >
                     <Text style={styles.timeText}>{props.bookedTime}</Text>
-					<View style={styles.line}></View>
-					{props.realtime ? (
-						<Text style={[styles.timeText, {
-							color: timeDiff === 0 ? colours.white : timeDiff < 0 ? colours.green : colours.red,
-						}]}>{props.realtime}</Text>
-					) : (
-						<Text style={[styles.timeText, {
-							color: colours.red,
-						}]}>N/A</Text>
-					)}
-					
+                    <View style={styles.line}></View>
+                    {props.realtime ? (
+                        <Text
+                            style={[
+                                styles.timeText,
+                                {
+                                    color:
+                                        timeDiff === 0
+                                            ? colours.white
+                                            : timeDiff < 0
+                                            ? colours.green
+                                            : colours.red,
+                                },
+                            ]}
+                        >
+                            {props.realtime}
+                        </Text>
+                    ) : (
+                        <Text
+                            style={[
+                                styles.timeText,
+                                {
+                                    color: colours.red,
+                                },
+                            ]}
+                        >
+                            N/A
+                        </Text>
+                    )}
                 </View>
             </View>
         </TouchableWithoutFeedback>
@@ -87,7 +117,7 @@ const styles = StyleSheet.create({
         fontSize: wp("7%"),
     },
 
-	stationHeader: {
+    stationHeader: {
         textAlign: "center",
         fontFamily: "Light",
         color: colours.white,
@@ -99,21 +129,21 @@ const styles = StyleSheet.create({
         fontFamily: "Light",
         color: colours.white,
         fontSize: wp("6%"),
-    },	
+    },
 
-	timeText: {
+    timeText: {
         textAlign: "center",
         fontFamily: "Light",
         fontSize: wp("3%"),
-		color: colours.white,
+        color: colours.white,
     },
 
-	line: {
-		borderWidth: 0.5,
-		borderColor: colours.white,
-		width: wp("8%"),
-		marginVertical: hp("0.5%"),
-	}
+    line: {
+        borderWidth: 0.5,
+        borderColor: colours.white,
+        width: wp("8%"),
+        marginVertical: hp("0.5%"),
+    },
 });
 
 export default ServiceCard;

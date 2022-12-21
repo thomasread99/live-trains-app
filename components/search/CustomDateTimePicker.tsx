@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
         height: hp("8%"),
         borderRadius: 5,
         paddingLeft: wp("2%"),
-		width: wp("38%"),
+        width: wp("38%"),
     },
 
     dateText: {

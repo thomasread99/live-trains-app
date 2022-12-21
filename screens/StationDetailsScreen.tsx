@@ -176,19 +176,19 @@ const StationDetailsScreen = ({
 
     return (
         <SafeAreaView>
-			<View style={styles.backButton}>
-				<FontAwesome
-					name="arrow-left"
-					size={wp("8%")}					
-					onPress={navigation.popToTop}
-					color={colours.white}
-				/>
-			</View>
+            <View style={styles.backButton}>
+                <FontAwesome
+                    name="arrow-left"
+                    size={wp("8%")}
+                    onPress={navigation.popToTop}
+                    color={colours.white}
+                />
+            </View>
             <View style={styles.header}>
                 <Text style={styles.stationName}>
                     {searchResult.location.name.toUpperCase()}
                 </Text>
-                <View style={styles.iconContainer}>                    
+                <View style={styles.iconContainer}>
                     {favouriteStations.includes(route.params.crsCode) ? (
                         <FontAwesome
                             name="star"
@@ -201,7 +201,7 @@ const StationDetailsScreen = ({
                             name="star-o"
                             size={wp("8%")}
                             onPress={addToFavourites}
-							color={colours.white}
+                            color={colours.white}
                         />
                     )}
                 </View>
@@ -220,7 +220,7 @@ const StationDetailsScreen = ({
                     keyExtractor={(item) => item.serviceUid}
                     refreshing={isRefreshing}
                     onRefresh={onRefresh}
-					contentContainerStyle={styles.flatlist}
+                    contentContainerStyle={styles.flatlist}
                 />
             )}
         </SafeAreaView>

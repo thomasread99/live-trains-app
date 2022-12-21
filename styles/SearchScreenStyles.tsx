@@ -54,12 +54,12 @@ export default StyleSheet.create({
         color: colours.blue,
     },
 
-	dateTimePickerContainer: {
-		flexDirection: "row",
-		marginHorizontal: wp("10%"),
-		marginTop: hp("2%"),
-		justifyContent: "space-between",
-	},
+    dateTimePickerContainer: {
+        flexDirection: "row",
+        marginHorizontal: wp("10%"),
+        marginTop: hp("2%"),
+        justifyContent: "space-between",
+    },
 
     buttonContainer: {
         zIndex: 9,

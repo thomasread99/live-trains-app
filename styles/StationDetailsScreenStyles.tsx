@@ -16,15 +16,15 @@ export default StyleSheet.create({
     backButton: {
         position: "absolute",
         bottom: hp("15%"),
-		zIndex: 1,
-		right: wp("5%"),
-		backgroundColor: colours.blue,
-		width: wp("15%"),
-		height: wp("15%"),
-		borderRadius: 100,
-		flex: 1,
-		justifyContent: "center",
-		alignItems: "center",
+        zIndex: 1,
+        right: wp("5%"),
+        backgroundColor: colours.blue,
+        width: wp("15%"),
+        height: wp("15%"),
+        borderRadius: 100,
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
     },
 
     header: {
@@ -41,7 +41,7 @@ export default StyleSheet.create({
         fontSize: wp("8%"),
         fontFamily: "Light",
         color: colours.white,
-		marginRight: wp("1%"),
+        marginRight: wp("1%"),
     },
 
     iconContainer: {
