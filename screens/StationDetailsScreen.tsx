@@ -5,6 +5,11 @@ import {
     View,
     ActivityIndicator,
     ListRenderItemInfo,
+    Text,
+    FlatList,
+    View,
+    ActivityIndicator,
+    ListRenderItemInfo,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { widthPercentageToDP as wp } from "react-native-responsive-screen";
@@ -26,9 +31,13 @@ import { StationSearchNavigatorParamList } from "../navigation/StationSearchNavi
 type StationDetailsScreenProps = NativeStackScreenProps<
     StationSearchNavigatorParamList,
     "StationDetailsScreen"
+    StationSearchNavigatorParamList,
+    "StationDetailsScreen"
 >;
 
 const StationDetailsScreen = ({
+    route,
+    navigation,
     route,
     navigation,
 }: StationDetailsScreenProps) => {
@@ -36,9 +45,20 @@ const StationDetailsScreen = ({
     const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
     const [departureSelected, setDepartureSelected] = useState<boolean>(true);
     const [isError, setIsError] = useState<boolean>(false);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
+    const [departureSelected, setDepartureSelected] = useState<boolean>(true);
+    const [isError, setIsError] = useState<boolean>(false);
 
     const dispatch = useAppDispatch();
+    const dispatch = useAppDispatch();
 
+    const searchResult: SearchResult = useAppSelector(
+        (state: any) => state.rtt.searchResult,
+    );
+    const favouriteStations: string[] = useAppSelector(
+        (state: any) => state.favourites.favouriteStations,
+    );
     const searchResult: SearchResult = useAppSelector(
         (state: any) => state.rtt.searchResult,
     );
@@ -68,7 +88,32 @@ const StationDetailsScreen = ({
             );
         setIsRefreshing(false);
     }, [setIsRefreshing, dispatch]);
+    const onRefresh = useCallback(async () => {
+        setIsRefreshing(true);
+        if (departureSelected)
+            await dispatch(
+                rttActions.getStationDepartures(
+                    route.params.crsCode,
+                    route.params.date,
+                    route.params.time,
+                    route.params.toCrsCode,
+                ),
+            );
+        else
+            await dispatch(
+                rttActions.getStationArrivals(
+                    route.params.crsCode,
+                    route.params.date,
+                    route.params.time,
+                    route.params.toCrsCode,
+                ),
+            );
+        setIsRefreshing(false);
+    }, [setIsRefreshing, dispatch]);
 
+    const addToFavourites = useCallback(async () => {
+        await dispatch(favouritesActions.addStation(route.params.crsCode));
+    }, [dispatch]);
     const addToFavourites = useCallback(async () => {
         await dispatch(favouritesActions.addStation(route.params.crsCode));
     }, [dispatch]);
@@ -76,7 +121,21 @@ const StationDetailsScreen = ({
     const removeFromFavourites = useCallback(async () => {
         await dispatch(favouritesActions.removeStation(route.params.crsCode));
     }, [dispatch]);
+    const removeFromFavourites = useCallback(async () => {
+        await dispatch(favouritesActions.removeStation(route.params.crsCode));
+    }, [dispatch]);
 
+    const onDepartureSelected = useCallback(async () => {
+        setIsRefreshing(true);
+        await dispatch(
+            rttActions.getStationDepartures(
+                route.params.crsCode,
+                route.params.date,
+                route.params.time,
+                route.params.toCrsCode,
+            ),
+        );
+        setIsRefreshing(false);
     const onDepartureSelected = useCallback(async () => {
         setIsRefreshing(true);
         await dispatch(
@@ -106,6 +165,8 @@ const StationDetailsScreen = ({
 
         setDepartureSelected(false);
     }, [setDepartureSelected, dispatch, setIsRefreshing]);
+        setDepartureSelected(false);
+    }, [setDepartureSelected, dispatch, setIsRefreshing]);
 
     const loadStationDetails = useCallback(async () => {
         await dispatch(
@@ -117,7 +178,20 @@ const StationDetailsScreen = ({
             ),
         );
     }, [dispatch]);
+    const loadStationDetails = useCallback(async () => {
+        await dispatch(
+            rttActions.getStationDepartures(
+                route.params.crsCode,
+                route.params.date,
+                route.params.time,
+                route.params.toCrsCode,
+            ),
+        );
+    }, [dispatch]);
 
+    const loadFavouriteStations = useCallback(async () => {
+        await dispatch(favouritesActions.getFavouriteStations());
+    }, [dispatch]);
     const loadFavouriteStations = useCallback(async () => {
         await dispatch(favouritesActions.getFavouriteStations());
     }, [dispatch]);
@@ -134,7 +208,49 @@ const StationDetailsScreen = ({
                 setIsLoading(false);
             });
     }, []);
+    useEffect(() => {
+        setIsLoading(true);
+        loadFavouriteStations();
+        loadStationDetails()
+            .then(() => {
+                setIsLoading(false);
+            })
+            .catch(() => {
+                setIsError(true);
+                setIsLoading(false);
+            });
+    }, []);
 
+    const serviceListItem = ({
+        item,
+    }: ListRenderItemInfo<LocationContainer>) => (
+        <ServiceCard
+            name={
+                departureSelected
+                    ? item.locationDetail.destination[0].description
+                    : item.locationDetail.origin[0].description
+            }
+            bookedTime={
+                departureSelected
+                    ? item.locationDetail.gbttBookedDeparture
+                    : item.locationDetail.gbttBookedArrival
+            }
+            platformNumber={item.locationDetail.platform}
+            realtime={
+                departureSelected
+                    ? item.locationDetail.realtimeDeparture
+                    : item.locationDetail.realtimeArrival
+            }
+            departureSelected={departureSelected}
+            onPress={() =>
+                navigation.navigate("ServiceDetailsScreen", {
+                    serviceUid: item.serviceUid,
+                    crsCode: route.params.crsCode,
+                    date: route.params.date,
+                })
+            }
+        />
+    );
     const serviceListItem = ({
         item,
     }: ListRenderItemInfo<LocationContainer>) => (

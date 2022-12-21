@@ -4,6 +4,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import {
     AutocompleteDropdown,
     TAutocompleteDropdownItem,
+    AutocompleteDropdown,
+    TAutocompleteDropdownItem,
 } from "react-native-autocomplete-dropdown";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
@@ -21,9 +23,21 @@ import crsCodes from "../data/crs-codes.json";
 type SearchScreenProps = NativeStackScreenProps<
     StationSearchNavigatorParamList,
     "SearchScreen"
+    StationSearchNavigatorParamList,
+    "SearchScreen"
 >;
 
 const StartScreen = ({ navigation }: SearchScreenProps) => {
+    const [selectedStation, setSelectedStation] =
+        useState<TAutocompleteDropdownItem>(null);
+    const [selectedToStation, setSelectedToStation] =
+        useState<TAutocompleteDropdownItem>(null);
+    const [selectedMomentDate, setSelectedMomentDate] = useState<Moment | null>(
+        null,
+    );
+    const [selectedMomentTime, setSelectedMomentTime] = useState<Moment | null>(
+        null,
+    );
     const [selectedStation, setSelectedStation] =
         useState<TAutocompleteDropdownItem>(null);
     const [selectedToStation, setSelectedToStation] =
@@ -38,6 +52,9 @@ const StartScreen = ({ navigation }: SearchScreenProps) => {
     const onDateSelected = (selectedDate: Date) => {
         setSelectedMomentDate(moment(selectedDate));
     };
+    const onDateSelected = (selectedDate: Date) => {
+        setSelectedMomentDate(moment(selectedDate));
+    };
 
     const onTimeSelected = (selectedTime: Date) => {
         setSelectedMomentTime(moment(selectedTime));
@@ -45,7 +62,16 @@ const StartScreen = ({ navigation }: SearchScreenProps) => {
 
     const searchStation = async () => {
         if (selectedStation === null) return;
+    const searchStation = async () => {
+        if (selectedStation === null) return;
 
+        navigation.navigate("StationDetailsScreen", {
+            crsCode: selectedStation.id,
+            toCrsCode: selectedToStation?.id,
+            date: selectedMomentDate,
+            time: selectedMomentTime,
+        });
+    };
         navigation.navigate("StationDetailsScreen", {
             crsCode: selectedStation.id,
             toCrsCode: selectedToStation?.id,

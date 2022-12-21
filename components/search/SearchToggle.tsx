@@ -3,11 +3,16 @@ import { Text, View, StyleSheet, TouchableWithoutFeedback } from "react-native";
 import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp,
+    widthPercentageToDP as wp,
+    heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 
 import colours from "../../config/colours";
 
 type Props = {
+    departuresSelected: boolean;
+    onDepartureSelected: () => {};
+    onArrivalSelected: () => {};
     departuresSelected: boolean;
     onDepartureSelected: () => {};
     onArrivalSelected: () => {};
@@ -43,6 +48,11 @@ const SearchToggle = (props: Props) => {
 };
 
 const styles = StyleSheet.create({
+    toggleContainer: {
+        flexDirection: "row",
+        justifyContent: "center",
+        marginBottom: hp("2%"),
+    },
     toggleContainer: {
         flexDirection: "row",
         justifyContent: "center",

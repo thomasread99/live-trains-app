@@ -2,6 +2,8 @@ import { StyleSheet } from "react-native";
 import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp,
+    widthPercentageToDP as wp,
+    heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 
 import colours from "../config/colours";
@@ -19,6 +21,9 @@ export default StyleSheet.create({
         alignItems: "center",
     },
 
+    autocompleteWrapper: {
+        zIndex: 10,
+    },
     autocompleteWrapper: {
         zIndex: 10,
     },
@@ -70,6 +75,10 @@ export default StyleSheet.create({
         borderRadius: 5,
     },
 
+    buttonTextContainer: {
+        flex: 1,
+        justifyContent: "center",
+    },
     buttonTextContainer: {
         flex: 1,
         justifyContent: "center",

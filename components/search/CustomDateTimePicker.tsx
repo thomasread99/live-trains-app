@@ -4,8 +4,11 @@ import moment from "moment";
 import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp,
+    widthPercentageToDP as wp,
+    heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import DateTimePicker, {
+    DateTimePickerEvent,
     DateTimePickerEvent,
 } from "@react-native-community/datetimepicker";
 
@@ -14,16 +17,29 @@ import colours from "../../config/colours";
 type Props = {
     onDateSelected: (selectedDate: Date) => void;
     mode: "date" | "time";
+    onDateSelected: (selectedDate: Date) => void;
+    mode: "date" | "time";
 };
 
 const CustomDateTimePicker = (props: Props) => {
     const [selectedDate, setSelectedDate] = useState<Date>(new Date());
     const [dateSelected, setDateSelected] = useState<boolean>(false);
     const [showDatePicker, setShowDatePicker] = useState(false);
+    const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+    const [dateSelected, setDateSelected] = useState<boolean>(false);
+    const [showDatePicker, setShowDatePicker] = useState(false);
 
     const onChangeDate = (event: DateTimePickerEvent, selectedDate: Date) => {
         setShowDatePicker(false);
+    const onChangeDate = (event: DateTimePickerEvent, selectedDate: Date) => {
+        setShowDatePicker(false);
 
+        if (event.type === "set") {
+            setDateSelected(true);
+            setSelectedDate(selectedDate);
+            props.onDateSelected(selectedDate);
+        }
+    };
         if (event.type === "set") {
             setDateSelected(true);
             setSelectedDate(selectedDate);
@@ -56,6 +72,15 @@ const CustomDateTimePicker = (props: Props) => {
                 </View>
             </TouchableWithoutFeedback>
 
+            {showDatePicker && (
+                <DateTimePicker
+                    value={selectedDate}
+                    mode={props.mode}
+                    onChange={onChangeDate}
+                />
+            )}
+        </>
+    );
             {showDatePicker && (
                 <DateTimePicker
                     value={selectedDate}

@@ -7,129 +7,111 @@ export const GET_STATION_ARRIVALS = "GET_STATION_ARRIVALS";
 export const GET_SERVICE_INFORMATION = "GET_SERVICE_INFORMATION";
 
 export const getStationDepartures = (
-	crsCode: string,
-	date?: Moment,
-	time?: Moment,
-	toCrsCode?: string
+    crsCode: string,
+    date?: Moment,
+    time?: Moment,
+    toCrsCode?: string,
 ) => {
-	return async (dispatch: AppDispatch) => {
-		// TODO: Extract information into ENV and don't commit (possibly use cloud function)
-		var headers = new Headers();
-		headers.append(
-			"Authorization",
-			"Basic " +
-				base64.encode(
-					""
-				)
-		);
+    return async (dispatch: AppDispatch) => {
+        // TODO: Extract information into ENV and don't commit (possibly use cloud function)
+        var headers = new Headers();
+        headers.append("Authorization", "Basic " + base64.encode(""));
 
-		let uri = `https://api.rtt.io/api/v1/json/search/${crsCode}`;
+        let uri = `https://api.rtt.io/api/v1/json/search/${crsCode}`;
 
-		if (toCrsCode) uri = uri.concat(`/to/${toCrsCode}`);
-		if (date)
-			uri = uri.concat(
-				`/${date.year()}/${
-					date.month() + 1 < 10
-						? "0" + (date.month() + 1)
-						: date.month() + 1
-				}/${date.date() < 10 ? "0" + date.date() : date.date()}`
-			);
-		if (time)
-			uri = uri.concat(
-				`/${time.hour() < 10 ? "0" + time.hour() : time.hour()}${
-					time.minute() < 10 ? "0" + time.minute() : time.minute()
-				}`
-			);		
+        if (toCrsCode) uri = uri.concat(`/to/${toCrsCode}`);
+        if (date)
+            uri = uri.concat(
+                `/${date.year()}/${
+                    date.month() + 1 < 10
+                        ? "0" + (date.month() + 1)
+                        : date.month() + 1
+                }/${date.date() < 10 ? "0" + date.date() : date.date()}`,
+            );
+        if (time)
+            uri = uri.concat(
+                `/${time.hour() < 10 ? "0" + time.hour() : time.hour()}${
+                    time.minute() < 10 ? "0" + time.minute() : time.minute()
+                }`,
+            );
 
-		var response = await fetch(uri, {
-			method: "GET",
-			headers: headers,
-		});
-		var result = await response.text();
+        var response = await fetch(uri, {
+            method: "GET",
+            headers: headers,
+        });
+        var result = await response.text();
 
-		dispatch({
-			type: GET_STATION,
-			searchResult: JSON.parse(result),
-		});
-	};
+        dispatch({
+            type: GET_STATION,
+            searchResult: JSON.parse(result),
+        });
+    };
 };
 
 export const getStationArrivals = (
-	crsCode: string,
-	date?: Moment,
-	time?: Moment,
-	toCrsCode?: string
+    crsCode: string,
+    date?: Moment,
+    time?: Moment,
+    toCrsCode?: string,
 ) => {
-	return async (dispatch: AppDispatch) => {
-		// TODO: Extract information into ENV and don't commit (possibly use cloud function)
-		var headers = new Headers();
-		headers.append(
-			"Authorization",
-			"Basic " +
-				base64.encode(
-					""
-				)
-		);
+    return async (dispatch: AppDispatch) => {
+        // TODO: Extract information into ENV and don't commit (possibly use cloud function)
+        var headers = new Headers();
+        headers.append("Authorization", "Basic " + base64.encode(""));
 
-		let uri = `https://api.rtt.io/api/v1/json/search/${crsCode}`;
+        let uri = `https://api.rtt.io/api/v1/json/search/${crsCode}`;
 
-		if (toCrsCode) uri = uri.concat(`/to/${toCrsCode}`);
-		if (date)
-			uri = uri.concat(
-				`/${date.year()}/${
-					date.month() + 1 < 10
-						? "0" + (date.month() + 1)
-						: date.month() + 1
-				}/${date.date() < 10 ? "0" + date.date() : date.date()}`
-			);
-		if (time)
-			uri = uri.concat(
-				`/${time.hour() < 10 ? "0" + time.hour() : time.hour()}${
-					time.minute() < 10 ? "0" + time.minute() : time.minute()
-				}`
-			);
+        if (toCrsCode) uri = uri.concat(`/to/${toCrsCode}`);
+        if (date)
+            uri = uri.concat(
+                `/${date.year()}/${
+                    date.month() + 1 < 10
+                        ? "0" + (date.month() + 1)
+                        : date.month() + 1
+                }/${date.date() < 10 ? "0" + date.date() : date.date()}`,
+            );
+        if (time)
+            uri = uri.concat(
+                `/${time.hour() < 10 ? "0" + time.hour() : time.hour()}${
+                    time.minute() < 10 ? "0" + time.minute() : time.minute()
+                }`,
+            );
 
-		uri = uri.concat("/arrivals");		
+        uri = uri.concat("/arrivals");
 
-		var response = await fetch(uri, {
-			method: "GET",
-			headers: headers,
-		});
-		var result = await response.text();
-		dispatch({
-			type: GET_STATION_ARRIVALS,
-			searchResult: JSON.parse(result),
-		});
-	};
+        var response = await fetch(uri, {
+            method: "GET",
+            headers: headers,
+        });
+        var result = await response.text();
+        dispatch({
+            type: GET_STATION_ARRIVALS,
+            searchResult: JSON.parse(result),
+        });
+    };
 };
 
 export const getServiceInformation = (serviceUid: string, date: Moment) => {
-	return async (dispatch: AppDispatch) => {
-		// TODO: Extract information into ENV and don't commit (possibly use cloud function)
-		var headers = new Headers();
-		headers.append(
-			"Authorization",
-			"Basic " +
-				base64.encode(
-					""
-				)
-		);
+    return async (dispatch: AppDispatch) => {
+        // TODO: Extract information into ENV and don't commit (possibly use cloud function)
+        var headers = new Headers();
+        headers.append("Authorization", "Basic " + base64.encode(""));
 
-		var response = await fetch(
-			`https://api.rtt.io/api/v1/json/service/${serviceUid}/${date.year()}/${
-				date.month() + 1 < 10
-					? "0" + (date.month() + 1)
-					: date.month() + 1
-			}/${date.date() < 10 ? "0" + date.date() : date.date()}`,
-			{
-				method: "GET",
-				headers: headers,
-			}
-		);
-		var result = await response.text();
-		dispatch({
-			type: GET_SERVICE_INFORMATION,
-			serviceInformation: JSON.parse(result),
-		});
-	};
+        var response = await fetch(
+            `https://api.rtt.io/api/v1/json/service/${serviceUid}/${date.year()}/${
+                date.month() + 1 < 10
+                    ? "0" + (date.month() + 1)
+                    : date.month() + 1
+            }/${date.date() < 10 ? "0" + date.date() : date.date()}`,
+            {
+                method: "GET",
+                headers: headers,
+            },
+        );
+        var result = await response.text();
+        dispatch({
+            type: GET_SERVICE_INFORMATION,
+            serviceInformation: JSON.parse(result),
+        });
+    };
 };
