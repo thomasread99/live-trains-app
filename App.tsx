@@ -6,12 +6,12 @@ import store from "./store/store";
 import { StatusBar } from "react-native";
 
 export default function App() {
-	return (
-		<Provider store={store}>
-			<StatusBar backgroundColor="black"/>
-			<SafeAreaProvider>
-				<MainNavigator />
-			</SafeAreaProvider>
-		</Provider>
-	);
+    return (
+        <Provider store={store}>
+            <StatusBar backgroundColor="black" />
+            <SafeAreaProvider>
+                <MainNavigator />
+            </SafeAreaProvider>
+        </Provider>
+    );
 }
