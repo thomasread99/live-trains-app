@@ -3,8 +3,8 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import {
-	widthPercentageToDP as wp,
-	heightPercentageToDP as hp,
+    widthPercentageToDP as wp,
+    heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 
 import TrainSearchNavigator from "./StationSearchNavigation";
@@ -13,48 +13,48 @@ import FavouriteNavigator from "./FavouriteNavigator";
 const Tab = createBottomTabNavigator();
 
 const MainNavigator = () => {
-	return (
-		<NavigationContainer>
-			<Tab.Navigator
-				screenOptions={{
-					headerShown: false,
-					tabBarStyle: {
-						height: hp("8%"),
-					},
-					tabBarLabelStyle: {
-						fontSize: wp("4%"),
-					},
-				}}
-			>
-				<Tab.Screen
-					name="Search"
-					component={TrainSearchNavigator}
-					options={{
-						tabBarIcon: ({ color }) => (
-							<Ionicons
-								name="search"
-								size={wp("8%")}
-								color={color}
-							/>
-						),
-					}}
-				/>
-				<Tab.Screen
-					name="Favourites"
-					component={FavouriteNavigator}
-					options={{
-						tabBarIcon: ({ color }) => (
-							<Ionicons
-								name="star"
-								size={wp("8%")}
-								color={color}
-							/>
-						),
-					}}
-				/>
-			</Tab.Navigator>
-		</NavigationContainer>
-	);
+    return (
+        <NavigationContainer>
+            <Tab.Navigator
+                screenOptions={{
+                    headerShown: false,
+                    tabBarStyle: {
+                        height: hp("8%"),
+                    },
+                    tabBarLabelStyle: {
+                        fontSize: wp("4%"),
+                    },
+                }}
+            >
+                <Tab.Screen
+                    name="Search"
+                    component={TrainSearchNavigator}
+                    options={{
+                        tabBarIcon: ({ color }) => (
+                            <Ionicons
+                                name="search"
+                                size={wp("8%")}
+                                color={color}
+                            />
+                        ),
+                    }}
+                />
+                <Tab.Screen
+                    name="Favourites"
+                    component={FavouriteNavigator}
+                    options={{
+                        tabBarIcon: ({ color }) => (
+                            <Ionicons
+                                name="star"
+                                size={wp("8%")}
+                                color={color}
+                            />
+                        ),
+                    }}
+                />
+            </Tab.Navigator>
+        </NavigationContainer>
+    );
 };
 
 export default MainNavigator;
