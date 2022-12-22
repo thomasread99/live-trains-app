@@ -4,6 +4,8 @@ import {
     heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 
+import colours from "../config/colours";
+
 export default StyleSheet.create({
     centered: {
         flex: 1,
@@ -18,36 +20,31 @@ export default StyleSheet.create({
     },
 
     header: {
-        margin: wp("3%"),
         flexDirection: "row",
-        justifyContent: "space-between",
-        alignItems: "center",
+        justifyContent: "space-evenly",
+        marginTop: hp("1%"),
         marginBottom: hp("2%"),
-    },
-
-    headerText: {
-        fontSize: wp("4%"),
-    },
-
-    iconContainer: {
-        flexDirection: "row",
     },
 
     trainOverview: {
         textAlign: "center",
         fontSize: wp("4%"),
-        marginBottom: hp("2%"),
+        fontFamily: "Light",
+        color: colours.white,
     },
 
     arrivingHeader: {
         textAlign: "center",
         fontSize: wp("4%"),
+        fontFamily: "Light",
+        color: colours.white,
     },
 
     realtimeArrival: {
         textAlign: "center",
         fontSize: wp("10%"),
-        color: "blue",
+        fontFamily: "Light",
+        color: colours.white,
     },
 
     flatlist: {

@@ -20,6 +20,7 @@ import * as rttActions from "../store/actions/rtt";
 import * as favouritesActions from "../store/actions/favourites";
 
 import styles from "../styles/ServiceDetailsScreenStyles";
+import colours from "../config/colours";
 
 import { useAppSelector, useAppDispatch } from "../store/hooks";
 import { StationSearchNavigatorParamList } from "../navigation/StationSearchNavigation";
@@ -145,11 +146,12 @@ const ServiceDetailsScreen = ({
     if (isLoading) {
         return (
             <SafeAreaView style={styles.centered}>
-                <ActivityIndicator size="large" color={"lightblue"} />
+                <ActivityIndicator size="large" color={colours.blue} />
             </SafeAreaView>
         );
     }
 
+    // TODO: Sort out the styling
     if (isError) {
         return (
             <SafeAreaView>
@@ -172,54 +174,9 @@ const ServiceDetailsScreen = ({
     }
 
     return (
-        <SafeAreaView>
-            <View style={styles.header}>
-                <Text style={styles.headerText}>
-                    {serviceInformation.origin[0].publicTime}{" "}
-                    {serviceInformation.origin[0].description} to{" "}
-                    {serviceInformation.destination[0].description}
-                </Text>
-                <View style={styles.iconContainer}>
-                    <Ionicons
-                        name="return-down-back"
-                        size={wp("8%")}
-                        style={{ marginRight: wp("3%") }}
-                        onPress={() => navigation.pop()}
-                    />
-                    {favouriteJourneys.some(
-                        (j) => j.serviceUid === route.params.serviceUid,
-                    ) ? (
-                        <Ionicons
-                            name="star"
-                            size={wp("8%")}
-                            onPress={() =>
-                                removeFromFavourites(
-                                    serviceInformation.origin[0].publicTime,
-                                    serviceInformation.origin[0].description,
-                                    serviceInformation.destination[0]
-                                        .description,
-                                )
-                            }
-                            color="gold"
-                        />
-                    ) : (
-                        <Ionicons
-                            name="star-outline"
-                            size={wp("8%")}
-                            onPress={() =>
-                                addToFavourites(
-                                    serviceInformation.origin[0].publicTime,
-                                    serviceInformation.origin[0].description,
-                                    serviceInformation.destination[0]
-                                        .description,
-                                )
-                            }
-                        />
-                    )}
-                </View>
-            </View>
+        <SafeAreaView>            
             <View
-                style={{ flexDirection: "row", justifyContent: "space-evenly" }}
+                style={styles.header}
             >
                 <View>
                     <Text style={styles.arrivingHeader}>
@@ -227,24 +184,24 @@ const ServiceDetailsScreen = ({
                             ? selectedStation.description ===
                               serviceInformation.origin[0].description
                                 ? ""
-                                : "Arriving"
+                                : "ARRIVING"
                             : ""}
                     </Text>
                     <Text style={styles.realtimeArrival}>
                         {selectedStation
                             ? selectedStation.description ===
                               serviceInformation.origin[0].description
-                                ? "Starts"
+                                ? "STARTS"
                                 : selectedStation.realtimeArrival
                             : ""}
                     </Text>
                     <Text style={styles.trainOverview}>
-                        at {selectedStation ? selectedStation.description : ""}
+                        AT {selectedStation ? selectedStation.description.toUpperCase() : ""}
                     </Text>
                 </View>
 
                 <View>
-                    <Text style={styles.arrivingHeader}>Platform</Text>
+                    <Text style={styles.arrivingHeader}>PLATFORM</Text>
                     <Text style={styles.realtimeArrival}>
                         {selectedStation && selectedStation.platform
                             ? selectedStation.platform

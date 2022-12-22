@@ -6,6 +6,8 @@ import {
 } from "react-native-responsive-screen";
 import moment from "moment";
 
+import colours from "../../config/colours";
+
 type Props = {
     station: string;
     departed: boolean;
@@ -16,6 +18,7 @@ type Props = {
     realtimeDeparture?: string;
 };
 
+// ! BUG: If the time difference is double figures it will add a space
 const ServiceRow = (props: Props) => {
     // ! BUG: Something causes the substring values to be wrong
     const getTimeDifference = (firstTime: string, secondTime: string) => {
@@ -36,9 +39,6 @@ const ServiceRow = (props: Props) => {
         return duration.asMinutes();
     };
 
-    const arrivalTimeDifference = props.realtimeArrival
-        ? getTimeDifference(props.realtimeArrival, props.bookedArrival)
-        : 0;
     const departureTimeDifference = props.realtimeDeparture
         ? getTimeDifference(props.realtimeDeparture, props.bookedDeparture)
         : 0;
@@ -46,68 +46,43 @@ const ServiceRow = (props: Props) => {
     return (
         <View style={styles.row}>
             <View style={styles.description}>
-                <View
-                    style={[
-                        styles.circle,
-                        {
-                            backgroundColor: props.departed
-                                ? "green"
-                                : props.arrived
-                                ? "blue"
-                                : "red",
-                        },
-                    ]}
-                ></View>
-                <Text>{props.station}</Text>
+                <Text style={styles.stationName} numberOfLines={1}>
+                    {props.station.toUpperCase()}
+                </Text>
             </View>
 
-            <View style={{ flex: 1 }}>
-                <Text style={{ textAlign: "center" }}>
+            <View style={styles.timeContainer}>
+                <Text style={styles.timeText}>
                     {props.bookedArrival ?? "---"}
                 </Text>
-                <Text style={{ textAlign: "center", color: "blue" }}>
+                <View style={styles.line}></View>
+                <Text style={styles.realtimeText}>
                     {props.realtimeArrival ?? "---"}
                 </Text>
             </View>
-            <View style={{ flex: 1 }}>
-                <Text
-                    style={{
-                        color:
-                            props.realtimeArrival && arrivalTimeDifference > 0
-                                ? "red"
-                                : "black",
-                    }}
-                >
-                    {props.realtimeArrival && arrivalTimeDifference >= 0
-                        ? " + "
-                        : ""}
-                    {props.realtimeArrival
-                        ? arrivalTimeDifference < 0
-                            ? arrivalTimeDifference
-                                  .toString()
-                                  .split("")
-                                  .join(" ")
-                            : arrivalTimeDifference
-                        : ""}
-                </Text>
-            </View>
-            <View style={{ flex: 1 }}>
-                <Text style={{ textAlign: "center" }}>
+            <View style={styles.timeContainer}>
+                <Text style={styles.timeText}>
                     {props.bookedDeparture ?? "---"}
                 </Text>
-                <Text style={{ textAlign: "center", color: "blue" }}>
+                <View style={styles.line}></View>
+                <Text style={styles.realtimeText}>
                     {props.realtimeDeparture ?? "---"}
                 </Text>
             </View>
             <View style={{ flex: 1 }}>
                 <Text
-                    style={{
-                        color:
-                            props.realtimeDeparture &&
-                            departureTimeDifference > 0
-                                ? "red"
-                                : "black",
-                    }}
+                    style={[
+                        styles.timeDifferenceText,
+                        {
+                            color:
+                                props.realtimeArrival &&
+                                departureTimeDifference > 0
+                                    ? colours.red
+                                    : departureTimeDifference < 0
+                                    ? colours.green
+                                    : colours.white,
+                        },
+                    ]}
                 >
                     {props.realtimeDeparture && departureTimeDifference >= 0
                         ? " + "
@@ -128,11 +103,17 @@ const ServiceRow = (props: Props) => {
 
 const styles = StyleSheet.create({
     row: {
-        borderTopWidth: 1,
-        paddingVertical: hp("2%"),
+        paddingVertical: hp("3%"),
         paddingLeft: wp("5%"),
         flexDirection: "row",
         alignItems: "center",
+        backgroundColor: colours.card,
+        marginBottom: hp("2%"),
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 0.8,
+        shadowRadius: 2,
+        elevation: 5,
     },
 
     description: {
@@ -141,11 +122,37 @@ const styles = StyleSheet.create({
         marginRight: wp("1%"),
     },
 
-    circle: {
-        width: wp("5%"),
-        height: wp("5%"),
-        borderRadius: 100,
-        marginRight: wp("2%"),
+    stationName: {
+        color: colours.white,
+        fontFamily: "Light",
+        fontSize: wp("6%"),
+    },
+
+    timeContainer: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+    },
+
+    timeText: {
+        color: colours.white,
+        fontFamily: "Light",
+    },
+
+    line: {
+        borderWidth: 0.5,
+        borderColor: colours.white,
+        width: wp("8%"),
+        marginVertical: hp("0.5%"),
+    },
+
+    realtimeText: {
+        color: colours.blue,
+        fontFamily: "Light",
+    },
+
+    timeDifferenceText: {
+        fontFamily: "Light",
     },
 });
 
