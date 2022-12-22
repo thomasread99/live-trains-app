@@ -33,7 +33,8 @@
     "typescript": "^4.6.3",
     "react-native-pager-view": "5.4.24",
     "expo-font": "~10.2.0",
-    "expo-splash-screen": "~0.16.2"
+    "expo-splash-screen": "~0.16.2",
+    "expo-linear-gradient": "~11.4.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"

@@ -5,6 +5,7 @@ import {
     heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import moment from "moment";
+import { LinearGradient } from "expo-linear-gradient";
 
 import colours from "../../config/colours";
 
@@ -44,7 +45,18 @@ const ServiceRow = (props: Props) => {
         : 0;
 
     return (
-        <View style={styles.row}>
+        <LinearGradient
+            colors={[
+                props.departed
+                    ? colours.green
+                    : props.arrived
+                    ? colours.blue
+                    : colours.red,
+                "transparent",
+            ]}
+            style={styles.row}
+            end={[0.2, 0]}
+        >
             <View style={styles.description}>
                 <Text style={styles.stationName} numberOfLines={1}>
                     {props.station.toUpperCase()}
@@ -97,7 +109,7 @@ const ServiceRow = (props: Props) => {
                         : ""}
                 </Text>
             </View>
-        </View>
+        </LinearGradient>
     );
 };
 
