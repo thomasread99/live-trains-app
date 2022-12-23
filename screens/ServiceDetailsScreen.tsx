@@ -68,7 +68,7 @@ const ServiceDetailsScreen = ({
             await dispatch(
                 favouritesActions.addJourney({
                     serviceUid: route.params.serviceUid,
-                    description: `${time} ${origin} to ${destination}`,
+                    description: `${selectedStation?.gbttBookedDeparture} ${selectedStation?.description} to ${destination}`,
                     date: route.params.date
                         ? route.params.date.toISOString()
                         : moment().toISOString(),

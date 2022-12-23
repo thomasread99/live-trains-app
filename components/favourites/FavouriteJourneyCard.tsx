@@ -9,6 +9,8 @@ import moment from "moment";
 
 import { FavouriteJourney } from "../../models/FavouriteJourney";
 
+import colours from "../../config/colours";
+
 type Props = {
     journey: FavouriteJourney;
     onPress: (journey: FavouriteJourney) => void;
@@ -19,14 +21,14 @@ const FavouriteJourneyCard = (props: Props) => {
         <TouchableWithoutFeedback onPress={() => props.onPress(props.journey)}>
             <View style={styles.cardContainer}>
                 <View>
-                    <Text style={styles.stationText}>
-                        {props.journey.description}
+                    <Text style={styles.stationText} numberOfLines={1}>
+                        {props.journey.description.toUpperCase()}
                     </Text>
-                    <Text>
+                    <Text style={styles.dateText}>
                         {moment(props.journey.date).format("DD/MM/YYYY")}
                     </Text>
                 </View>
-                <Ionicons name="arrow-forward" size={wp("8%")} />
+                <Ionicons name="arrow-forward" size={wp("8%")} color={colours.white}/>
             </View>
         </TouchableWithoutFeedback>
     );
@@ -40,7 +42,7 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.8,
         shadowRadius: 2,
         elevation: 5,
-        backgroundColor: "white",
+        backgroundColor: colours.card,
         marginVertical: hp("1%"),
         marginHorizontal: wp("3%"),
         borderRadius: 10,
@@ -51,6 +53,15 @@ const styles = StyleSheet.create({
 
     stationText: {
         fontSize: wp("5%"),
+        color: colours.white,
+        fontFamily: "Light",
+        width: wp("75%"),
+    },
+
+    dateText: {
+        color: colours.white,
+        fontFamily: "Light",
+        width: wp("75%"),
     },
 });
 
