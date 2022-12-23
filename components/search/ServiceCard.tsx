@@ -1,24 +1,32 @@
 import React from "react";
 import { Text, View, StyleSheet, TouchableWithoutFeedback } from "react-native";
-import { widthPercentageToDP as wp } from "react-native-responsive-screen";
-import Ionicons from "@expo/vector-icons/Ionicons";
+import {
+    heightPercentageToDP as hp,
+    widthPercentageToDP as wp,
+} from "react-native-responsive-screen";
+
+import colours from "../../config/colours";
 
 type Props = {
     name: string;
     bookedTime: string;
     platformNumber?: string;
-    realtime: string;
+    realtime?: string;
     departureSelected: boolean;
     onPress: () => void;
 };
 
 const ServiceCard = (props: Props) => {
+    const timeDiff = props.realtime
+        ? parseInt(props.realtime) - parseInt(props.bookedTime)
+        : 0;
+
     return (
         <TouchableWithoutFeedback onPress={props.onPress}>
             <View style={styles.cardContainer}>
                 <View style={{ flex: 1, justifyContent: "center" }}>
-                    <Text style={{ textAlign: "center" }}>Platform</Text>
-                    <Text style={{ textAlign: "center", fontSize: wp("5%") }}>
+                    <Text style={styles.platformHeader}>PLATFORM</Text>
+                    <Text style={styles.platformText}>
                         {props.platformNumber ?? "TBA"}
                     </Text>
                 </View>
@@ -29,22 +37,50 @@ const ServiceCard = (props: Props) => {
                         justifyContent: "center",
                     }}
                 >
-                    <Text>
-                        {props.bookedTime}{" "}
-                        {props.departureSelected ? "to" : "from"} {props.name}
+                    <Text style={styles.stationHeader}>
+                        {props.departureSelected ? "TO" : "FROM"}
                     </Text>
-                    <Text>
-                        {!props.realtime || props.realtime === props.bookedTime
-                            ? "On Time"
-                            : `Expected ${props.realtime}`}
+                    <Text style={styles.stationText} numberOfLines={1}>
+                        {props.name.toUpperCase()}
                     </Text>
                 </View>
-                <View style={{ flex: 1, justifyContent: "center" }}>
-                    <Ionicons
-                        name="arrow-forward"
-                        size={wp("8%")}
-                        style={{ textAlign: "right" }}
-                    />
+                <View
+                    style={{
+                        flex: 1,
+                        justifyContent: "center",
+                        alignItems: "center",
+                    }}
+                >
+                    <Text style={styles.timeText}>{props.bookedTime}</Text>
+                    <View style={styles.line}></View>
+                    {props.realtime ? (
+                        <Text
+                            style={[
+                                styles.timeText,
+                                {
+                                    color:
+                                        timeDiff === 0
+                                            ? colours.white
+                                            : timeDiff < 0
+                                            ? colours.green
+                                            : colours.red,
+                                },
+                            ]}
+                        >
+                            {props.realtime}
+                        </Text>
+                    ) : (
+                        <Text
+                            style={[
+                                styles.timeText,
+                                {
+                                    color: colours.red,
+                                },
+                            ]}
+                        >
+                            N/A
+                        </Text>
+                    )}
                 </View>
             </View>
         </TouchableWithoutFeedback>
@@ -53,11 +89,60 @@ const ServiceCard = (props: Props) => {
 
 const styles = StyleSheet.create({
     cardContainer: {
-        borderTopWidth: 1,
-        borderColor: "black",
         padding: wp("3%"),
         flexDirection: "row",
         justifyContent: "space-between",
+        backgroundColor: colours.card,
+        marginBottom: hp("2%"),
+        marginHorizontal: wp("5%"),
+        borderRadius: 10,
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 0.8,
+        shadowRadius: 2,
+        elevation: 5,
+    },
+
+    platformHeader: {
+        textAlign: "center",
+        fontFamily: "Light",
+        color: colours.white,
+        fontSize: wp("3%"),
+    },
+
+    platformText: {
+        textAlign: "center",
+        fontFamily: "Light",
+        color: colours.white,
+        fontSize: wp("7%"),
+    },
+
+    stationHeader: {
+        textAlign: "center",
+        fontFamily: "Light",
+        color: colours.white,
+        fontSize: wp("3%"),
+    },
+
+    stationText: {
+        textAlign: "center",
+        fontFamily: "Light",
+        color: colours.white,
+        fontSize: wp("6%"),
+    },
+
+    timeText: {
+        textAlign: "center",
+        fontFamily: "Light",
+        fontSize: wp("3%"),
+        color: colours.white,
+    },
+
+    line: {
+        borderWidth: 0.5,
+        borderColor: colours.white,
+        width: wp("8%"),
+        marginVertical: hp("0.5%"),
     },
 });
 

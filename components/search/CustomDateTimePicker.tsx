@@ -9,6 +9,8 @@ import DateTimePicker, {
     DateTimePickerEvent,
 } from "@react-native-community/datetimepicker";
 
+import colours from "../../config/colours";
+
 type Props = {
     onDateSelected: (selectedDate: Date) => void;
     mode: "date" | "time";
@@ -36,7 +38,11 @@ const CustomDateTimePicker = (props: Props) => {
                     <Text
                         style={[
                             styles.dateText,
-                            { color: dateSelected ? "black" : "#D3D3D3" },
+                            {
+                                color: dateSelected
+                                    ? colours.blue
+                                    : "rgba(64, 120, 153, 0.5)",
+                            },
                         ]}
                     >
                         {dateSelected
@@ -44,8 +50,8 @@ const CustomDateTimePicker = (props: Props) => {
                                 ? moment(selectedDate).format("DD/MM/YYYY")
                                 : moment(selectedDate).format("HH:mm")
                             : props.mode === "date"
-                            ? "Date (optional)"
-                            : "Time (optional)"}
+                            ? "DATE"
+                            : "TIME"}
                     </Text>
                 </View>
             </TouchableWithoutFeedback>
@@ -63,17 +69,19 @@ const CustomDateTimePicker = (props: Props) => {
 
 const styles = StyleSheet.create({
     dateContainer: {
-        backgroundColor: "white",
-        marginHorizontal: wp("10%"),
+        backgroundColor: colours.card,
+        borderWidth: 1,
+        borderColor: colours.blue,
         justifyContent: "center",
-        marginTop: hp("2%"),
         height: hp("8%"),
         borderRadius: 5,
         paddingLeft: wp("2%"),
+        width: wp("38%"),
     },
 
     dateText: {
         fontSize: wp("6%"),
+        fontFamily: "Light",
     },
 });
 

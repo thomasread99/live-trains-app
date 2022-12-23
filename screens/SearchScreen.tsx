@@ -5,10 +5,7 @@ import {
     AutocompleteDropdown,
     TAutocompleteDropdownItem,
 } from "react-native-autocomplete-dropdown";
-import {
-    widthPercentageToDP as wp,
-    heightPercentageToDP as hp,
-} from "react-native-responsive-screen";
+import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import moment, { Moment } from "moment";
 
@@ -58,56 +55,70 @@ const StartScreen = ({ navigation }: SearchScreenProps) => {
     };
 
     return (
-        <SafeAreaView>
-            <View style={styles.autocompleteWrapper}>
-                <AutocompleteDropdown
-                    clearOnFocus={false}
-                    closeOnBlur={true}
-                    onSelectItem={setSelectedStation}
-                    dataSet={crsCodes}
-                    containerStyle={styles.autocompleteContainer}
-                    inputContainerStyle={styles.inputContainer}
-                    inputHeight={hp("8%")}
-                    textInputProps={{
-                        placeholder: "From",
-                        style: {
-                            fontSize: wp("6%"),
-                        },
-                    }}
-                />
-                <AutocompleteDropdown
-                    clearOnFocus={false}
-                    closeOnBlur={true}
-                    onSelectItem={setSelectedToStation}
-                    dataSet={crsCodes}
-                    containerStyle={styles.toAutocompleteContainer}
-                    inputContainerStyle={styles.inputContainer}
-                    inputHeight={hp("8%")}
-                    textInputProps={{
-                        placeholder: "To (optional)",
-                        style: {
-                            fontSize: wp("6%"),
-                        },
-                    }}
-                />
+        <SafeAreaView style={styles.container}>
+            <View>
+                <View style={styles.autocompleteWrapper}>
+                    <AutocompleteDropdown
+                        clearOnFocus={false}
+                        closeOnBlur={true}
+                        onSelectItem={setSelectedStation}
+                        dataSet={crsCodes}
+                        containerStyle={styles.autocompleteContainer}
+                        inputContainerStyle={styles.inputContainer}
+                        inputHeight={hp("8%")}
+                        suggestionsListContainerStyle={
+                            styles.suggestionListContainer
+                        }
+                        suggestionsListTextStyle={styles.suggestionListText}
+                        textInputProps={{
+                            placeholder: "FROM",
+                            style: styles.inputText,
+                            placeholderTextColor: "rgba(64, 120, 153, 0.5)",
+                        }}
+                        ItemSeparatorComponent={<View style={{ height: 0 }} />}
+                    />
+                    <AutocompleteDropdown
+                        clearOnFocus={false}
+                        closeOnBlur={true}
+                        onSelectItem={setSelectedToStation}
+                        dataSet={crsCodes}
+                        containerStyle={styles.toAutocompleteContainer}
+                        inputContainerStyle={styles.inputContainer}
+                        inputHeight={hp("8%")}
+                        suggestionsListContainerStyle={
+                            styles.suggestionListContainer
+                        }
+                        suggestionsListTextStyle={styles.suggestionListText}
+                        textInputProps={{
+                            placeholder: "TO",
+                            style: styles.inputText,
+                            placeholderTextColor: "rgba(64, 120, 153, 0.5)",
+                        }}
+                        ItemSeparatorComponent={<View style={{ height: 0 }} />}
+                    />
+                </View>
+
+                <View style={styles.dateTimePickerContainer}>
+                    <CustomDateTimePicker
+                        onDateSelected={onDateSelected}
+                        mode={"date"}
+                    />
+                    <CustomDateTimePicker
+                        onDateSelected={onTimeSelected}
+                        mode={"time"}
+                    />
+                </View>
             </View>
 
-            <CustomDateTimePicker
-                onDateSelected={onDateSelected}
-                mode={"date"}
-            />
-            <CustomDateTimePicker
-                onDateSelected={onTimeSelected}
-                mode={"time"}
-            />
-
-            <DefaultButton
-                buttonContainer={styles.buttonContainer}
-                onPress={searchStation}
-                buttonTextContainer={styles.buttonTextContainer}
-                buttonText={styles.buttonText}
-                text={"Search"}
-            />
+            <View>
+                <DefaultButton
+                    buttonContainer={styles.buttonContainer}
+                    onPress={searchStation}
+                    buttonTextContainer={styles.buttonTextContainer}
+                    buttonText={styles.buttonText}
+                    text={"SEARCH"}
+                />
+            </View>
         </SafeAreaView>
     );
 };

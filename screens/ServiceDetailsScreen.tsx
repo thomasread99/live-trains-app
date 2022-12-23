@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import Ionicons from "@expo/vector-icons/Ionicons";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { widthPercentageToDP as wp } from "react-native-responsive-screen";
 import moment from "moment";
 
@@ -20,6 +20,7 @@ import * as rttActions from "../store/actions/rtt";
 import * as favouritesActions from "../store/actions/favourites";
 
 import styles from "../styles/ServiceDetailsScreenStyles";
+import colours from "../config/colours";
 
 import { useAppSelector, useAppDispatch } from "../store/hooks";
 import { StationSearchNavigatorParamList } from "../navigation/StationSearchNavigation";
@@ -67,7 +68,7 @@ const ServiceDetailsScreen = ({
             await dispatch(
                 favouritesActions.addJourney({
                     serviceUid: route.params.serviceUid,
-                    description: `${time} ${origin} to ${destination}`,
+                    description: `${selectedStation?.gbttBookedDeparture} ${selectedStation?.description} to ${destination}`,
                     date: route.params.date
                         ? route.params.date.toISOString()
                         : moment().toISOString(),
@@ -130,6 +131,7 @@ const ServiceDetailsScreen = ({
         return unsubscribe;
     }, [navigation]);
 
+    // ! BUG: Colour sometimes still red even once it has left
     const destinationListItem = ({ item }: ListRenderItemInfo<LocationObj>) => (
         <ServiceRow
             station={item.description}
@@ -145,24 +147,22 @@ const ServiceDetailsScreen = ({
     if (isLoading) {
         return (
             <SafeAreaView style={styles.centered}>
-                <ActivityIndicator size="large" color={"lightblue"} />
+                <ActivityIndicator size="large" color={colours.blue} />
             </SafeAreaView>
         );
     }
 
+    // TODO: Sort out the styling
     if (isError) {
         return (
-            <SafeAreaView>
-                <View style={styles.header}>
-                    <Text style={styles.headerText}></Text>
-                    <View style={styles.iconContainer}>
-                        <Ionicons
-                            name="return-down-back"
-                            size={wp("8%")}
-                            style={{ marginRight: wp("3%") }}
-                            onPress={() => navigation.pop()}
-                        />
-                    </View>
+            <SafeAreaView style={{ flex: 1 }}>
+                <View style={styles.backButton}>
+                    <FontAwesome
+                        name="arrow-left"
+                        size={wp("8%")}
+                        onPress={() => navigation.pop()}
+                        color={colours.white}
+                    />
                 </View>
                 <Text style={styles.errorText}>
                     Information for this service could not be found
@@ -172,24 +172,26 @@ const ServiceDetailsScreen = ({
     }
 
     return (
-        <SafeAreaView>
+        <SafeAreaView style={{ flex: 1 }}>
+            <View style={styles.backButton}>
+                <FontAwesome
+                    name="arrow-left"
+                    size={wp("8%")}
+                    onPress={() => navigation.pop()}
+                    color={colours.white}
+                />
+            </View>
             <View style={styles.header}>
-                <Text style={styles.headerText}>
-                    {serviceInformation.origin[0].publicTime}{" "}
-                    {serviceInformation.origin[0].description} to{" "}
-                    {serviceInformation.destination[0].description}
+                <Text style={styles.stationName} numberOfLines={1}>
+                    {selectedStation
+                        ? selectedStation.description.toUpperCase()
+                        : ""}
                 </Text>
                 <View style={styles.iconContainer}>
-                    <Ionicons
-                        name="return-down-back"
-                        size={wp("8%")}
-                        style={{ marginRight: wp("3%") }}
-                        onPress={() => navigation.pop()}
-                    />
                     {favouriteJourneys.some(
                         (j) => j.serviceUid === route.params.serviceUid,
                     ) ? (
-                        <Ionicons
+                        <FontAwesome
                             name="star"
                             size={wp("8%")}
                             onPress={() =>
@@ -200,11 +202,11 @@ const ServiceDetailsScreen = ({
                                         .description,
                                 )
                             }
-                            color="gold"
+                            color={colours.yellow}
                         />
                     ) : (
-                        <Ionicons
-                            name="star-outline"
+                        <FontAwesome
+                            name="star-o"
                             size={wp("8%")}
                             onPress={() =>
                                 addToFavourites(
@@ -214,37 +216,33 @@ const ServiceDetailsScreen = ({
                                         .description,
                                 )
                             }
+                            color={colours.white}
                         />
                     )}
                 </View>
             </View>
-            <View
-                style={{ flexDirection: "row", justifyContent: "space-evenly" }}
-            >
+            <View style={styles.serviceDetails}>
                 <View>
                     <Text style={styles.arrivingHeader}>
                         {selectedStation
                             ? selectedStation.description ===
                               serviceInformation.origin[0].description
-                                ? ""
-                                : "Arriving"
+                                ? "STARTS"
+                                : "ARRIVING"
                             : ""}
                     </Text>
                     <Text style={styles.realtimeArrival}>
                         {selectedStation
                             ? selectedStation.description ===
                               serviceInformation.origin[0].description
-                                ? "Starts"
+                                ? "HERE"
                                 : selectedStation.realtimeArrival
                             : ""}
-                    </Text>
-                    <Text style={styles.trainOverview}>
-                        at {selectedStation ? selectedStation.description : ""}
                     </Text>
                 </View>
 
                 <View>
-                    <Text style={styles.arrivingHeader}>Platform</Text>
+                    <Text style={styles.arrivingHeader}>PLATFORM</Text>
                     <Text style={styles.realtimeArrival}>
                         {selectedStation && selectedStation.platform
                             ? selectedStation.platform
@@ -256,7 +254,7 @@ const ServiceDetailsScreen = ({
                 data={serviceInformation.locations}
                 renderItem={destinationListItem}
                 keyExtractor={(item) => item.crs}
-                style={styles.flatlist}
+                contentContainerStyle={styles.flatlist}
                 refreshing={isRefreshing}
                 onRefresh={onRefresh}
             />

@@ -4,53 +4,81 @@ import {
     heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 
+import colours from "../config/colours";
+
 export default StyleSheet.create({
     centered: {
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
-    },
+    },    
 
     errorText: {
         fontSize: wp("5%"),
         textAlign: "center",
-        marginTop: hp("3%"),
+        marginTop: hp("10%"),
+        fontFamily: "Light",
+        color: colours.white,
+    },
+
+    backButton: {
+        position: "absolute",
+        bottom: hp("3%"),
+        zIndex: 1,
+        right: wp("5%"),
+        backgroundColor: colours.blue,
+        width: wp("15%"),
+        height: wp("15%"),
+        borderRadius: 100,
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
     },
 
     header: {
-        margin: wp("3%"),
+        marginHorizontal: wp("5%"),
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
         marginBottom: hp("2%"),
+        marginTop: hp("1%"),
     },
 
-    headerText: {
-        fontSize: wp("4%"),
+    // TODO: Dynamic sizing to prevent multiple lines
+    stationName: {
+        fontSize: wp("8%"),
+        fontFamily: "Light",
+        color: colours.white,
+        marginRight: wp("1%"),
+        width: wp("80%"),
     },
 
     iconContainer: {
         flexDirection: "row",
     },
 
-    trainOverview: {
-        textAlign: "center",
-        fontSize: wp("4%"),
+    serviceDetails: {
+        flexDirection: "row",
+        justifyContent: "space-evenly",
+        marginTop: hp("1%"),
         marginBottom: hp("2%"),
-    },
+    },    
 
     arrivingHeader: {
         textAlign: "center",
         fontSize: wp("4%"),
+        fontFamily: "Light",
+        color: colours.white,
     },
 
     realtimeArrival: {
         textAlign: "center",
         fontSize: wp("10%"),
-        color: "blue",
+        fontFamily: "Light",
+        color: colours.white,
     },
 
     flatlist: {
-        marginBottom: hp("19%"),
+        paddingBottom: hp("10%"),
     },
 });

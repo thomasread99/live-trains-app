@@ -4,6 +4,8 @@ import {
     heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 
+import colours from "../config/colours";
+
 export default StyleSheet.create({
     centered: {
         flex: 1,
@@ -11,16 +13,36 @@ export default StyleSheet.create({
         alignItems: "center",
     },
 
+    backButton: {
+        position: "absolute",
+        bottom: hp("3%"),
+        zIndex: 1,
+        right: wp("5%"),
+        backgroundColor: colours.blue,
+        width: wp("15%"),
+        height: wp("15%"),
+        borderRadius: 100,
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+    },
+
     header: {
-        margin: wp("3%"),
+        marginHorizontal: wp("5%"),
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
+        marginBottom: hp("2%"),
+        marginTop: hp("1%"),
     },
 
     // TODO: Dynamic sizing to prevent multiple lines
     stationName: {
-        fontSize: wp("10%"),
+        fontSize: wp("8%"),
+        fontFamily: "Light",
+        color: colours.white,
+        marginRight: wp("1%"),
+        width: wp("80%"),
     },
 
     iconContainer: {
@@ -31,9 +53,11 @@ export default StyleSheet.create({
         fontSize: wp("5%"),
         textAlign: "center",
         marginTop: hp("3%"),
+        fontFamily: "Light",
+        color: colours.white,
     },
 
     flatlist: {
-        marginBottom: hp("15%"),
+        paddingBottom: hp("10%"),
     },
 });

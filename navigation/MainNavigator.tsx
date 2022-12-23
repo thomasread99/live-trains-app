@@ -1,7 +1,7 @@
 import React from "react";
-import { NavigationContainer } from "@react-navigation/native";
+import { DefaultTheme, NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import Ionicons from "@expo/vector-icons/Ionicons";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
 import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp,
@@ -10,11 +10,25 @@ import {
 import TrainSearchNavigator from "./StationSearchNavigation";
 import FavouriteNavigator from "./FavouriteNavigator";
 
+import colours from "../config/colours";
+
 const Tab = createBottomTabNavigator();
+
+const AppTheme = {
+    ...DefaultTheme,
+    colors: {
+        ...DefaultTheme.colors,
+        primary: colours.blue,
+        background: colours.background,
+        card: colours.card,
+        text: colours.white,
+        border: colours.card,
+    },
+};
 
 const MainNavigator = () => {
     return (
-        <NavigationContainer>
+        <NavigationContainer theme={AppTheme}>
             <Tab.Navigator
                 screenOptions={{
                     headerShown: false,
@@ -22,7 +36,8 @@ const MainNavigator = () => {
                         height: hp("8%"),
                     },
                     tabBarLabelStyle: {
-                        fontSize: wp("4%"),
+                        fontSize: wp("3%"),
+                        fontFamily: "Light",
                     },
                 }}
             >
@@ -31,12 +46,13 @@ const MainNavigator = () => {
                     component={TrainSearchNavigator}
                     options={{
                         tabBarIcon: ({ color }) => (
-                            <Ionicons
+                            <FontAwesome
                                 name="search"
                                 size={wp("8%")}
                                 color={color}
                             />
                         ),
+                        tabBarLabel: "SEARCH",
                     }}
                 />
                 <Tab.Screen
@@ -44,12 +60,13 @@ const MainNavigator = () => {
                     component={FavouriteNavigator}
                     options={{
                         tabBarIcon: ({ color }) => (
-                            <Ionicons
+                            <FontAwesome
                                 name="star"
                                 size={wp("8%")}
                                 color={color}
                             />
                         ),
+                        tabBarLabel: "FAVOURITES",
                     }}
                 />
             </Tab.Navigator>

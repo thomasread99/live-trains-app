@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { widthPercentageToDP as wp } from "react-native-responsive-screen";
-import Ionicons from "@expo/vector-icons/Ionicons";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
 import SearchToggle from "../components/search/SearchToggle";
@@ -18,6 +18,7 @@ import * as rttActions from "../store/actions/rtt";
 import * as favouritesActions from "../store/actions/favourites";
 
 import styles from "../styles/StationDetailsScreenStyles";
+import colours from "../config/colours";
 
 import { useAppSelector, useAppDispatch } from "../store/hooks";
 import { StationSearchNavigatorParamList } from "../navigation/StationSearchNavigation";
@@ -168,36 +169,39 @@ const StationDetailsScreen = ({
     if (isLoading) {
         return (
             <SafeAreaView style={styles.centered}>
-                <ActivityIndicator size="large" color={"lightblue"} />
+                <ActivityIndicator size="large" color={colours.blue} />
             </SafeAreaView>
         );
     }
 
     return (
-        <SafeAreaView>
+        <SafeAreaView style={{ flex: 1 }}>
+            <View style={styles.backButton}>
+                <FontAwesome
+                    name="arrow-left"
+                    size={wp("8%")}
+                    onPress={navigation.popToTop}
+                    color={colours.white}
+                />
+            </View>
             <View style={styles.header}>
-                <Text style={styles.stationName}>
-                    {searchResult.location.name}
+                <Text style={styles.stationName} numberOfLines={1}>
+                    {searchResult.location.name.toUpperCase()}
                 </Text>
                 <View style={styles.iconContainer}>
-                    <Ionicons
-                        name="return-down-back"
-                        size={wp("8%")}
-                        style={{ marginRight: wp("3%") }}
-                        onPress={navigation.popToTop}
-                    />
                     {favouriteStations.includes(route.params.crsCode) ? (
-                        <Ionicons
+                        <FontAwesome
                             name="star"
                             size={wp("8%")}
                             onPress={removeFromFavourites}
-                            color="gold"
+                            color={colours.yellow}
                         />
                     ) : (
-                        <Ionicons
-                            name="star-outline"
+                        <FontAwesome
+                            name="star-o"
                             size={wp("8%")}
                             onPress={addToFavourites}
+                            color={colours.white}
                         />
                     )}
                 </View>
@@ -214,9 +218,9 @@ const StationDetailsScreen = ({
                     data={searchResult.services}
                     renderItem={serviceListItem}
                     keyExtractor={(item) => item.serviceUid}
-                    style={styles.flatlist}
                     refreshing={isRefreshing}
                     onRefresh={onRefresh}
+                    contentContainerStyle={styles.flatlist}
                 />
             )}
         </SafeAreaView>

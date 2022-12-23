@@ -5,6 +5,8 @@ import {
     heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 
+import colours from "../../config/colours";
+
 type Props = {
     departuresSelected: boolean;
     onDepartureSelected: () => {};
@@ -22,15 +24,7 @@ const SearchToggle = (props: Props) => {
                             : [styles.toggle, { marginRight: wp("2%") }]
                     }
                 >
-                    <Text
-                        style={
-                            props.departuresSelected
-                                ? styles.toggleTextSelected
-                                : styles.toggleText
-                        }
-                    >
-                        Departures
-                    </Text>
+                    <Text style={styles.toggleText}>DEPARTURES</Text>
                 </View>
             </TouchableWithoutFeedback>
             <TouchableWithoutFeedback onPress={props.onArrivalSelected}>
@@ -41,15 +35,7 @@ const SearchToggle = (props: Props) => {
                             : styles.toggleSelected
                     }
                 >
-                    <Text
-                        style={
-                            props.departuresSelected
-                                ? styles.toggleText
-                                : styles.toggleTextSelected
-                        }
-                    >
-                        Arrivals
-                    </Text>
+                    <Text style={styles.toggleText}>ARRIVALS</Text>
                 </View>
             </TouchableWithoutFeedback>
         </View>
@@ -64,19 +50,14 @@ const styles = StyleSheet.create({
     },
 
     toggle: {
+        backgroundColor: colours.background,
         borderRadius: 20,
         padding: wp("1%"),
         width: wp("25%"),
-        shadowColor: "#000",
-        shadowOffset: { width: 0, height: 1 },
-        shadowOpacity: 0.8,
-        shadowRadius: 2,
-        elevation: 5,
-        backgroundColor: "white",
     },
 
     toggleSelected: {
-        backgroundColor: "blue",
+        backgroundColor: colours.blue,
         borderRadius: 20,
         padding: wp("1%"),
         width: wp("25%"),
@@ -88,13 +69,10 @@ const styles = StyleSheet.create({
     },
 
     toggleText: {
-        color: "black",
+        color: colours.white,
         textAlign: "center",
-    },
-
-    toggleTextSelected: {
-        color: "white",
-        textAlign: "center",
+        fontFamily: "Light",
+        fontSize: wp("3%"),
     },
 });
 
