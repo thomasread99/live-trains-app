@@ -11,27 +11,58 @@ export default StyleSheet.create({
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
-    },
+    },    
 
     errorText: {
         fontSize: wp("5%"),
         textAlign: "center",
-        marginTop: hp("3%"),
+        marginTop: hp("10%"),
+        fontFamily: "Light",
+        color: colours.white,
+    },
+
+    backButton: {
+        position: "absolute",
+        bottom: hp("3%"),
+        zIndex: 1,
+        right: wp("5%"),
+        backgroundColor: colours.blue,
+        width: wp("15%"),
+        height: wp("15%"),
+        borderRadius: 100,
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
     },
 
     header: {
+        marginHorizontal: wp("5%"),
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        marginBottom: hp("2%"),
+        marginTop: hp("1%"),
+    },
+
+    // TODO: Dynamic sizing to prevent multiple lines
+    stationName: {
+        fontSize: wp("8%"),
+        fontFamily: "Light",
+        color: colours.white,
+        marginRight: wp("1%"),
+        width: wp("80%"),
+    },
+
+    iconContainer: {
+        flexDirection: "row",
+    },
+
+    serviceDetails: {
         flexDirection: "row",
         justifyContent: "space-evenly",
         marginTop: hp("1%"),
         marginBottom: hp("2%"),
-    },
-
-    trainOverview: {
-        textAlign: "center",
-        fontSize: wp("4%"),
-        fontFamily: "Light",
-        color: colours.white,
-    },
+    },    
 
     arrivingHeader: {
         textAlign: "center",
@@ -48,6 +79,6 @@ export default StyleSheet.create({
     },
 
     flatlist: {
-        marginBottom: hp("19%"),
+        paddingBottom: hp("10%"),
     },
 });

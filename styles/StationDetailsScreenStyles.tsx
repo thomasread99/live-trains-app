@@ -15,7 +15,7 @@ export default StyleSheet.create({
 
     backButton: {
         position: "absolute",
-        bottom: hp("15%"),
+        bottom: hp("3%"),
         zIndex: 1,
         right: wp("5%"),
         backgroundColor: colours.blue,
@@ -42,6 +42,7 @@ export default StyleSheet.create({
         fontFamily: "Light",
         color: colours.white,
         marginRight: wp("1%"),
+        width: wp("80%"),
     },
 
     iconContainer: {
@@ -57,6 +58,6 @@ export default StyleSheet.create({
     },
 
     flatlist: {
-        paddingBottom: hp("22%"),
+        paddingBottom: hp("10%"),
     },
 });

@@ -175,7 +175,7 @@ const StationDetailsScreen = ({
     }
 
     return (
-        <SafeAreaView>
+        <SafeAreaView style={{ flex: 1 }}>
             <View style={styles.backButton}>
                 <FontAwesome
                     name="arrow-left"
@@ -185,7 +185,7 @@ const StationDetailsScreen = ({
                 />
             </View>
             <View style={styles.header}>
-                <Text style={styles.stationName}>
+                <Text style={styles.stationName} numberOfLines={1}>
                     {searchResult.location.name.toUpperCase()}
                 </Text>
                 <View style={styles.iconContainer}>
