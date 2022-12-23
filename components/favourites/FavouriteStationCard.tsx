@@ -4,7 +4,7 @@ import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-import Ionicons from "@expo/vector-icons/Ionicons";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
 
 import colours from "../../config/colours";
 
@@ -21,8 +21,8 @@ const FavouriteStationCard = (props: Props) => {
                 <Text style={styles.stationText} numberOfLines={1}>
                     {props.stationName.toUpperCase()}
                 </Text>
-                <Ionicons
-                    name="arrow-forward"
+                <FontAwesome
+                    name="arrow-right"
                     size={wp("8%")}
                     color={colours.white}
                 />

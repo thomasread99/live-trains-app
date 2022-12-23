@@ -4,7 +4,7 @@ import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-import Ionicons from "@expo/vector-icons/Ionicons";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
 import moment from "moment";
 
 import { FavouriteJourney } from "../../models/FavouriteJourney";
@@ -28,7 +28,7 @@ const FavouriteJourneyCard = (props: Props) => {
                         {moment(props.journey.date).format("DD/MM/YYYY")}
                     </Text>
                 </View>
-                <Ionicons name="arrow-forward" size={wp("8%")} color={colours.white}/>
+                <FontAwesome name="arrow-right" size={wp("8%")} color={colours.white}/>
             </View>
         </TouchableWithoutFeedback>
     );
