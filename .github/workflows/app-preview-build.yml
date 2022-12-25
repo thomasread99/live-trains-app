@@ -1,8 +1,6 @@
 name: Automated App Preview Build
 
 on:
-  pull_request:
-    branches: [ "develop" ]
   push:
     branches: [ "develop" ]
 
