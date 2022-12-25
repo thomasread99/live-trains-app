@@ -13,7 +13,6 @@ export const getStationInformation = (
     arrivals?: boolean,
 ) => {
     return async (dispatch: AppDispatch) => {
-        // TODO: Extract information into ENV
         var headers = new Headers();
         headers.append("Content-Type", "application/json");
         headers.append("Authorization", `Basic ${FUNCTION_TOKEN}`);
@@ -56,7 +55,6 @@ export const getStationInformation = (
 
 export const getServiceInformation = (serviceUid: string, date: Moment) => {
     return async (dispatch: AppDispatch) => {
-        // TODO: Extract information into ENV
         var headers = new Headers();
         headers.append("Content-Type", "application/json");
         headers.append("Authorization", `Basic ${FUNCTION_TOKEN}`);
