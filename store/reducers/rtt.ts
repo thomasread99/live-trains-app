@@ -1,8 +1,7 @@
 import { AnyAction } from "@reduxjs/toolkit";
 
 import {
-    GET_STATION,
-    GET_STATION_ARRIVALS,
+    GET_STATION_INFORMATION,
     GET_SERVICE_INFORMATION,
 } from "../actions/rtt";
 
@@ -22,12 +21,7 @@ const initialState: RttState = {
 
 const reducer = (state = initialState, action: AnyAction) => {
     switch (action.type) {
-        case GET_STATION:
-            return {
-                ...state,
-                searchResult: action.searchResult,
-            };
-        case GET_STATION_ARRIVALS:
+        case GET_STATION_INFORMATION:
             return {
                 ...state,
                 searchResult: action.searchResult,
