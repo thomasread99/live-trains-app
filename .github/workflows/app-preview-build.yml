@@ -7,7 +7,7 @@ on:
     branches: [ "develop" ]
 
 jobs:
-  publish:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Setup repo
@@ -26,8 +26,5 @@ jobs:
           eas-version: latest
           token: ${{ secrets.EXPO_TOKEN }}
 
-      - name: Install dependencies
-        run: npm install
-
       - name: Build preview app
-        run: eas build -p android --profile preview
+        run: eas build -p android --profile preview --no-wait
