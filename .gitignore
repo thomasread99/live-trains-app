@@ -16,3 +16,5 @@ web-build/
 # Visual studio
 .vscode
 .vs
+
+.env

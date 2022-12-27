@@ -21,7 +21,7 @@ import styles from "../styles/StationDetailsScreenStyles";
 import colours from "../config/colours";
 
 import { useAppSelector, useAppDispatch } from "../store/hooks";
-import { StationSearchNavigatorParamList } from "../navigation/StationSearchNavigation";
+import { StationSearchNavigatorParamList } from "../navigation/StationSearchNavigator";
 
 type StationDetailsScreenProps = NativeStackScreenProps<
     StationSearchNavigatorParamList,
@@ -50,7 +50,7 @@ const StationDetailsScreen = ({
         setIsRefreshing(true);
         if (departureSelected)
             await dispatch(
-                rttActions.getStationDepartures(
+                rttActions.getStationInformation(
                     route.params.crsCode,
                     route.params.date,
                     route.params.time,
@@ -59,11 +59,12 @@ const StationDetailsScreen = ({
             );
         else
             await dispatch(
-                rttActions.getStationArrivals(
+                rttActions.getStationInformation(
                     route.params.crsCode,
                     route.params.date,
                     route.params.time,
                     route.params.toCrsCode,
+                    true,
                 ),
             );
         setIsRefreshing(false);
@@ -80,7 +81,7 @@ const StationDetailsScreen = ({
     const onDepartureSelected = useCallback(async () => {
         setIsRefreshing(true);
         await dispatch(
-            rttActions.getStationDepartures(
+            rttActions.getStationInformation(
                 route.params.crsCode,
                 route.params.date,
                 route.params.time,
@@ -95,11 +96,12 @@ const StationDetailsScreen = ({
     const onArrivalSelected = useCallback(async () => {
         setIsRefreshing(true);
         await dispatch(
-            rttActions.getStationArrivals(
+            rttActions.getStationInformation(
                 route.params.crsCode,
                 route.params.date,
                 route.params.time,
                 route.params.toCrsCode,
+                true,
             ),
         );
         setIsRefreshing(false);
@@ -109,7 +111,7 @@ const StationDetailsScreen = ({
 
     const loadStationDetails = useCallback(async () => {
         await dispatch(
-            rttActions.getStationDepartures(
+            rttActions.getStationInformation(
                 route.params.crsCode,
                 route.params.date,
                 route.params.time,

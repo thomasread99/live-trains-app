@@ -1,3 +1,4 @@
+import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Moment } from "moment";
 
@@ -22,7 +23,7 @@ export type StationSearchNavigatorParamList = {
 
 const Stack = createNativeStackNavigator<StationSearchNavigatorParamList>();
 
-const TrainSearchNavigator = () => {
+const StationSearchNavigator = () => {
     return (
         <Stack.Navigator
             screenOptions={{
@@ -42,4 +43,4 @@ const TrainSearchNavigator = () => {
     );
 };
 
-export default TrainSearchNavigator;
+export default StationSearchNavigator;

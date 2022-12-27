@@ -14,7 +14,7 @@ import CustomDateTimePicker from "../components/search/CustomDateTimePicker";
 
 import styles from "../styles/SearchScreenStyles";
 
-import { StationSearchNavigatorParamList } from "../navigation/StationSearchNavigation";
+import { StationSearchNavigatorParamList } from "../navigation/StationSearchNavigator";
 
 import crsCodes from "../data/crs-codes.json";
 
