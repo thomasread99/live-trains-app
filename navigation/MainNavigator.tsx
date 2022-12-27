@@ -7,7 +7,7 @@ import {
     heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 
-import TrainSearchNavigator from "./StationSearchNavigation";
+import StationSearchNavigator from "./StationSearchNavigator";
 import FavouriteNavigator from "./FavouriteNavigator";
 
 import colours from "../config/colours";
@@ -43,7 +43,7 @@ const MainNavigator = () => {
             >
                 <Tab.Screen
                     name="Search"
-                    component={TrainSearchNavigator}
+                    component={StationSearchNavigator}
                     options={{
                         tabBarIcon: ({ color }) => (
                             <FontAwesome

@@ -21,7 +21,7 @@ import styles from "../styles/StationDetailsScreenStyles";
 import colours from "../config/colours";
 
 import { useAppSelector, useAppDispatch } from "../store/hooks";
-import { StationSearchNavigatorParamList } from "../navigation/StationSearchNavigation";
+import { StationSearchNavigatorParamList } from "../navigation/StationSearchNavigator";
 
 type StationDetailsScreenProps = NativeStackScreenProps<
     StationSearchNavigatorParamList,
