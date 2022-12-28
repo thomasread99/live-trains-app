@@ -48,6 +48,7 @@ const FavouriteStationsScreen = ({
     const onFavouriteStationPress = async (crsCode: string) => {
         navigation.navigate("StationDetailsScreen", {
             crsCode: crsCode,
+            stationName: crsCodes.find((code) => code.id === crsCode).title,
             date: moment(),
             time: moment(),
         });

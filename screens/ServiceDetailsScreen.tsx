@@ -5,6 +5,7 @@ import {
     FlatList,
     ListRenderItemInfo,
     View,
+    ScrollView,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
@@ -68,7 +69,7 @@ const ServiceDetailsScreen = ({
             await dispatch(
                 favouritesActions.addJourney({
                     serviceUid: route.params.serviceUid,
-                    description: `${selectedStation?.gbttBookedDeparture} ${selectedStation?.description} to ${destination}`,
+                    description: `${time} ${origin} to ${destination}`,
                     date: route.params.date
                         ? route.params.date.toISOString()
                         : moment().toISOString(),
@@ -131,12 +132,11 @@ const ServiceDetailsScreen = ({
         return unsubscribe;
     }, [navigation]);
 
-    // ! BUG: Colour sometimes still red even once it has left
     const destinationListItem = ({ item }: ListRenderItemInfo<LocationObj>) => (
         <ServiceRow
             station={item.description}
-            departed={item.realtimeDepartureActual}
-            arrived={item.realtimeArrivalActual}
+            departed={item.realtimeDepartureActual || item.realtimeDepartureNoReport}
+            arrived={item.realtimeArrivalActual || item.realtimeArrivalNoReport}
             bookedArrival={item.gbttBookedArrival}
             bookedDeparture={item.gbttBookedDeparture}
             realtimeArrival={item.realtimeArrival}
@@ -152,7 +152,6 @@ const ServiceDetailsScreen = ({
         );
     }
 
-    // TODO: Sort out the styling
     if (isError) {
         return (
             <SafeAreaView style={{ flex: 1 }}>
@@ -182,11 +181,13 @@ const ServiceDetailsScreen = ({
                 />
             </View>
             <View style={styles.header}>
-                <Text style={styles.stationName} numberOfLines={1}>
-                    {selectedStation
-                        ? selectedStation.description.toUpperCase()
-                        : ""}
-                </Text>
+                <ScrollView horizontal style={styles.stationNameContainer}>
+                    <Text style={styles.stationName} numberOfLines={1}>
+                        {selectedStation
+                            ? selectedStation.description.toUpperCase()
+                            : ""}
+                    </Text>
+                </ScrollView>
                 <View style={styles.iconContainer}>
                     {favouriteJourneys.some(
                         (j) => j.serviceUid === route.params.serviceUid,
@@ -194,28 +195,32 @@ const ServiceDetailsScreen = ({
                         <FontAwesome
                             name="star"
                             size={wp("8%")}
-                            onPress={() =>
-                                removeFromFavourites(
-                                    serviceInformation.origin[0].publicTime,
-                                    serviceInformation.origin[0].description,
-                                    serviceInformation.destination[0]
-                                        .description,
-                                )
-                            }
+                            onPress={() => {
+                                if (selectedStation) {
+                                    removeFromFavourites(
+                                        selectedStation.realtimeDeparture,
+                                        selectedStation.description,
+                                        serviceInformation.destination[0]
+                                            .description,
+                                    );
+                                }
+                            }}
                             color={colours.yellow}
                         />
                     ) : (
                         <FontAwesome
                             name="star-o"
                             size={wp("8%")}
-                            onPress={() =>
-                                addToFavourites(
-                                    serviceInformation.origin[0].publicTime,
-                                    serviceInformation.origin[0].description,
-                                    serviceInformation.destination[0]
-                                        .description,
-                                )
-                            }
+                            onPress={() => {
+                                if (selectedStation) {
+                                    addToFavourites(
+                                        selectedStation.realtimeDeparture,
+                                        selectedStation.description,
+                                        serviceInformation.destination[0]
+                                            .description,
+                                    );
+                                }
+                            }}
                             color={colours.white}
                         />
                     )}
@@ -236,7 +241,7 @@ const ServiceDetailsScreen = ({
                             ? selectedStation.description ===
                               serviceInformation.origin[0].description
                                 ? "HERE"
-                                : selectedStation.realtimeArrival
+                                : selectedStation.realtimeArrival ?? selectedStation.gbttBookedArrival
                             : ""}
                     </Text>
                 </View>

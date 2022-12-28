@@ -11,6 +11,7 @@ export type FavouriteStationsStackNavigatorParamList = {
     FavouriteStationsScreen: undefined;
     StationDetailsScreen: {
         crsCode: string;
+        stationName: string;
         toCrsCode?: string;
         date?: Moment;
         time?: Moment;

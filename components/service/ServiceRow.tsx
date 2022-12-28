@@ -19,9 +19,7 @@ type Props = {
     realtimeDeparture?: string;
 };
 
-// ! BUG: If the time difference is double figures it will add a space
 const ServiceRow = (props: Props) => {
-    // ! BUG: Something causes the substring values to be wrong
     const getTimeDifference = (firstTime: string, secondTime: string) => {
         var firstDate = moment();
         var secondDate = firstDate;
@@ -58,7 +56,7 @@ const ServiceRow = (props: Props) => {
             end={[0.2, 0]}
         >
             <View style={styles.description}>
-                <Text style={styles.stationName} numberOfLines={1}>
+                <Text style={styles.stationName}>
                     {props.station.toUpperCase()}
                 </Text>
             </View>
@@ -126,6 +124,7 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.8,
         shadowRadius: 2,
         elevation: 5,
+        height: hp("13%"),
     },
 
     description: {
