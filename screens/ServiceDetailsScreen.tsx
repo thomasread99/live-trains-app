@@ -241,7 +241,7 @@ const ServiceDetailsScreen = ({
                             ? selectedStation.description ===
                               serviceInformation.origin[0].description
                                 ? "HERE"
-                                : selectedStation.realtimeArrival
+                                : selectedStation.realtimeArrival ?? selectedStation.gbttBookedArrival
                             : ""}
                     </Text>
                 </View>
