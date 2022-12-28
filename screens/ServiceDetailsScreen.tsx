@@ -152,7 +152,6 @@ const ServiceDetailsScreen = ({
         );
     }
 
-    // TODO: Sort out the styling
     if (isError) {
         return (
             <SafeAreaView style={{ flex: 1 }}>
