@@ -68,7 +68,7 @@ const ServiceDetailsScreen = ({
             await dispatch(
                 favouritesActions.addJourney({
                     serviceUid: route.params.serviceUid,
-                    description: `${selectedStation?.gbttBookedDeparture} ${selectedStation?.description} to ${destination}`,
+                    description: `${time} ${origin} to ${destination}`,
                     date: route.params.date
                         ? route.params.date.toISOString()
                         : moment().toISOString(),
@@ -194,28 +194,32 @@ const ServiceDetailsScreen = ({
                         <FontAwesome
                             name="star"
                             size={wp("8%")}
-                            onPress={() =>
-                                removeFromFavourites(
-                                    serviceInformation.origin[0].publicTime,
-                                    serviceInformation.origin[0].description,
-                                    serviceInformation.destination[0]
-                                        .description,
-                                )
-                            }
+                            onPress={() => {
+                                if (selectedStation) {
+                                    removeFromFavourites(
+                                        selectedStation.realtimeDeparture,
+                                        selectedStation.description,
+                                        serviceInformation.destination[0]
+                                            .description,
+                                    );
+                                }
+                            }}
                             color={colours.yellow}
                         />
                     ) : (
                         <FontAwesome
                             name="star-o"
                             size={wp("8%")}
-                            onPress={() =>
-                                addToFavourites(
-                                    serviceInformation.origin[0].publicTime,
-                                    serviceInformation.origin[0].description,
-                                    serviceInformation.destination[0]
-                                        .description,
-                                )
-                            }
+                            onPress={() => {
+                                if (selectedStation) {
+                                    addToFavourites(
+                                        selectedStation.realtimeDeparture,
+                                        selectedStation.description,
+                                        serviceInformation.destination[0]
+                                            .description,
+                                    );
+                                }
+                            }}
                             color={colours.white}
                         />
                     )}
