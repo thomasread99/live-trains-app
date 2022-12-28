@@ -44,13 +44,15 @@ export default StyleSheet.create({
         marginTop: hp("1%"),
     },
 
-    // TODO: Dynamic sizing to prevent multiple lines
+    stationNameContainer: {
+        maxWidth: wp("80%"),
+    },
+
     stationName: {
         fontSize: wp("8%"),
         fontFamily: "Light",
         color: colours.white,
         marginRight: wp("1%"),
-        width: wp("80%"),
     },
 
     iconContainer: {

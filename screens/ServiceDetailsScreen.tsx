@@ -5,6 +5,7 @@ import {
     FlatList,
     ListRenderItemInfo,
     View,
+    ScrollView,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
@@ -182,11 +183,13 @@ const ServiceDetailsScreen = ({
                 />
             </View>
             <View style={styles.header}>
-                <Text style={styles.stationName} numberOfLines={1}>
-                    {selectedStation
-                        ? selectedStation.description.toUpperCase()
-                        : ""}
-                </Text>
+                <ScrollView horizontal style={styles.stationNameContainer}>
+                    <Text style={styles.stationName} numberOfLines={1}>
+                        {selectedStation
+                            ? selectedStation.description.toUpperCase()
+                            : ""}
+                    </Text>
+                </ScrollView>
                 <View style={styles.iconContainer}>
                     {favouriteJourneys.some(
                         (j) => j.serviceUid === route.params.serviceUid,
