@@ -2,7 +2,7 @@
     "expo": {
         "name": "Real Time Trains",
         "slug": "live-trains-app",
-        "version": "0.6.1",
+        "version": "0.6.2",
         "orientation": "portrait",
         "icon": "./assets/icon.png",
         "userInterfaceStyle": "light",
