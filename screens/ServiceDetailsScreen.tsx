@@ -253,7 +253,7 @@ const ServiceDetailsScreen = ({
             <FlatList
                 data={serviceInformation.locations}
                 renderItem={destinationListItem}
-                keyExtractor={(item) => item.crs}
+                keyExtractor={(item, index) => `${item.crs}-${index}`}
                 contentContainerStyle={styles.flatlist}
                 refreshing={isRefreshing}
                 onRefresh={onRefresh}
