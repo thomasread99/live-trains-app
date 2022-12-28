@@ -24,6 +24,12 @@ jobs:
           eas-version: latest
           token: ${{ secrets.EXPO_TOKEN }}
 
+      - name: Create envfile
+        uses: SpicyPizza/create-envfile@v1.3
+        with:
+          envkey_FUNCTION_URL: ${{ secrets.FUNCTION_URL }}
+          envkey_FUNCTION_TOKEN: ${{ secrets.FUNCTION_TOKEN }}
+
       - name: Install dependencies
         run: npm install
 
