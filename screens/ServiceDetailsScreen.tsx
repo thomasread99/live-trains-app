@@ -132,12 +132,11 @@ const ServiceDetailsScreen = ({
         return unsubscribe;
     }, [navigation]);
 
-    // ! BUG: Colour sometimes still red even once it has left
     const destinationListItem = ({ item }: ListRenderItemInfo<LocationObj>) => (
         <ServiceRow
             station={item.description}
-            departed={item.realtimeDepartureActual}
-            arrived={item.realtimeArrivalActual}
+            departed={item.realtimeDepartureActual || item.realtimeDepartureNoReport}
+            arrived={item.realtimeArrivalActual || item.realtimeArrivalNoReport}
             bookedArrival={item.gbttBookedArrival}
             bookedDeparture={item.gbttBookedDeparture}
             realtimeArrival={item.realtimeArrival}
