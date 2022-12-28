@@ -40,7 +40,7 @@ const ServiceCard = (props: Props) => {
                     <Text style={styles.stationHeader}>
                         {props.departureSelected ? "TO" : "FROM"}
                     </Text>
-                    <Text style={styles.stationText} numberOfLines={1}>
+                    <Text style={styles.stationText}>
                         {props.name.toUpperCase()}
                     </Text>
                 </View>
@@ -89,6 +89,7 @@ const ServiceCard = (props: Props) => {
 
 const styles = StyleSheet.create({
     cardContainer: {
+        height: hp("12%"),
         padding: wp("3%"),
         flexDirection: "row",
         justifyContent: "space-between",

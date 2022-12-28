@@ -58,7 +58,7 @@ const ServiceRow = (props: Props) => {
             end={[0.2, 0]}
         >
             <View style={styles.description}>
-                <Text style={styles.stationName} numberOfLines={1}>
+                <Text style={styles.stationName}>
                     {props.station.toUpperCase()}
                 </Text>
             </View>
@@ -126,6 +126,7 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.8,
         shadowRadius: 2,
         elevation: 5,
+        height: hp("13%")
     },
 
     description: {
