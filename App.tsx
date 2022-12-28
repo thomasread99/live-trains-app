@@ -1,5 +1,5 @@
 import React, { useCallback } from "react";
-import { StatusBar, View } from "react-native";
+import { StatusBar, View, LogBox } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Provider } from "react-redux";
 import { useFonts } from "expo-font";
@@ -12,6 +12,10 @@ import store from "./store/store";
 import colours from "./config/colours";
 
 SplashScreen.preventAutoHideAsync();
+
+LogBox.ignoreLogs([
+    "Non-serializable values were found in the navigation state",
+]);
 
 export default function App() {
     const [fontsLoaded] = useFonts({

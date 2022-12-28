@@ -10,6 +10,7 @@ export type StationSearchNavigatorParamList = {
     SearchScreen: undefined;
     StationDetailsScreen: {
         crsCode: string;
+        stationName: string;
         toCrsCode?: string;
         date?: Moment;
         time?: Moment;

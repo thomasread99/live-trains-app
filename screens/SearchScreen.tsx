@@ -48,6 +48,7 @@ const StartScreen = ({ navigation }: SearchScreenProps) => {
 
         navigation.navigate("StationDetailsScreen", {
             crsCode: selectedStation.id,
+            stationName: selectedStation.title,
             toCrsCode: selectedToStation?.id,
             date: selectedMomentDate,
             time: selectedMomentTime,

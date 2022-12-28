@@ -188,7 +188,7 @@ const StationDetailsScreen = ({
             </View>
             <View style={styles.header}>
                 <Text style={styles.stationName} numberOfLines={1}>
-                    {searchResult.location.name.toUpperCase()}
+                    {route.params.stationName.toUpperCase()}
                 </Text>
                 <View style={styles.iconContainer}>
                     {favouriteStations.includes(route.params.crsCode) ? (
