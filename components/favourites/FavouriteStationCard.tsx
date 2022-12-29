@@ -18,7 +18,7 @@ const FavouriteStationCard = (props: Props) => {
     return (
         <TouchableWithoutFeedback onPress={() => props.onPress(props.crsCode)}>
             <View style={styles.cardContainer}>
-                <Text style={styles.stationText} numberOfLines={1}>
+                <Text style={styles.stationText}>
                     {props.stationName.toUpperCase()}
                 </Text>
                 <FontAwesome
@@ -46,6 +46,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
+        height: hp("10%"),
     },
 
     stationText: {

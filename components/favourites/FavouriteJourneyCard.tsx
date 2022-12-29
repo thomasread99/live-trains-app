@@ -21,14 +21,18 @@ const FavouriteJourneyCard = (props: Props) => {
         <TouchableWithoutFeedback onPress={() => props.onPress(props.journey)}>
             <View style={styles.cardContainer}>
                 <View>
-                    <Text style={styles.stationText} numberOfLines={1}>
+                    <Text style={styles.stationText}>
                         {props.journey.description.toUpperCase()}
                     </Text>
                     <Text style={styles.dateText}>
                         {moment(props.journey.date).format("DD/MM/YYYY")}
                     </Text>
                 </View>
-                <FontAwesome name="arrow-right" size={wp("8%")} color={colours.white}/>
+                <FontAwesome
+                    name="arrow-right"
+                    size={wp("8%")}
+                    color={colours.white}
+                />
             </View>
         </TouchableWithoutFeedback>
     );
@@ -49,6 +53,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
+        height: hp("12%"),
     },
 
     stationText: {
