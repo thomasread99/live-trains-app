@@ -24,19 +24,13 @@ const ServiceCard = (props: Props) => {
     return (
         <TouchableWithoutFeedback onPress={props.onPress}>
             <View style={styles.cardContainer}>
-                <View style={{ flex: 1, justifyContent: "center" }}>
+                <View style={styles.platformContainer}>
                     <Text style={styles.platformHeader}>PLATFORM</Text>
                     <Text style={styles.platformText}>
                         {props.platformNumber ?? "TBA"}
                     </Text>
                 </View>
-                <View
-                    style={{
-                        flex: 3,
-                        alignItems: "center",
-                        justifyContent: "center",
-                    }}
-                >
+                <View style={styles.stationContainer}>
                     <Text style={styles.stationHeader}>
                         {props.departureSelected ? "TO" : "FROM"}
                     </Text>
@@ -44,13 +38,7 @@ const ServiceCard = (props: Props) => {
                         {props.name.toUpperCase()}
                     </Text>
                 </View>
-                <View
-                    style={{
-                        flex: 1,
-                        justifyContent: "center",
-                        alignItems: "center",
-                    }}
-                >
+                <View style={styles.timeContainer}>
                     <Text style={styles.timeText}>{props.bookedTime}</Text>
                     <View style={styles.line}></View>
                     {props.realtime ? (
@@ -104,6 +92,11 @@ const styles = StyleSheet.create({
         elevation: 5,
     },
 
+    platformContainer: {
+        flex: 1,
+        justifyContent: "center",
+    },
+
     platformHeader: {
         textAlign: "center",
         fontFamily: "Light",
@@ -118,6 +111,12 @@ const styles = StyleSheet.create({
         fontSize: wp("7%"),
     },
 
+    stationContainer: {
+        flex: 3,
+        alignItems: "center",
+        justifyContent: "center",
+    },
+
     stationHeader: {
         textAlign: "center",
         fontFamily: "Light",
@@ -130,6 +129,12 @@ const styles = StyleSheet.create({
         fontFamily: "Light",
         color: colours.white,
         fontSize: wp("6%"),
+    },
+
+    timeContainer: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
     },
 
     timeText: {

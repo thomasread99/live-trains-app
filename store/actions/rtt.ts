@@ -17,8 +17,7 @@ export const getStationInformation = (
         headers.append("Content-Type", "application/json");
         headers.append("Authorization", `Basic ${FUNCTION_TOKEN}`);
 
-        if (time && !date)
-            date = moment();
+        if (time && !date) date = moment();
 
         let uri = `https://api.rtt.io/api/v1/json/search/${crsCode}`;
 

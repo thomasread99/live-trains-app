@@ -23,6 +23,7 @@ import colours from "../config/colours";
 
 import { useAppSelector, useAppDispatch } from "../store/hooks";
 import { StationSearchNavigatorParamList } from "../navigation/StationSearchNavigator";
+import { RootState } from "../store/store";
 
 type StationDetailsScreenProps = NativeStackScreenProps<
     StationSearchNavigatorParamList,
@@ -41,10 +42,10 @@ const StationDetailsScreen = ({
     const dispatch = useAppDispatch();
 
     const searchResult: SearchResult = useAppSelector(
-        (state: any) => state.rtt.searchResult,
+        (state: RootState) => state.rtt.searchResult,
     );
     const favouriteStations: string[] = useAppSelector(
-        (state: any) => state.favourites.favouriteStations,
+        (state: RootState) => state.favourites.favouriteStations,
     );
 
     const onRefresh = useCallback(async () => {
@@ -178,7 +179,7 @@ const StationDetailsScreen = ({
     }
 
     return (
-        <SafeAreaView style={{ flex: 1 }}>
+        <SafeAreaView style={styles.container}>
             <View style={styles.backButton}>
                 <FontAwesome
                     name="arrow-left"

@@ -37,7 +37,7 @@ const FavouriteStationsStack =
 const FavouriteJourneysStack =
     createNativeStackNavigator<FavouriteJourneysStackNavigatorParamList>();
 
-const FavouriteStationsStackNavigator = () => {
+export const FavouriteStationsStackNavigator = () => {
     return (
         <FavouriteStationsStack.Navigator
             screenOptions={{
@@ -78,5 +78,3 @@ export const FavouriteJourneysStackNavigator = () => {
         </FavouriteJourneysStack.Navigator>
     );
 };
-
-export default FavouriteStationsStackNavigator;

@@ -13,6 +13,10 @@ export default StyleSheet.create({
         alignItems: "center",
     },
 
+    container: {
+        flex: 1,
+    },
+
     backButton: {
         position: "absolute",
         bottom: hp("3%"),
@@ -37,7 +41,7 @@ export default StyleSheet.create({
     },
 
     stationNameContainer: {
-        maxWidth: wp("80%")
+        maxWidth: wp("80%"),
     },
 
     stationName: {

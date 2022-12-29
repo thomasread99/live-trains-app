@@ -79,7 +79,7 @@ const ServiceRow = (props: Props) => {
                     {props.realtimeDeparture ?? "---"}
                 </Text>
             </View>
-            <View style={{ flex: 1 }}>
+            <View style={styles.timeDifferenceContainer}>
                 <Text
                     style={[
                         styles.timeDifferenceText,
@@ -160,6 +160,10 @@ const styles = StyleSheet.create({
     realtimeText: {
         color: colours.blue,
         fontFamily: "Light",
+    },
+
+    timeDifferenceContainer: {
+        flex: 1,
     },
 
     timeDifferenceText: {

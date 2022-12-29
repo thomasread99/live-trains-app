@@ -52,7 +52,7 @@ const StartScreen = ({ navigation }: SearchScreenProps) => {
                 text2: "OTHER FIELDS ARE OPTIONAL",
             });
             return;
-        }        
+        }
 
         navigation.navigate("StationDetailsScreen", {
             crsCode: selectedStation.id,
