@@ -25,6 +25,7 @@ import colours from "../config/colours";
 
 import { useAppSelector, useAppDispatch } from "../store/hooks";
 import { StationSearchNavigatorParamList } from "../navigation/StationSearchNavigator";
+import { RootState } from "../store/store";
 
 type ServiceDetailsScreenProps = NativeStackScreenProps<
     StationSearchNavigatorParamList,
@@ -43,10 +44,10 @@ const ServiceDetailsScreen = ({
     const dispatch = useAppDispatch();
 
     const serviceInformation: ServiceInformation = useAppSelector(
-        (state: any) => state.rtt.serviceInformation,
+        (state: RootState) => state.rtt.serviceInformation,
     );
     const favouriteJourneys: FavouriteJourney[] = useAppSelector(
-        (state: any) => state.favourites.favouriteJourneys,
+        (state: RootState) => state.favourites.favouriteJourneys,
     );
 
     const onRefresh = () => {
@@ -135,7 +136,9 @@ const ServiceDetailsScreen = ({
     const destinationListItem = ({ item }: ListRenderItemInfo<LocationObj>) => (
         <ServiceRow
             station={item.description}
-            departed={item.realtimeDepartureActual || item.realtimeDepartureNoReport}
+            departed={
+                item.realtimeDepartureActual || item.realtimeDepartureNoReport
+            }
             arrived={item.realtimeArrivalActual || item.realtimeArrivalNoReport}
             bookedArrival={item.gbttBookedArrival}
             bookedDeparture={item.gbttBookedDeparture}
@@ -154,7 +157,7 @@ const ServiceDetailsScreen = ({
 
     if (isError) {
         return (
-            <SafeAreaView style={{ flex: 1 }}>
+            <SafeAreaView style={styles.container}>
                 <View style={styles.backButton}>
                     <FontAwesome
                         name="arrow-left"
@@ -171,7 +174,7 @@ const ServiceDetailsScreen = ({
     }
 
     return (
-        <SafeAreaView style={{ flex: 1 }}>
+        <SafeAreaView style={styles.container}>
             <View style={styles.backButton}>
                 <FontAwesome
                     name="arrow-left"
@@ -182,7 +185,7 @@ const ServiceDetailsScreen = ({
             </View>
             <View style={styles.header}>
                 <ScrollView horizontal style={styles.stationNameContainer}>
-                    <Text style={styles.stationName} numberOfLines={1}>
+                    <Text style={styles.stationName}>
                         {selectedStation
                             ? selectedStation.description.toUpperCase()
                             : ""}
@@ -241,7 +244,8 @@ const ServiceDetailsScreen = ({
                             ? selectedStation.description ===
                               serviceInformation.origin[0].description
                                 ? "HERE"
-                                : selectedStation.realtimeArrival ?? selectedStation.gbttBookedArrival
+                                : selectedStation.realtimeArrival ??
+                                  selectedStation.gbttBookedArrival
                             : ""}
                     </Text>
                 </View>

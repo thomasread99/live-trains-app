@@ -11,7 +11,11 @@ export default StyleSheet.create({
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
-    },    
+    },
+
+    container: {
+        flex: 1,
+    },
 
     errorText: {
         fontSize: wp("5%"),
@@ -64,7 +68,7 @@ export default StyleSheet.create({
         justifyContent: "space-evenly",
         marginTop: hp("1%"),
         marginBottom: hp("2%"),
-    },    
+    },
 
     arrivingHeader: {
         textAlign: "center",

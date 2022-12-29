@@ -1,7 +1,4 @@
-// TODO: Check over this
-// TODO: Possibly change sub object names
 class SearchResult {
-    // ? These may be the same as location container
     location: LocationDetail;
     filter?: LocationDetail[];
     services: LocationContainer[];

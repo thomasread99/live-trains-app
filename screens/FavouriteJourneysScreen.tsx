@@ -19,6 +19,7 @@ import styles from "../styles/FavouriteStationsScreenStyles";
 
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { FavouriteJourneysStackNavigatorParamList } from "../navigation/FavouriteStackNavigators";
+import { RootState } from "../store/store";
 
 type FavouriteJourneyssScreenProps = NativeStackScreenProps<
     FavouriteJourneysStackNavigatorParamList,
@@ -34,7 +35,7 @@ const FavouriteJourneysScreen = ({
     const dispatch = useAppDispatch();
 
     const favouriteJourneys: FavouriteJourney[] = useAppSelector(
-        (state: any) => state.favourites.favouriteJourneys,
+        (state: RootState) => state.favourites.favouriteJourneys,
     );
 
     const loadFavouriteStations = useCallback(async () => {

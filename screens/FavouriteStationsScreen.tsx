@@ -7,6 +7,7 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import moment from "moment";
 
 import FavouriteStationCard from "../components/favourites/FavouriteStationCard";
 
@@ -16,9 +17,9 @@ import styles from "../styles/FavouriteStationsScreenStyles";
 
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { FavouriteStationsStackNavigatorParamList } from "../navigation/FavouriteStackNavigators";
+import { RootState } from "../store/store";
 
 import crsCodes from "../data/crs-codes.json";
-import moment from "moment";
 
 type FavouriteStationsScreenProps = NativeStackScreenProps<
     FavouriteStationsStackNavigatorParamList,
@@ -34,7 +35,7 @@ const FavouriteStationsScreen = ({
     const dispatch = useAppDispatch();
 
     const favouriteStations: string[] = useAppSelector(
-        (state: any) => state.favourites.favouriteStations,
+        (state: RootState) => state.favourites.favouriteStations,
     );
 
     const loadFavouriteStations = useCallback(async () => {

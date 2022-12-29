@@ -1460,7 +1460,6 @@
     { "title": "London Paddington", "id": "PAD" },
     { "title": "London Road (Brighton)", "id": "LRB" },
     { "title": "London Road (Guildford)", "id": "LRD" },
-    { "title": "London St Pancras (Intl)", "id": "SPX" },
     { "title": "London St Pancras International", "id": "STP" },
     { "title": "London Victoria", "id": "VIC" },
     { "title": "London Waterloo", "id": "WAT" },
