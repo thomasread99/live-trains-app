@@ -92,7 +92,10 @@ const styles = StyleSheet.create({
         elevation: 5,
     },
 
-    platformContainer: { flex: 1, justifyContent: "center" },
+    platformContainer: {
+        flex: 1,
+        justifyContent: "center",
+    },
 
     platformHeader: {
         textAlign: "center",
