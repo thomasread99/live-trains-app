@@ -4,12 +4,15 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Provider } from "react-redux";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
+import Toast from "react-native-toast-message";
 
 import MainNavigator from "./navigation/MainNavigator";
 
 import store from "./store/store";
 
 import colours from "./config/colours";
+import toastConfig from "./config/toastConfig";
+import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -38,6 +41,7 @@ export default function App() {
                 <StatusBar backgroundColor={colours.background} />
                 <SafeAreaProvider>
                     <MainNavigator />
+                    <Toast config={toastConfig} topOffset={hp("36%")} />
                 </SafeAreaProvider>
             </Provider>
         </View>
