@@ -8,6 +8,7 @@ import {
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import moment, { Moment } from "moment";
+import Toast from "react-native-toast-message";
 
 import DefaultButton from "../components/DefaultButton";
 import CustomDateTimePicker from "../components/search/CustomDateTimePicker";
@@ -44,7 +45,14 @@ const StartScreen = ({ navigation }: SearchScreenProps) => {
     };
 
     const searchStation = async () => {
-        if (selectedStation === null) return;
+        if (selectedStation === null) {
+            Toast.show({
+                type: "error",
+                text1: "PLEASE SELECT AN ORIGIN STATION",
+                text2: "OTHER FIELDS ARE OPTIONAL",
+            });
+            return;
+        }        
 
         navigation.navigate("StationDetailsScreen", {
             crsCode: selectedStation.id,

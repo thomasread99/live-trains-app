@@ -45,15 +45,15 @@ const ServiceRow = (props: Props) => {
     return (
         <LinearGradient
             colors={[
+                "transparent",
                 props.departed
                     ? colours.green
                     : props.arrived
                     ? colours.blue
                     : colours.red,
-                "transparent",
             ]}
             style={styles.row}
-            end={[0.2, 0]}
+            end={[0, 0]}
         >
             <View style={styles.description}>
                 <Text style={styles.stationName}>

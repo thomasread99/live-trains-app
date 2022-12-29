@@ -1,5 +1,5 @@
 import { AppDispatch } from "../store";
-import { Moment } from "moment";
+import moment, { Moment } from "moment";
 import { FUNCTION_URL, FUNCTION_TOKEN } from "@env";
 
 export const GET_STATION_INFORMATION = "GET_STATION_INFORMATION";
@@ -16,6 +16,9 @@ export const getStationInformation = (
         var headers = new Headers();
         headers.append("Content-Type", "application/json");
         headers.append("Authorization", `Basic ${FUNCTION_TOKEN}`);
+
+        if (time && !date)
+            date = moment();
 
         let uri = `https://api.rtt.io/api/v1/json/search/${crsCode}`;
 
