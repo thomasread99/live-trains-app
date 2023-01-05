@@ -13,6 +13,7 @@ type Props = {
     platformNumber?: string;
     realtime?: string;
     departureSelected: boolean;
+    cancelled: boolean;
     onPress: () => void;
 };
 
@@ -39,35 +40,43 @@ const ServiceCard = (props: Props) => {
                     </Text>
                 </View>
                 <View style={styles.timeContainer}>
-                    <Text style={styles.timeText}>{props.bookedTime}</Text>
-                    <View style={styles.line}></View>
-                    {props.realtime ? (
-                        <Text
-                            style={[
-                                styles.timeText,
-                                {
-                                    color:
-                                        timeDiff === 0
-                                            ? colours.white
-                                            : timeDiff < 0
-                                            ? colours.green
-                                            : colours.red,
-                                },
-                            ]}
-                        >
-                            {props.realtime}
-                        </Text>
+                    {props.cancelled ? (
+                        <Text style={styles.cancelledText}>CANC.</Text>
                     ) : (
-                        <Text
-                            style={[
-                                styles.timeText,
-                                {
-                                    color: colours.red,
-                                },
-                            ]}
-                        >
-                            N/A
-                        </Text>
+                        <>
+                            <Text style={styles.timeText}>
+                                {props.bookedTime}
+                            </Text>
+                            <View style={styles.line}></View>
+                            {props.realtime ? (
+                                <Text
+                                    style={[
+                                        styles.timeText,
+                                        {
+                                            color:
+                                                timeDiff === 0
+                                                    ? colours.white
+                                                    : timeDiff < 0
+                                                    ? colours.green
+                                                    : colours.red,
+                                        },
+                                    ]}
+                                >
+                                    {props.realtime}
+                                </Text>
+                            ) : (
+                                <Text
+                                    style={[
+                                        styles.timeText,
+                                        {
+                                            color: colours.red,
+                                        },
+                                    ]}
+                                >
+                                    N/A
+                                </Text>
+                            )}
+                        </>
                     )}
                 </View>
             </View>
@@ -135,6 +144,12 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
+    },
+
+    cancelledText: {
+        fontSize: wp("4%"),
+        fontFamily: "Light",
+        color: colours.red,
     },
 
     timeText: {

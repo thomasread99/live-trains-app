@@ -84,6 +84,13 @@ export default StyleSheet.create({
         color: colours.white,
     },
 
+    cancelledText: {
+        textAlign: "center",
+        fontFamily: "Light",
+        color: colours.red,
+        marginBottom: hp("2%"),
+    },
+
     flatlist: {
         paddingBottom: hp("10%"),
     },

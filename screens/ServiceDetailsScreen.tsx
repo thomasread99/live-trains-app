@@ -144,6 +144,9 @@ const ServiceDetailsScreen = ({
             bookedDeparture={item.gbttBookedDeparture}
             realtimeArrival={item.realtimeArrival}
             realtimeDeparture={item.realtimeDeparture}
+            realtimeArrivalActual={item.realtimeArrivalActual}
+            realtimeDepartureActual={item.realtimeDepartureActual}
+            cancelled={item.cancelReasonCode ? true : false}
         />
     );
 
@@ -259,6 +262,18 @@ const ServiceDetailsScreen = ({
                     </Text>
                 </View>
             </View>
+            {selectedStation && selectedStation.cancelReasonCode ? (
+                <View>
+                    <Text style={styles.cancelledText}>
+                        {selectedStation.cancelReasonShortText
+                            ? "CANCELLED DUE TO " +
+                              selectedStation.cancelReasonShortText.toUpperCase()
+                            : "CANCELLED FOR UNDISCLOSED REASON"}
+                    </Text>
+                </View>
+            ) : (
+                <></>
+            )}
             <FlatList
                 data={serviceInformation.locations}
                 renderItem={destinationListItem}

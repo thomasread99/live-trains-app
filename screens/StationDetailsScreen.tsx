@@ -160,6 +160,7 @@ const StationDetailsScreen = ({
                     : item.locationDetail.realtimeArrival
             }
             departureSelected={departureSelected}
+            cancelled={item.locationDetail.cancelReasonCode ? true : false}
             onPress={() =>
                 navigation.navigate("ServiceDetailsScreen", {
                     serviceUid: item.serviceUid,
@@ -179,6 +180,7 @@ const StationDetailsScreen = ({
     }
 
     return (
+        
         <SafeAreaView style={styles.container}>
             <View style={styles.backButton}>
                 <FontAwesome
