@@ -17,6 +17,9 @@ type Props = {
     bookedDeparture?: string;
     realtimeArrival?: string;
     realtimeDeparture?: string;
+    realtimeArrivalActual: boolean;
+    realtimeDepartureActual: boolean;
+    cancelled: boolean;
 };
 
 const ServiceRow = (props: Props) => {
@@ -46,7 +49,11 @@ const ServiceRow = (props: Props) => {
         <LinearGradient
             colors={[
                 "transparent",
-                props.departed
+                props.cancelled &&
+                !props.realtimeDepartureActual &&
+                !props.realtimeArrivalActual
+                    ? colours.red
+                    : props.departed
                     ? colours.green
                     : props.arrived
                     ? colours.blue
@@ -61,52 +68,63 @@ const ServiceRow = (props: Props) => {
                 </Text>
             </View>
 
-            <View style={styles.timeContainer}>
-                <Text style={styles.timeText}>
-                    {props.bookedArrival ?? "---"}
-                </Text>
-                <View style={styles.line}></View>
-                <Text style={styles.realtimeText}>
-                    {props.realtimeArrival ?? "---"}
-                </Text>
-            </View>
-            <View style={styles.timeContainer}>
-                <Text style={styles.timeText}>
-                    {props.bookedDeparture ?? "---"}
-                </Text>
-                <View style={styles.line}></View>
-                <Text style={styles.realtimeText}>
-                    {props.realtimeDeparture ?? "---"}
-                </Text>
-            </View>
-            <View style={styles.timeDifferenceContainer}>
-                <Text
-                    style={[
-                        styles.timeDifferenceText,
-                        {
-                            color:
-                                props.realtimeArrival &&
-                                departureTimeDifference > 0
-                                    ? colours.red
-                                    : departureTimeDifference < 0
-                                    ? colours.green
-                                    : colours.white,
-                        },
-                    ]}
-                >
-                    {props.realtimeDeparture && departureTimeDifference >= 0
-                        ? " + "
-                        : ""}
-                    {props.realtimeDeparture
-                        ? departureTimeDifference < 0
-                            ? departureTimeDifference
-                                  .toString()
-                                  .split("")
-                                  .join(" ")
-                            : departureTimeDifference
-                        : ""}
-                </Text>
-            </View>
+            {props.cancelled &&
+            !props.realtimeDepartureActual &&
+            !props.realtimeArrivalActual ? (
+                <View style={styles.cancelledContainer}>
+                    <Text style={styles.cancelledText}>CANCELLED</Text>
+                </View>
+            ) : (
+                <>
+                    <View style={styles.timeContainer}>
+                        <Text style={styles.timeText}>
+                            {props.bookedArrival ?? "---"}
+                        </Text>
+                        <View style={styles.line}></View>
+                        <Text style={styles.realtimeText}>
+                            {props.realtimeArrival ?? "---"}
+                        </Text>
+                    </View>
+                    <View style={styles.timeContainer}>
+                        <Text style={styles.timeText}>
+                            {props.bookedDeparture ?? "---"}
+                        </Text>
+                        <View style={styles.line}></View>
+                        <Text style={styles.realtimeText}>
+                            {props.realtimeDeparture ?? "---"}
+                        </Text>
+                    </View>
+                    <View style={styles.timeDifferenceContainer}>
+                        <Text
+                            style={[
+                                styles.timeDifferenceText,
+                                {
+                                    color:
+                                        props.realtimeArrival &&
+                                        departureTimeDifference > 0
+                                            ? colours.red
+                                            : departureTimeDifference < 0
+                                            ? colours.green
+                                            : colours.white,
+                                },
+                            ]}
+                        >
+                            {props.realtimeDeparture &&
+                            departureTimeDifference >= 0
+                                ? " + "
+                                : ""}
+                            {props.realtimeDeparture
+                                ? departureTimeDifference < 0
+                                    ? departureTimeDifference
+                                          .toString()
+                                          .split("")
+                                          .join(" ")
+                                    : departureTimeDifference
+                                : ""}
+                        </Text>
+                    </View>
+                </>
+            )}
         </LinearGradient>
     );
 };
@@ -137,6 +155,15 @@ const styles = StyleSheet.create({
         color: colours.white,
         fontFamily: "Light",
         fontSize: wp("6%"),
+    },
+
+    cancelledContainer: {
+        flex: 2,
+    },
+
+    cancelledText: {
+        color: colours.red,
+        fontFamily: "Light",
     },
 
     timeContainer: {
